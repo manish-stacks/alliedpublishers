@@ -1,0 +1,203 @@
+.export-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #d5d8dc !important;
+    padding-left: 250px;
+}
+
+.export-info-content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.export-info-content:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+.export-info-container h3 {
+    color: black !important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.export-info-form {
+    width: 80%;
+    max-width: 750px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInScale 0.6s ease-in-out forwards;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.export-info-form:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    margin: 10px 0 5px;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.export-info-form input,
+.export-info-form textarea,
+.export-info-form select {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border: 2px solid #75609c !important;
+    border-radius: 8px;
+    background: white !important;
+    color: black;
+    outline: none;
+    text-align: center;
+    font-weight: 500;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.2s;
+}
+
+.export-info-form input:focus,
+.export-info-form textarea:focus,
+.export-info-form select:focus {
+    border-color: #0047AB !important;
+    box-shadow: 0 0 8px rgba(0, 71, 171, 0.5) !important;
+}
+
+.export-form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.export-add-button {
+    padding: 12px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    background: #402f5f;
+    color: white;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.export-save-button {
+    padding: 14px 28px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    background: #10263e !important;
+    color: white !important;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.export-add-button:hover {
+    background: #5a447c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(117, 96, 156, 0.5);
+}
+
+.export-save-button:hover {
+    background: #357ABD !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+}
+
+.export-add-button:active,
+.export-save-button:active {
+    transform: scale(0.95);
+}
+
+.export-info-list {
+    width: 100%;
+    max-width: 750px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.export-info-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.export-info-list th,
+.export-info-list td {
+    padding: 12px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.export-info-list th {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+}
+
+.export-info-list td {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+.export-delete-button {
+    background: #581988;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: none;
+    font-weight: bold;
+}
+
+.export-delete-button:hover {
+    background: #876c8e;
+}

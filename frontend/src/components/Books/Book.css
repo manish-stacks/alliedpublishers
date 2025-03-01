@@ -1,0 +1,195 @@
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f3f4f6, #eef2f3);
+}
+
+/* Container layout */
+.container {
+  display: flex;
+  margin: 50px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 50%;
+  background: linear-gradient(135deg, #0098a1, #007b92);
+  padding: 20px;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  /* margin-right: 10%; */
+}
+
+.sidebar h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid white;
+  padding-bottom: 5px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar li:hover {
+  background-color: #00b5c2;
+  transform: scale(1.05);
+}
+
+/* Books section */
+.books-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
+
+/* Sorting buttons */
+.sort-options {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sort-options p {
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.sort-options button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  background: linear-gradient(135deg, #75609c, #d1d8df); /* Apply #75609c as the first color in the gradient */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sort-options button:hover {
+  background: linear-gradient(135deg, #75609c, #00b5c2); /* Modify hover gradient to include #75609c */
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.books-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px; /* Reduced gap for a tighter layout */
+  padding: 25px;
+  /* margin-bottom: 10%; */
+}
+
+.book-card-horizontal {
+  display: flex;
+  flex-direction: column;
+  width: 23%; /* Increased width for better alignment */
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+  margin-bottom: 1%;
+}
+
+.book-card-horizontal:hover {
+  transform: translateY(-3px) scale(1.01);
+}
+
+.book-image {
+  width: 100%;
+  height: 220px; /* Ensuring uniform height */
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.book-details {
+  flex: 1;
+  text-align: left;
+}
+
+.book-details h4 {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.book-author,
+.book-format {
+  font-size: 12px;
+  color: #555;
+}
+
+.book-price {
+  font-size: 15px;
+  font-weight: bold;
+  color: #e67e22;
+}
+
+.mrp {
+  text-decoration: line-through;
+  font-size: 12px;
+  color: #888;
+}
+
+.discount {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-left: 3px;
+}
+
+.book-buttons {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.book-buttons button {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  background: linear-gradient(135deg, #f3f4f6, #d1d8df);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-buttons button:hover {
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  color: white;
+  transform: scale(1.03);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .book-card-horizontal {
+    width: 48%; /* 2 per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .book-card-horizontal {
+    width: 100%; /* 1 per row */
+  }
+}

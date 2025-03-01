@@ -1,0 +1,89 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #F3F4F6;
+  }
+  
+  /* Page Container */
+  .about-us-page-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    padding: 2%;
+  }
+  
+  /* Main Content */
+  .about-us-page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: #333;
+  }
+  
+  /* Headings */
+  .about-us-page-container h1, .about-us-page-container h2 {
+    color: #20232a;
+    font-size: 2rem; /* Ensures "History" and "Objective" have the same font size */
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 3px solid #4caf50; /* Adds green line below both History and Objective */
+  }
+  
+  .about-us-page-container h3 {
+    color: green;
+    font-size: 1.25rem;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  
+  /* Paragraphs */
+  .about-us-page-container p {
+    line-height: 1.8;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Lists */
+  .about-us-page-container ul {
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  
+  .about-us-page-container ul li {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  /* Links */
+  .about-us-page-container a {
+    color: #4caf50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .about-us-page-container a:hover {
+    color: #007acc;
+  }
+  
+  /* Footer */
+  footer {
+    margin-top: auto;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+  

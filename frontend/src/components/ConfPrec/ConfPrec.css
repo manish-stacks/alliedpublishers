@@ -1,0 +1,106 @@
+/* General Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #F3F4F6;
+}
+
+/* Page Container */
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content */
+.conf-prec-content {
+  flex-grow: 1; /* Pushes footer to the bottom */
+  padding: 20px;
+  /* background-color: #f9f9f9; */
+  color: #333;
+}
+.conf-prec-content h1{
+  border-bottom: 3px solid #4caf50;
+  font-weight: 600;
+}
+/* Footer (existing styles are fine, added comments for context) */
+
+/* General styling for the page */
+.page-container {
+  min-height: 100vh; /* Ensures the footer sticks to the bottom if content is short */
+  display: flex;
+  flex-direction: column;
+  /* background-color: #f4f4f9;  */
+  margin-top: 2%;
+  /* padding: 20px;  */
+  font-family: Arial, sans-serif; /* Clean font */
+}
+
+/* Main content styling */
+.conf-prec-content {
+  flex: 1; /* Allows the content to grow and push the footer down */
+  max-width: 900px; /* Limits content width */
+  margin: 0 auto; /* Centers the content */
+  background: white; /* Background for the content area */
+  padding: 20px; /* Adds padding around the content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners */
+}
+
+/* Headings */
+.conf-prec-content h1 {
+  color: #20232a; /* Dark text color */
+  font-size: 2rem; /* Large heading size */
+  margin-bottom: 20px; /* Space below the heading */
+  text-align: center; /* Center aligns the main heading */
+}
+
+.conf-prec-content h3 {
+  color: green; /* Accent color */
+  font-size: 1.5rem; /* Subheading size */
+  margin-top: 20px; /* Space above subheading */
+  margin-bottom: 15px; /* Space below subheading */
+}
+
+/* Paragraphs */
+.conf-prec-content p {
+  line-height: 1.8; /* Improves readability */
+  font-size: 1rem; /* Standard font size */
+  color: #333; /* Neutral text color */
+  margin-bottom: 15px; /* Space below paragraphs */
+}
+
+/* Lists */
+.conf-prec-content ul {
+  padding-left: 20px; /* Adds space before list items */
+  list-style-type: disc; /* Uses disc bullets */
+}
+
+.conf-prec-content ul li {
+  margin-bottom: 8px; /* Space between list items */
+  font-size: 1rem; /* Standard font size */
+  color: #444; /* Neutral list item color */
+}
+
+/* Links */
+.conf-prec-content a {
+  color: #4caf50; /* Accent color for links */
+  text-decoration: none; /* Removes underline */
+  transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.conf-prec-content a:hover {
+  color: #007acc; 
+}
+
+/* Contact information */
+.conf-prec-content strong {
+  color: #20232a; /* Bold dark color for emphasis */
+  font-weight: bold; /* Bold font */
+}
+

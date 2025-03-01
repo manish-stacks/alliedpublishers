@@ -1,0 +1,99 @@
+/* General Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #F3F4F6;
+}
+
+/* Page Container */
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Main Content Box */
+.export-info-content {
+  flex-grow: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Heading for Export Division */
+.export-info-content h1 {
+  color: #20232a;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 3px solid #4caf50;
+  font-weight: 600;
+}
+
+/* Subheadings (h3) */
+.export-info-content h3 {
+  font-size: 1.75rem;
+  color: green;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* List styling for sections */
+.export-info-content ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.export-info-content ul li {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.export-info-content ul li strong {
+  font-weight: bold;
+}
+
+/* Styling for Contact Information */
+.export-info-content a {
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.export-info-content a:hover {
+  color: #007acc;
+  text-decoration: underline;
+}
+
+/* Contact Information Paragraph */
+.export-info-content p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* Footer Styling (same as other pages) */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f9;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+export-info-content em {
+  font-style: italic;
+  color: #555;
+}

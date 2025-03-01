@@ -1,0 +1,96 @@
+
+.auth-wrapper {
+  display: flex;
+  justify-content: flex-end; /* Align everything to the right */
+  align-items: center;
+  padding: 0.5rem 1rem; /* Add some space */
+  background-color: white; /* Matches the white space above */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for visual separation */
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem; /* Add a small gap between search box and icon */
+}
+
+.search-input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-button {
+  background-color: #75609c;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button:hover {
+  background-color: rgb(84, 82, 84);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0rem; /* Remove unnecessary gap between buttons */
+  margin-left: 0.5rem; /* Slight spacing between search bar and buttons */
+}
+
+.sign-in {
+  color: #20232a;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.sign-up {
+  background-color: #75609c;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sign-up:hover {
+  background-color: rgb(84, 82, 84);
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #20232a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar img {
+  max-height: 50px; /* Adjust as needed */
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem; /* Space between links */
+  font-size: large;
+}
+
+.nav-link {
+  color: rgb(192, 189, 189);
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: white; /* Change color on hover */
+}

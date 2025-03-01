@@ -1,0 +1,140 @@
+/* ✅ Sidebar Fixed to Left & Top */
+.admin-sidebar {
+  width: 260px;
+  height: 100vh; /* Full height */
+  background: linear-gradient(135deg, #2c3e50, #1a252f);
+  color: white;
+  position: fixed; /* Sticks to left & top */
+  left: 0;
+  top: 0;
+  padding: 20px 15px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto; /* Scrollable if content overflows */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+}
+
+/* ✅ Remove Default Margins from Body & Root */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* ✅ Sidebar List */
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ✅ Sidebar List Items - Reduced Space */
+.admin-sidebar ul li {
+  margin: 5px 0; /* 🔽 Reduced space between items */
+}
+
+/* ✅ Sidebar Links */
+.admin-sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px; /* 🔽 Reduced padding */
+  transition: background 0.3s, transform 0.2s;
+  border-radius: 5px;
+}
+
+/* ✅ Sidebar Icons */
+.admin-sidebar ul li a i {
+  margin-right: 12px;
+}
+
+/* ✅ Hover Effects */
+.admin-sidebar ul li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* ✅ Dropdown Button */
+.admin-dropdown-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.admin-dropdown-btn i {
+  margin-right: 10px;
+}
+
+/* ✅ Dropdown Button Hover */
+.admin-dropdown-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* ✅ Dropdown Content */
+.admin-dropdown-content {
+  display: none;
+  list-style: none;
+  padding-left: 20px;
+}
+
+.admin-dropdown-content.show {
+  display: block;
+}
+
+/* ✅ Dropdown Content Links */
+.admin-dropdown-content li a {
+  font-size: 14px;
+  padding: 8px 15px;
+  display: block;
+  color: #f0f0f0;
+}
+
+.admin-dropdown-content li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ✅ Admin Main Content (Push to Right) */
+.admin-content {
+  flex: 1;
+  margin-left: 260px; /* Sidebar width */
+  padding: 20px;
+  background: #f4f4f4;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* ✅ Responsive Sidebar */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 220px;
+    padding: 15px;
+  }
+
+  .admin-content {
+    margin-left: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .admin-content {
+    margin-left: 0;
+  }
+}

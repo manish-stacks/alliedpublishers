@@ -1,0 +1,125 @@
+.all-authors-page {
+  padding: 2rem;
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.all-authors-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Reduced gap between author cards */
+  padding: 0 1rem;
+}
+
+.author-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.author-card-image {
+  flex: 1 1 300px;
+  max-width: 300px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.author-card-info {
+  flex: 2 1 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.author-card-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.author-card-description {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.4; /* Reduced line height to make the space between lines smaller */
+  text-align: justify; /* Justify the text for better alignment */
+}
+.author-card-notable-works {
+  font-size: 1rem;
+  color: #444;
+}
+
+.author-card-notable-works h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.author-card-notable-works ul {
+  margin: 0;
+  padding-left: 1rem;
+  list-style-type: disc;
+}
+
+.author-card-notable-works li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 768px) {
+  .author-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .author-card-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  .author-card-info {
+    flex: 2 1 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem; /* Added gap to reduce space between different elements */
+  }
+}
+.back-to-home-container {
+  top: 20px; /* Adjust the top position */
+  left: 20px; /* Adjust the left position */
+  z-index: 100; /* Ensure it's above other elements */
+}
+
+.back-to-home-button {
+  background-color: transparent;
+  border: 2px solid #4caf50; /* Green border */
+  color: #4caf50; /* Green text */
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.back-to-home-button:hover {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+}

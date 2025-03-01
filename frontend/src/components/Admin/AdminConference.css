@@ -1,0 +1,197 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #d5d8dc !important;
+    padding-left: 120px;
+}
+
+.admin-conference-container {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.4s ease-in-out;
+}
+
+.admin-conference-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.admin-conference-form {
+    width: 80%;
+    max-width: 750px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInScale 0.6s ease-in-out forwards;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.admin-conference-form:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    margin: 10px 0 5px;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+input, textarea, select {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border: 2px solid #75609c !important;
+    border-radius: 8px;
+    background: white !important;
+    color: black;
+    outline: none;
+    text-align: center;
+    font-weight: 500;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #0047AB !important;
+    box-shadow: 0 0 8px rgba(0, 71, 171, 0.5) !important;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.add-button {
+    padding: 12px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    background: #402f5f;
+    color: white;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.save-button {
+    padding: 12px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    background: #10263e !important;
+    color: white !important;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.add-button:hover {
+    background: #5a447c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(117, 96, 156, 0.5);
+}
+
+.save-button:hover {
+    background: #357ABD !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+}
+
+.add-button:active, .save-button:active {
+    transform: scale(0.95);
+}
+
+.conference-list {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.conference-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.conference-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.conference-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.conference-text {
+    text-align: center;
+}
+
+.delete-button {
+    background: #581988;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: none;
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    background: #876c8e;
+}

@@ -1,0 +1,54 @@
+#about-us {
+  padding: 2rem; /* Padding for small screens */
+  background-color: white; /* Background color */
+}
+
+#about-us h1 {
+  text-align: center; /* Center align the title */
+  font-weight: bold; /* Bold font */
+  color: #4A5568; /* Dark gray color */
+  margin-bottom: 1rem; /* Space below the title */
+}
+
+.about-us-content {
+  display: flex; /* Flexbox for layout */
+  flex-direction: column; /* Column layout for small screens */
+  align-items: center; /* Center align items */
+}
+
+.about-us-image,
+.about-us-image-large {
+  width: 800px; 
+  height: 300px; 
+  margin: 1rem; 
+  border-radius: 10px; 
+  object-fit: cover; 
+}
+
+.about-us-text {
+  color: #4A5568; /* Gray color for text */
+  text-align: justify; /* Justify text for better readability */
+  margin: 1rem 0; /* Vertical spacing for text */
+}
+
+.about-us-text p {
+  margin-bottom: 1rem; /* Space between paragraphs */
+}
+
+@media (min-width: 768px) {
+  .about-us-content {
+    flex-direction: row; /* Row layout for larger screens */
+    align-items: flex-start; /* Align items at the start */
+  }
+
+  .about-us-image {
+    width: 70%; /* Adjust width for larger screens */
+    margin: 0 1rem; /* Add horizontal spacing */
+  }
+
+  .about-us-text {
+    width: 50%; /* Set width for the text container */
+    margin-left: 1.5rem; /* Space to the left of the text */
+    text-align: justify;
+  }
+}

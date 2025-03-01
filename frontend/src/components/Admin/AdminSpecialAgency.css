@@ -1,0 +1,180 @@
+/* === Page Layout === */
+.special-agency-page {
+    display: flex;
+    background: url("/public/images/bg4.jpeg") no-repeat center center/cover;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+/* === Sidebar === */
+.sidebar {
+    width: 250px;
+    background: rgba(0, 0, 0, 0.8);
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+}
+
+/* === Main Content === */
+.special-agency-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.special-agency-container h2 {
+    font-size: 30px;
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* === Agency List === */
+.agency-list {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.agency-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    color: black;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.agency-card:hover {
+    transform: scale(1.05);
+}
+
+.agency-info h3 {
+    font-size: 22px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.agency-info p {
+    font-size: 14px;
+    color: black;
+}
+
+.agency-info strong {
+    display: block;
+    margin-top: 10px;
+    color: #f1c40f;
+}
+
+.agency-info ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.agency-info li {
+    text-align: left;
+    padding: 5px 0;
+}
+
+/* === Add/Edit Form Section === */
+.add-agency-section {
+    width: 60%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.add-agency-section h3 {
+    color: black;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* === Form Styling === */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input,
+textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: black;
+    font-size: 14px;
+}
+
+textarea {
+    height: 80px;
+    resize: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: black(255, 255, 255, 0.8);
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* === Buttons === */
+button {
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+}
+
+.save-button {
+    background: #2ecc71;
+    color: white;
+    font-size: 16px;
+}
+
+.save-button:hover {
+    background: #27ae60;
+}
+
+.edit-button {
+    background: #3498db;
+    color: white;
+    margin-top: 10px;
+}
+
+.edit-button:hover {
+    background: #2980b9;
+}
+
+.delete-button {
+    background: #e74c3c;
+    color: white;
+    margin-top: 10px;
+}
+
+.delete-button:hover {
+    background: #c0392b;
+}
