@@ -30,17 +30,19 @@ import ResetPassword from "./components/ResetPassword";
 import GeneralTiles from "./components/GeneralTiles/GeneralTiles"; 
 import ConfPrecBooks from "./components/ConfPrecBooks/ConfPrecBooks";
 import SearchResults from "./components/SearchResult";
+import SearchResultsPage from "./components/SearchResultsPage";
+import AdminUpdateImage from "./components/Admin/AdminUpdateImage";
+import AdminJournal from "./components/Admin/AdminJournal";
 // import AdminDashboard from "./components/Admin/AdminDashboard";
 
 function App() {
 
   const [user, setUser] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState("");
 
 
   return (
     <Router>
-       {/* <Navbar user={user} handleLogout={handleLogout} /> */}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/publisher" element={<DistributionPage />} />
@@ -63,14 +65,17 @@ function App() {
         <Route path="/admin/management" element={<AdminManagement />} />
         <Route path="/admin/publisher" element={<AdminPublisher />} />
         <Route path="/admin/special-agency" element={<AdminSpecialAgency />} />
+        <Route path="/admin/images" element={<AdminUpdateImage />} />
+        <Route path="/admin/journal" element={<AdminJournal />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/general-tyles" element={<GeneralTiles />} />
+        <Route path="/general-tyles" element={  <GeneralTiles/>} />
         <Route path="/conf-prec-books" element={<ConfPrecBooks />} />
-        <Route path="/search" element={<SearchResults />} />
+        <Route path="/search-results" element={<SearchResultsPage />} /> 
+     
 
       </Routes>
     </Router>

@@ -997,6 +997,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 
+
+
 const categories = {
      "Agriculture & Earth Science": ["Agriculture & Life Sciences", "Earth Science"],
       "Art and Craft": [],
@@ -1058,6 +1060,10 @@ const GeneralTiles = () => {
   const [error, setError] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
   const [zoom, setZoom] = useState(1.5);
+
+  
+  
+     
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -1240,4 +1246,5 @@ const GeneralTiles = () => {
 };
 
 export default GeneralTiles;
+
 

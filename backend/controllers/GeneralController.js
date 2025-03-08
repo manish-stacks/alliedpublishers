@@ -41,15 +41,35 @@
 const General = require("../models/General");
 
 // 📌 GET: Fetch data by type (e.g., locations, bestsellers, authors, etc.)
+// const getData = async (req, res) => {
+//   try {
+//     const type = req.params.type;
+//     const data = await General.find({ type });
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
+
+
 const getData = async (req, res) => {
   try {
-    const type = req.params.type;
-    const data = await General.find({ type }); // Fetch based on type
+    const { type } = req.params;
+    const { title } = req.query;
+
+    let query = { type };
+    if (title) {
+      query.title = new RegExp(title, "i"); // Case-insensitive search
+    }
+
+    const data = await General.find(query);
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+
 
 
 
@@ -91,25 +111,5 @@ const deleteData = async (req, res) => {
   }
 };
 
-const searchBooks = async (req, res) => {
-  try {
-    const query = req.query.query || "";
-    // Searching for books that match the title or author or category
-    const books = await General.find({
-      $or: [
-        { title: { $regex: query, $options: "i" } },
-        { author: { $regex: query, $options: "i" } },
-        { category: { $regex: query, $options: "i" } },
-      ],
-    });
 
-    if (books.length === 0) {
-      return res.status(404).json({ message: "No books found" });
-    }
-    res.json(books);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
-};
-
-module.exports = { getData, addData, deleteData ,searchBooks};
+module.exports = { getData, addData, deleteData };

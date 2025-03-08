@@ -4,12 +4,17 @@ const { getLocations, addLocation, deleteLocation } = require("../controllers/Lo
 const { getBestsellers, addBestseller , deleteBestseller} = require("../controllers/BestsellerController");
 const { getAuthors, addAuthor, deleteAuthor} = require("../controllers/AuthorController");
 const { getConferenceProceedings,updateConferenceProceedings} = require("../controllers/ConferenceProceedingsController");
-const branchController = require("../controllers/ContactController");
+// const branchController = require("../controllers/ContactController");
 const { getExportInfo, updateExportInfo} = require("../controllers/ExportInfoController");
 const managementController = require("../controllers/ManagementController");
 const { getPublishers, addPublisher, deletePublisher } = require("../controllers/PublisherController");
 const specialAgencyController = require("../controllers/SagencyController");
-const { getData, addData, deleteData, searchBooks } = require("../controllers/GeneralController");
+const { getData, addData, deleteData } = require("../controllers/GeneralController");
+const imageController = require("../controllers/ImageController");
+const { getJournal, updateJournal } = require("../controllers/JournalController");
+const branchController = require("../controllers/BranchController");
+
+
 
 
 const router = express.Router();
@@ -37,7 +42,12 @@ router.put("/admin/export-info", updateExportInfo);
 router.get("/conference", getConferenceProceedings);
 router.put("/admin/conference", updateConferenceProceedings);
 
-router.get("/contact", branchController.getAllBranches);
+// router.get("/contact", branchController.getAllBranches);
+// router.post("/admin/contact", branchController.addBranch);
+// router.put("/admin/contact/:id", branchController.updateBranch);
+// router.delete("/admin/contact/:id", branchController.deleteBranch);
+
+router.get("/contact", branchController.getBranches);
 router.post("/admin/contact", branchController.addBranch);
 router.put("/admin/contact/:id", branchController.updateBranch);
 router.delete("/admin/contact/:id", branchController.deleteBranch);
@@ -63,6 +73,12 @@ router.post("/admin/general", addData); // Correct
 // 📌 DELETE: Delete data by ID
 router.delete("/admin/general/:id", deleteData);
 
-router.get("/search", searchBooks);
+
+router.get("/images", imageController.getImages);
+router.put("/admin/images", imageController.updateImages);
+
+router.get("/journal", getJournal);
+router.put("/admin/journal/:id", updateJournal);
+
 
 module.exports = router;

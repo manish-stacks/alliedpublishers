@@ -64,74 +64,116 @@
 // }
 
 // export default ContactPage;
-import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar/Navbar';
-import Footer from '../Footer/Fotter';
-import './Contactpage.css';
+
+// import React, { useEffect, useState } from 'react';
+// import Navbar from '../Navbar/Navbar';
+// import Footer from '../Footer/Fotter';
+// import './Contactpage.css';
+
+// const ContactPage = () => {
+//   const [branchData, setBranchData] = useState(null);
+//   const [loading, setLoading] = useState(true);  // New loading state for better UX
+//   const [error, setError] = useState(null);      // Error handling state
+
+//   useEffect(() => {
+//     const fetchBranchData = async () => {
+//       try {
+//         const response = await fetch("http://localhost:5001/api/home/contact");
+//         const data = await response.json();
+//         console.log('Fetched Data:', data);  // Log data to check its structure
+  
+//         // Access the nested branches array: data.branches[0].branches
+//         if (data && data.branches && data.branches[0].branches) {
+//           setBranchData(data.branches[0].branches);  // Access the second-level branches array
+//         } else {
+//           setError('Invalid data format');
+//         }
+//       } catch (error) {
+//         console.error('Error fetching branch data:', error);
+//         setError('Failed to fetch data');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+  
+//     fetchBranchData();
+//   }, []);
+  
+  
+
+//   if (loading) {
+//     return <p>Loading...</p>;
+//   }
+
+//   if (error) {
+//     return <p>{error}</p>;
+//   }
+
+//   return (
+//     <>
+//       <div id="head">
+//         <Navbar />
+//       </div>
+//       <div className="export-d-page">
+//         <main className="export-d-details">
+//           <h2>Branches</h2>
+
+//           {/* Iterate through branch data */}
+//           {branchData && branchData.length > 0 ? (
+//             branchData.map((branch, index) => (
+//               <section key={index}>
+//                 <h3>{branch.city} Office</h3>
+//                 <ul>
+//                   <li><strong>Address:</strong> {branch.address}</li>
+//                   <li><strong>Ph. Nos.:</strong> {branch.phone.join(' / ')}</li>
+//                   <li><strong>E-mail:</strong> <a href={`mailto:${branch.email}`}>{branch.email}</a></li>
+//                 </ul>
+//               </section>
+//             ))
+//           ) : (
+//             <p>No branches data available.</p>
+//           )}
+//         </main>
+//       </div>
+//       <Footer />
+//     </>
+//   );
+// };
+
+// export default ContactPage;
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Fotter";
+import "./Contactpage.css";
 
 const ContactPage = () => {
-  const [branchData, setBranchData] = useState(null);
-  const [loading, setLoading] = useState(true);  // New loading state for better UX
-  const [error, setError] = useState(null);      // Error handling state
+  const [branches, setBranches] = useState([]);
 
   useEffect(() => {
-    const fetchBranchData = async () => {
-      try {
-        const response = await fetch("http://localhost:5001/api/home/contact");
-        const data = await response.json();
-        console.log('Fetched Data:', data);  // Log data to check its structure
-  
-        // Access the nested branches array: data.branches[0].branches
-        if (data && data.branches && data.branches[0].branches) {
-          setBranchData(data.branches[0].branches);  // Access the second-level branches array
-        } else {
-          setError('Invalid data format');
-        }
-      } catch (error) {
-        console.error('Error fetching branch data:', error);
-        setError('Failed to fetch data');
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchBranchData();
+    axios.get("http://localhost:5001/api/home/contact")
+      .then((response) => setBranches(response.data))
+      .catch((error) => console.error("Error fetching branches:", error));
   }, []);
-  
-  
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
 
   return (
     <>
-      <div id="head">
-        <Navbar />
-      </div>
+      <Navbar />
       <div className="export-d-page">
         <main className="export-d-details">
           <h2>Branches</h2>
-
-          {/* Iterate through branch data */}
-          {branchData && branchData.length > 0 ? (
-            branchData.map((branch, index) => (
-              <section key={index}>
-                <h3>{branch.city} Office</h3>
-                <ul>
-                  <li><strong>Address:</strong> {branch.address}</li>
-                  <li><strong>Ph. Nos.:</strong> {branch.phone.join(' / ')}</li>
-                  <li><strong>E-mail:</strong> <a href={`mailto:${branch.email}`}>{branch.email}</a></li>
-                </ul>
-              </section>
-            ))
-          ) : (
-            <p>No branches data available.</p>
-          )}
+          {branches.map((branch) => (
+            <section key={branch._id}>
+              <h3>{branch.city} Office</h3>
+              <ul>
+                <li><strong>Address:</strong> {branch.address}</li>
+                <li><strong>Phone:</strong> {branch.phone.join(", ")}</li>
+                <li><strong>Email:</strong> <a href={`mailto:${branch.email}`}>{branch.email}</a></li>
+              </ul>
+            </section>
+          ))}
         </main>
       </div>
       <Footer />
@@ -140,5 +182,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
-
