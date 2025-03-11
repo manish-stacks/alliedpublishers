@@ -34,6 +34,7 @@ import SearchResultsPage from "./components/SearchResultsPage";
 import AdminUpdateImage from "./components/Admin/AdminUpdateImage";
 import AdminJournal from "./components/Admin/AdminJournal";
 // import AdminDashboard from "./components/Admin/AdminDashboard";
+import Cart from "./components/Cart/Cart";
 
 function App() {
 
@@ -75,7 +76,8 @@ function App() {
         <Route path="/general-tyles" element={  <GeneralTiles/>} />
         <Route path="/conf-prec-books" element={<ConfPrecBooks />} />
         <Route path="/search-results" element={<SearchResultsPage />} /> 
-     
+        {/* <Route path="/items" element={<ItemsList />} /> */}
+        <Route path="/cart" element={<Cart />} />
 
       </Routes>
     </Router>
