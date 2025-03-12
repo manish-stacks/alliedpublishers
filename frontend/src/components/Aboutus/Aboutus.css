@@ -1,54 +1,66 @@
 #about-us {
-  padding: 2rem; /* Padding for small screens */
+  padding: 2rem; /* Padding for all screens */
   background-color: white; /* Background color */
 }
 
 #about-us h1 {
   text-align: center; /* Center align the title */
   font-weight: bold; /* Bold font */
-  color: #4A5568; /* Dark gray color */
+  color: #4a5568; /* Dark gray color */
   margin-bottom: 1rem; /* Space below the title */
+  font-size: 2rem; /* Larger font size for title */
 }
 
 .about-us-content {
   display: flex; /* Flexbox for layout */
   flex-direction: column; /* Column layout for small screens */
   align-items: center; /* Center align items */
+  gap: 1rem; /* Space between image and text */
 }
 
-.about-us-image,
-.about-us-image-large {
-  width: 800px; 
-  height: 300px; 
-  margin: 1rem; 
-  border-radius: 10px; 
-  object-fit: cover; 
+.about-us-image {
+  width: 100%; /* Full width on all screens */
+  max-width: 800px; /* Maximum width for larger screens */
+  height: auto; /* Auto height to maintain aspect ratio */
+  border-radius: 10px; /* Rounded corners */
+  object-fit: contain; /* Ensure the image is fully visible */
 }
 
 .about-us-text {
-  color: #4A5568; /* Gray color for text */
+  color: #4a5568; /* Gray color for text */
   text-align: justify; /* Justify text for better readability */
-  margin: 1rem 0; /* Vertical spacing for text */
+  width: 100%; /* Full width on mobile */
 }
 
 .about-us-text p {
   margin-bottom: 1rem; /* Space between paragraphs */
 }
 
+/* Responsive adjustments for tablets and larger screens */
 @media (min-width: 768px) {
   .about-us-content {
     flex-direction: row; /* Row layout for larger screens */
     align-items: flex-start; /* Align items at the start */
+    gap: 2rem; /* Increase space between image and text */
   }
 
   .about-us-image {
-    width: 70%; /* Adjust width for larger screens */
-    margin: 0 1rem; /* Add horizontal spacing */
+    width: 50%; /* Adjust width for larger screens */
+    height: auto; /* Auto height to maintain aspect ratio */
   }
 
   .about-us-text {
     width: 50%; /* Set width for the text container */
-    margin-left: 1.5rem; /* Space to the left of the text */
-    text-align: justify;
+  }
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 480px) {
+  #about-us h1 {
+    font-size: 1.5rem; /* Smaller font size for mobile */
+  }
+
+  .about-us-image {
+    height: auto; /* Auto height for mobile */
   }
 }

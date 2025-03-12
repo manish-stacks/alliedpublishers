@@ -1,76 +1,7 @@
-// import React from 'react';
-// import Navbar from '../Navbar/Navbar';
-// import Footer from '../Footer/Fotter';
-// import './management.css';
-
-// const Management = () => {
-//   return (
-//     <>
-//       <div id="head">
-//         <Navbar />
-//       </div>
-//       <div className="management-page">
-//         <main className="management-details">
-//           <h2>Management</h2>
-
-//           {/* Board of Directors */}
-        
-//             <h3>Board of Directors</h3>
-//             <ul>
-//               <li><strong>Mr. Sunil Sachdev</strong> (Managing Director)</li>
-//               <li><strong>Mr. Ravi Sachdev</strong> (Director)</li>
-//               <li><strong>Mr. Arjun Sachdev</strong> (Director)</li>
-//             </ul>
-     
-
-//           {/* Branches */}
-        
-//             <h3>Branches</h3>
-
-//             {/* Noida Branch */}
-//             <h4>Noida</h4>
-//             <ul>
-//               <li><strong>Mr. Sunil Sachdev</strong> (Managing Director) - 9810 054 233</li>
-//               <li><strong>Mr. Ravi Sachdev</strong> (Director) - 9810 052 101</li>
-//               <li><strong>Mr. R.N. Purwar</strong> (Area Director) - 9810 114 020</li>
-//               <li><strong>Mr. Amit Sachdev</strong> (Sales Director)</li>
-//               <li><strong>Ms. Tripti Singh</strong> (Publishing Director)</li>
-//               <li><strong>Mr. Hemant Sharma</strong> (Sales/Marketing Manager) - 8377 849 982</li>
-//             </ul>
-
-//             {/* Mumbai Branch */}
-//             <h4>Mumbai</h4>
-//             <ul>
-//               <li><strong>Mr. Arjun Sachdev</strong> (Director) - 9820 197 606</li>
-//               <li><strong>Mr. A. George</strong> (Branch Manager) - 9820 181 716</li>
-//             </ul>
-
-//             {/* Chennai Branch */}
-//             <h4>Chennai</h4>
-//             <ul>
-//               <li><strong>Mr. R. Krishnan</strong> (Specialised Agencies Manager) - 9840 227 226</li>
-//               <li><strong>Mr. Vasant</strong> (Branch Manager) - 9849 527 263</li>
-//             </ul>
-
-//             {/* Kolkata Branch */}
-//             <h4>Kolkata</h4>
-//             <ul>
-//               <li><strong>Mr. Viplav Ghosh</strong> - 9830 129 244</li>
-//             </ul>
-      
-//         </main>
-//       </div>
-//       <Footer />
-//     </>
-//   );
-// }
-
-// export default Management;
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Fotter";
+import Footer from "../Footer/Fotter"; // Fixed typo in "Footer"
 import axios from "axios";
-import "./management.css";
 
 const Management = () => {
   const [managementData, setManagementData] = useState(null);
@@ -87,7 +18,7 @@ const Management = () => {
   }, []);
 
   if (!managementData) {
-    return <p>Loading...</p>;
+    return <p className="text-center text-gray-700">Loading...</p>;
   }
 
   return (
@@ -95,26 +26,34 @@ const Management = () => {
       <div id="head">
         <Navbar />
       </div>
-      <div className="management-page">
-        <main className="management-details">
-          <h2>Management</h2>
+      <div className="min-h-screen bg-gray-100 py-8">
+        <main className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-3xl font-bold text-gray-800 text-center border-b-2 border-green-500 pb-3 mb-6">
+            Management
+          </h2>
 
-          <h3>Board of Directors</h3>
-          <ul>
+          <h3 className="text-2xl font-semibold text-green-600 mt-6 mb-4">
+            Board of Directors
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 mb-6">
             {managementData.board_of_directors.map((director, index) => (
-              <li key={index}>
+              <li key={index} className="mb-2">
                 <strong>{director.name}</strong> ({director.position})
               </li>
             ))}
           </ul>
 
-          <h3>Branches</h3>
+          <h3 className="text-2xl font-semibold text-green-600 mt-6 mb-4">
+            Branches
+          </h3>
           {managementData.branches.map((branch, index) => (
-            <div key={index}>
-              <h4>{branch.city}</h4>
-              <ul>
+            <div key={index} className="mb-6">
+              <h4 className="text-xl font-semibold text-gray-800 mb-3">
+                {branch.city}
+              </h4>
+              <ul className="list-disc list-inside text-gray-700">
                 {branch.members.map((member, idx) => (
-                  <li key={idx}>
+                  <li key={idx} className="mb-2">
                     <strong>{member.name}</strong>{" "}
                     {member.position && `(${member.position})`}{" "}
                     {member.phone && `- ${member.phone}`}

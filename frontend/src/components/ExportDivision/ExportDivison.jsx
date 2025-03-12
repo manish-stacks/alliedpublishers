@@ -1,83 +1,12 @@
-// import React from "react";
-// import Navbar from "../Navbar/Navbar";
-// import Footer from "../Footer/Fotter";
-// import './ExportDivision.css'; 
-
-// const ExportDPage = () => {
-//   return (
-//     <>
-//       <div id="head">
-//         <Navbar />
-//       </div>
-//       <div className="page-container">
-//         <main className="exportd-box">
-//           <h2>For orders and other queries</h2>
-//           <p>
-//             Allied Publishers, Export Division has been engaged actively in the field of exports for over thirty years. Our Export clients are situated all over the World. Our main focus regions are South East Asia, Middle East, and Africa, and we are also exporting to Europe and North America. Allied’s Export division has received official recognition in the year 1978 and consequently received seven Export Merit Certificates. It has enjoyed the position as one of the best Exporters of Educational Books and Printing Jobs from India.
-//           </p>
-
-//           <section>
-//             <h3>Our Exports</h3>
-//             <ul>
-//               <li>We undertake printing jobs from overseas Governments and Private Publishers.</li>
-//               <li>Publication of other Indian publishers for English and other Indian languages.</li>
-//             </ul>
-//           </section>
-
-//           <section>
-//             <h3>Allied Core Areas of Interest</h3>
-//             <ul>
-//               <li>Allied Higher Academic titles, Engineering, Management & Humanities</li>
-//               <li>Allied General Books on Yoga, Cooking, Poetry & Sports</li>
-//             </ul>
-//           </section>
-
-//           <section>
-//             <h3>Customer Categories</h3>
-//             <ul>
-//               <li>Book Importers (Agents)</li>
-//               <li>Book Wholesalers</li>
-//               <li>Book Retailers</li>
-//               <li>Book Shop Chains</li>
-//               <li>Education</li>
-//               <li>Ministry of Government</li>
-//               <li>Academic Institutes (Schools, Colleges, Institutes of Higher Education, Research Institutes, etc.)</li>
-//               <li>Individuals</li>
-//             </ul>
-//           </section>
-
-//           <section>
-//             <h3>Contact Information</h3>
-//             <p>If you have any inquiries, please contact our Export Manager:</p>
-//             <p><strong>Mr. Hemant Sharma</strong></p>
-//             <p>D-5, Sector-2, Noida 201 301, Uttar Pradesh</p>
-//             <p><strong>Mobile:</strong> 8377849982</p>
-//             <p><strong>Phone:</strong> 0120-2542557; 0120-4320295</p>
-//             <p><strong>Email:</strong> <a href="mailto:delhi.books@alliedpublishers.com">delhi.books@alliedpublishers.com</a></p>
-//           </section>
-
-//           <section>
-//             <p><strong>Note:</strong> Any legal disputes shall be subject to jurisdiction in Delhi-India courts only.</p>
-//           </section>
-//         </main>
-//       </div>
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default ExportDPage;
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
-import axios from "axios"; // To fetch data from MongoDB
-import "./ExportDivision.css"; // Style sheet for better layout
+import axios from "axios";
 
 const ExportInfo = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // Fetch data from your backend API
     axios
       .get("http://localhost:5001/api/home/export-info")
       .then((response) => setData(response.data))
@@ -89,54 +18,79 @@ const ExportInfo = () => {
   return (
     <>
       <Navbar />
-      <div className="page-container">
-        <main className="export-info-content">
-          <h1>Export Division</h1>
-          <p>{data.description}</p>
+      <div className="min-h-screen bg-gray-100">
+        <main className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
+          <h1 className="text-3xl font-bold text-gray-800 text-center border-b-2 border-green-500 pb-3 mb-6">
+            Export Division
+          </h1>
+          <p className="text-gray-700 text-lg mb-6">{data.description}</p>
 
-          <h3> Our Exports</h3>
-          <ul>
+          <h3 className="text-2xl font-semibold text-green-600 mt-6 mb-4">
+            Our Exports
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 mb-6">
             {data.exports && data.exports.length > 0 ? (
               data.exports.map((exportItem, index) => (
-                <li key={index}>{exportItem}</li>
+                <li key={index} className="mb-2">
+                  {exportItem}
+                </li>
               ))
             ) : (
               <li>No exports available</li>
             )}
           </ul>
 
-          <h3>Allied Core Areas of Interest</h3>
-          <ul>
+          <h3 className="text-2xl font-semibold text-green-600 mt-6 mb-4">
+            Allied Core Areas of Interest
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 mb-6">
             {data.coreAreas && data.coreAreas.length > 0 ? (
               data.coreAreas.map((area, index) => (
-                <li key={index}>{area}</li>
+                <li key={index} className="mb-2">
+                  {area}
+                </li>
               ))
             ) : (
               <li>No core areas available</li>
             )}
           </ul>
 
-          <h3>Customer Categories</h3>
-          <ul>
+          <h3 className="text-2xl font-semibold text-green-600 mt-6 mb-4">
+            Customer Categories
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 mb-6">
             {data.customerCategories && data.customerCategories.length > 0 ? (
               data.customerCategories.map((category, index) => (
-                <li key={index}>{category}</li>
+                <li key={index} className="mb-2">
+                  {category}
+                </li>
               ))
             ) : (
               <li>No customer categories available</li>
             )}
           </ul>
 
-          <h3>Contact Information</h3>
-          <p>
-            <strong>{data.contact.name}</strong><br />
-            {data.contact.address}<br />
-            <strong>Phone:</strong> {data.contact.phone.join(', ')}<br />
-            <strong>Mobile:</strong> {data.contact.mobile}<br />
-            <strong>Email:</strong>
-            <a href={`mailto:${data.contact.email.join(', ')}`}>{data.contact.email.join(', ')}</a>
+          <h3 className="text-2xl font-semibold text-green-600 mt-6 mb-4">
+            Contact Information
+          </h3>
+          <p className="text-gray-700 text-lg">
+            <strong className="text-gray-800">{data.contact.name}</strong>
+            <br />
+            {data.contact.address}
+            <br />
+            <strong className="text-gray-800">Phone:</strong> {data.contact.phone.join(", ")}
+            <br />
+            <strong className="text-gray-800">Mobile:</strong> {data.contact.mobile}
+            <br />
+            <strong className="text-gray-800">Email:</strong>{" "}
+            <a
+              href={`mailto:${data.contact.email.join(", ")}`}
+              className="text-green-600 hover:text-blue-600"
+            >
+              {data.contact.email.join(", ")}
+            </a>
           </p>
-          <p>
+          <p className="text-gray-700 text-lg mt-4">
             <em>Note: {data.contact.note}</em>
           </p>
         </main>
