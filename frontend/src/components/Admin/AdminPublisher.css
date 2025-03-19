@@ -98,3 +98,74 @@ input {
 
 .save-button:hover { background: #27ae60; }
 .delete-button:hover { background: #c0392b; }
+@media (max-width: 1024px) {
+    .publisher-section {
+        width: 75%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .publisher-container {
+        padding: 20px;
+    }
+
+    .publisher-section {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .publisher-list li {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    input {
+        max-width: 100%;
+    }
+
+    .save-button, .delete-button {
+        width: 100%;
+        padding: 12px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .publisher-page {
+        background: url("/public/images/bg4.jpeg") no-repeat center center/cover;
+        background-attachment: fixed;
+    }
+
+    .publisher-container {
+        padding: 10px;
+    }
+
+    .publisher-section {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3, h4 {
+        font-size: 20px;
+    }
+
+    input {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .save-button, .delete-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .publisher-list li {
+        padding: 8px;
+    }
+}

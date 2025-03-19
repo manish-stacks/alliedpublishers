@@ -1,4 +1,4 @@
-.admin-container {
+/* .admin-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -194,4 +194,129 @@ input:focus, textarea:focus, select:focus {
 
 .delete-button:hover {
     background: #876c8e;
+} */
+
+/* Responsive Container */
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #d5d8dc !important;
+    padding: 20px;
+}
+
+/* Responsive Conference Form */
+.admin-conference-container {
+    width: 90%;
+    max-width: 750px;
+    text-align: center;
+    transition: all 0.4s ease-in-out;
+    margin: auto;
+}
+
+.admin-conference-form {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+}
+
+input, textarea, select {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Responsive Images */
+.conference-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Responsive Conference List */
+.conference-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Responsive Buttons */
+.form-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-button, .save-button {
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Responsive Books Section */
+.bestseller-books {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Responsive Book Cards */
+.book-card {
+    min-width: 180px;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-image {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 10px;
+    }
+
+    .admin-conference-container {
+        width: 100%;
+    }
+
+    .admin-conference-form {
+        width: 90%;
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .conference-image {
+        max-width: 200px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .add-button, .save-button {
+        width: 100%;
+    }
+
+    .bestseller-books {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .book-card {
+        min-width: 160px;
+    }
 }

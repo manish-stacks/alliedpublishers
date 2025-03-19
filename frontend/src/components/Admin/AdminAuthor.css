@@ -1,4 +1,4 @@
-.admin-container {
+ /* .admin-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -199,4 +199,251 @@ input:focus, textarea:focus {
 .delete-button:hover {
     background: #876c8e;
 }
- 
+ */
+ .admin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #d5d8dc !important;
+    padding: 20px;
+    flex-direction: column; /* Ensures better stacking on small screens */
+}
+
+.admin-author-container {
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.admin-author-form {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInScale 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.admin-author-form:hover {
+    transform: scale(1.03) translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+h3 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    margin: 10px 0 5px;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border: 2px solid #75609c !important;
+    border-radius: 8px;
+    background: white !important;
+    color: black;
+    outline: none;
+    text-align: center;
+    font-weight: 500;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.2s;
+}
+
+input:focus, textarea:focus {
+    border-color: #0047AB !important;
+    box-shadow: 0 0 8px rgba(0, 71, 171, 0.5) !important;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.add-button, .save-button {
+    padding: 12px 18px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    min-width: 120px;
+}
+
+.add-button {
+    background: #402f5f;
+    color: white;
+}
+
+.save-button {
+    background: #10263e !important;
+    color: white !important;
+}
+
+.add-button:hover {
+    background: #5a447c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(117, 96, 156, 0.5);
+}
+
+.save-button:hover {
+    background: #357ABD !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+}
+
+.author-list {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.author-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.author-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.author-text {
+    text-align: center;
+}
+
+.author-text h3 {
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: black;
+}
+
+.author-text p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.delete-button {
+    background: #581988;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: none;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.delete-button:hover {
+    background: #876c8e;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+
+    .admin-author-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .admin-author-form {
+        padding: 20px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .add-button, .save-button {
+        width: 100%;
+    }
+
+    .author-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .author-image {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .admin-author-form {
+        padding: 15px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input, textarea {
+        font-size: 14px;
+    }
+
+    .add-button, .save-button {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+}

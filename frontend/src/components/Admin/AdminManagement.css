@@ -199,3 +199,87 @@ input:focus, select:focus {
       max-width: 100%;
     }
 } 
+@media (max-width: 1024px) {
+    .management-container {
+        width: 85%;
+        padding-left: 100px; /* Reduce padding for tablets */
+    }
+
+    .management-section {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .management-page {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .management-container {
+        width: 100%;
+        padding-left: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .management-section {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .add-button, .save-button {
+        width: 100%;
+    }
+
+    .management-list li {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .management-page {
+        padding: 10px;
+    }
+
+    .management-container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .management-section {
+        width: 100%;
+        padding: 15px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .add-button, .save-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .management-list li {
+        padding: 10px;
+    }
+
+    .delete-button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+}

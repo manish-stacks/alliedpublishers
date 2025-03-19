@@ -1,4 +1,4 @@
-.admin-container {
+/* .admin-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -193,4 +193,261 @@ textarea {
 
 .delete-button:hover {
   background: #c0392b;
+} */
+.admin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #d5d8dc !important;
+  padding: 20px;
+}
+
+.admin-bestseller-container {
+  width: 80%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
+  text-align: center;
+}
+
+.admin-bestseller-form {
+  width: 90%;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: fadeInScale 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h3, h1 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 22px;
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+label {
+  display: block;
+  font-size: 18px;
+  margin: 10px 0 5px;
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 12px;
+  border: 2px solid #75609c !important;
+  border-radius: 8px;
+  background: white !important;
+  color: black;
+  outline: none;
+  text-align: center;
+  font-weight: 500;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.2s;
+}
+
+textarea {
+  height: 130px;
+  resize: vertical;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.add-button, .save-button {
+  padding: 12px 22px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+
+.add-button {
+  background: #402f5f;
+  color: white;
+}
+
+.save-button {
+  background: #10263e !important;
+  color: white !important;
+}
+
+.add-button:hover {
+  background: #5a447c;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(117, 96, 156, 0.5);
+}
+
+.save-button:hover {
+  background: #357ABD !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+}
+
+.add-button:active, .save-button:active {
+  transform: scale(0.95);
+}
+
+.bestseller-books {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+  overflow-x: auto;
+  padding: 10px;
+  width: 100%;
+}
+
+.book-card {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+  min-width: 220px;
+}
+
+.book-image {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.delete-button {
+  background: #34022a;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.delete-button:hover {
+  background: #c0392b;
+}
+
+/* RESPONSIVE DESIGN */
+@media screen and (max-width: 1024px) {
+  .admin-bestseller-container {
+    width: 90%;
+    padding: 0;
+  }
+
+  .admin-bestseller-form {
+    width: 95%;
+  }
+
+  .bestseller-books {
+    flex-wrap: wrap;
+  }
+
+  .book-card {
+    min-width: 180px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-bestseller-container {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .admin-bestseller-form {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bestseller-books {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .book-card {
+    width: 90%;
+    min-width: unset;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h3, h1 {
+    font-size: 22px;
+  }
+
+  .admin-bestseller-form {
+    padding: 15px;
+  }
+
+  input, textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .add-button, .save-button {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .bestseller-books {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-card {
+    width: 100%;
+    max-width: 300px;
+  }
 }

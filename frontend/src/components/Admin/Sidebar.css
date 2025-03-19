@@ -1,4 +1,5 @@
 /* ✅ Sidebar Fixed to Left & Top */
+/* ✅ Sidebar Fixed to Left & Top */
 .admin-sidebar {
   width: 260px;
   height: 100vh; /* Full height */
@@ -10,16 +11,34 @@
   padding: 20px 15px;
   box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
   overflow-y: auto; /* Scrollable if content overflows */
+  transition: transform 0.3s ease-in-out;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
 }
 
-/* ✅ Remove Default Margins from Body & Root */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
+/* ✅ Sidebar Hidden in Mobile */
+.admin-sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+/* ✅ Sidebar Toggle Button (Only Visible on Mobile) */
+.sidebar-toggle {
+  display: none;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #2c3e50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+.sidebar-toggle:hover {
+  background: #1a252f;
 }
 
 /* ✅ Sidebar List */
@@ -29,11 +48,6 @@ body, html {
   margin: 0;
 }
 
-/* ✅ Sidebar List Items - Reduced Space */
-.admin-sidebar ul li {
-  margin: 5px 0; /* 🔽 Reduced space between items */
-}
-
 /* ✅ Sidebar Links */
 .admin-sidebar ul li a {
   text-decoration: none;
@@ -41,23 +55,21 @@ body, html {
   font-size: 16px;
   display: flex;
   align-items: center;
-  padding: 10px 15px; /* 🔽 Reduced padding */
+  padding: 10px 15px;
   transition: background 0.3s, transform 0.2s;
   border-radius: 5px;
 }
 
-/* ✅ Sidebar Icons */
 .admin-sidebar ul li a i {
   margin-right: 12px;
 }
 
-/* ✅ Hover Effects */
 .admin-sidebar ul li a:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.05);
 }
 
-/* ✅ Dropdown Button */
+/* ✅ Dropdown */
 .admin-dropdown-btn {
   background: none;
   border: none;
@@ -76,13 +88,11 @@ body, html {
   margin-right: 10px;
 }
 
-/* ✅ Dropdown Button Hover */
 .admin-dropdown-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.05);
 }
 
-/* ✅ Dropdown Content */
 .admin-dropdown-content {
   display: none;
   list-style: none;
@@ -93,7 +103,6 @@ body, html {
   display: block;
 }
 
-/* ✅ Dropdown Content Links */
 .admin-dropdown-content li a {
   font-size: 14px;
   padding: 8px 15px;
@@ -105,7 +114,7 @@ body, html {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* ✅ Admin Main Content (Push to Right) */
+/* ✅ Main Content */
 .admin-content {
   flex: 1;
   margin-left: 260px; /* Sidebar width */
@@ -113,10 +122,11 @@ body, html {
   background: #f4f4f4;
   min-height: 100vh;
   overflow-y: auto;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 /* ✅ Responsive Sidebar */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .admin-sidebar {
     width: 220px;
     padding: 15px;
@@ -127,11 +137,29 @@ body, html {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .admin-sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
+    width: 200px;
+  }
+
+  .admin-content {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .admin-sidebar {
+    width: 220px;
+    position: fixed;
+    transform: translateX(-100%);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
   }
 
   .admin-content {

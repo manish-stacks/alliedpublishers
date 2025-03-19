@@ -1,4 +1,4 @@
-.branch-page {
+/* .branch-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -138,4 +138,161 @@ input:focus, textarea:focus {
 
 .delete-button:hover {
     background: #876c8e;
+} */
+/* Responsive Branch Page */
+/* 🌟 Admin Contact Page */
+.admin-contact-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f6f9;
 }
+
+/* 🌟 Main Content Section */
+.admin-contact-content {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🌟 Page Title */
+.admin-contact-content h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* 🌟 Form Styles */
+.admin-contact-form {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-contact-form input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.admin-contact-form input:focus {
+    border-color: #0047AB;
+    box-shadow: 0 0 8px rgba(0, 71, 171, 0.3);
+}
+
+/* 🌟 Submit Button */
+.admin-contact-form button {
+    padding: 12px;
+    font-size: 16px;
+    background: #402f5f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.admin-contact-form button:hover {
+    background: #5a447c;
+    transform: scale(1.05);
+}
+
+/* 🌟 Branch List */
+.branch-list {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 20px;
+}
+
+.branch-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.branch-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 🌟 Buttons (Edit & Delete) */
+.branch-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.branch-buttons button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.edit-button {
+    background: #722458;
+    color: white;
+}
+
+.edit-button:hover {
+    background: #8b3a6b;
+}
+
+.delete-button {
+    background: #d32f2f;
+    color: white;
+}
+
+.delete-button:hover {
+    background: #b71c1c;
+}
+
+/* 🌟 Responsive Design */
+@media (max-width: 768px) {
+    .admin-contact-content {
+        padding: 15px;
+    }
+
+    .admin-contact-form {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .branch-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .branch-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .branch-buttons button {
+        width: 48%;
+    }
+}
+
