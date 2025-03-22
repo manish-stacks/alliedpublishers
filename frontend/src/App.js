@@ -88,7 +88,7 @@ function App() {
         <Route path="/payment" element={<Payment/>} />
         <Route path="/admin/delivery" element={<AdminDeliveryCharges/>} />
         <Route path="/admin/orders" element={<AdminPayment/>} />
-        <Route path="/view-order/:tempOrderId" element={<ViewOrder />} />
+        {/* <Route path="/view-order/:tempOrderId" element={<ViewOrder />} /> */}
 
       </Routes>
     </Router>
