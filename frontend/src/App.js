@@ -40,6 +40,7 @@ import Payment from "./components/Payment";
 import AdminPayment from "./components/Admin/AdminOrders";
 import ViewOrder from "./components/ViewOrder";
 import OrderStatus from "./components/OrderStatus";
+import AdminDeliveryCharges from "./components/Admin/AdminDeliveryCharges";
 
 function App() {
 
@@ -85,6 +86,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/address" element={<AddressDetail/>} />
         <Route path="/payment" element={<Payment/>} />
+        <Route path="/admin/delivery" element={<AdminDeliveryCharges/>} />
         <Route path="/admin/orders" element={<AdminPayment/>} />
         <Route path="/view-order/:tempOrderId" element={<ViewOrder />} />
 

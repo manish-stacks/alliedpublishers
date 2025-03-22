@@ -231,6 +231,7 @@ const authenticateUser = require("./middleware/authMiddleware");
 
  
 const User = require("./models/User");
+const { DeliveryCharge, DefaultDeliveryCharge } = require("./models/DeliveryCharge");
 const multer = require('multer');
 
 
@@ -853,6 +854,174 @@ app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) 
   }
 });
 
+
+
+// GET /api/cart/total
+app.get("/api/cart/total", authenticateUser, async (req, res) => {
+  try {
+    // Fetch the user based on the authenticated userId
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Initialize cart total and delivery charges
+    let cartTotal = 0;
+    let deliveryCharges = 0;
+
+    // Find the active order (e.g., with "Pending" status)
+    const activeOrder = user.orders.find(
+      (order) => order.payment.status === "Pending"
+    );
+
+    if (activeOrder) {
+      // Calculate cart total
+      activeOrder.cart.forEach((item) => {
+        cartTotal += item.price * item.quantity;
+      });
+
+      // Get delivery charges from the active order's payment object
+      deliveryCharges = activeOrder.payment.deliveryCharges || 0;
+    }
+
+    // Calculate total amount (cart total + delivery charges)
+    const totalAmount = cartTotal + deliveryCharges;
+
+    // Return the cart total, delivery charges, and total amount
+    res.json({ cartTotal, deliveryCharges, totalAmount });
+  } catch (error) {
+    console.error("Error fetching cart total:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+});
+
+
+
+app.get("/api/delivery", async (req, res) => {
+  try {
+    const charges = await DeliveryCharge.find();
+    res.json(charges);
+  } catch (error) {
+    console.error("Error fetching delivery charges:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// POST /api/admin/delivery
+app.post("/api/admin/delivery", async (req, res) => {
+  const { pincode, charge } = req.body;
+
+  try {
+    const newCharge = new DeliveryCharge({ pincode, charge });
+    await newCharge.save();
+    res.status(201).json(newCharge);
+  } catch (error) {
+    console.error("Error adding delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/api/delivery/:pincode", async (req, res) => {
+  const { pincode } = req.params;
+
+  try {
+    // Find the delivery charge for the specific pincode
+    const deliveryCharge = await DeliveryCharge.findOne({ pincode });
+
+    if (deliveryCharge) {
+      // Return the specific delivery charge
+      return res.json({ charge: deliveryCharge.charge });
+    }
+
+    // If pincode not found, return the default delivery charge
+    const defaultCharge = await DefaultDeliveryCharge.findOne();
+    res.json({ charge: defaultCharge?.defaultCharge || 0 });
+  } catch (error) {
+    console.error("Error fetching delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// PUT /api/admin/delivery/:pincode
+app.put("/api/admin/delivery/:pincode", async (req, res) => {
+  const { pincode } = req.params;
+  const { charge } = req.body;
+
+  try {
+    const updatedCharge = await DeliveryCharge.findOneAndUpdate(
+      { pincode },
+      { charge },
+      { new: true }
+    );
+    res.json(updatedCharge);
+  } catch (error) {
+    console.error("Error updating delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// DELETE /api/admin/delivery/:pincode
+app.delete("/api/admin/delivery/:pincode", async (req, res) => {
+  const { pincode } = req.params;
+
+  try {
+    await DeliveryCharge.findOneAndDelete({ pincode });
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+// POST /api/admin/delivery/default
+app.post("/api/admin/delivery/default", async (req, res) => {
+  const { defaultCharge } = req.body;
+
+  try {
+    let defaultDeliveryCharge = await DefaultDeliveryCharge.findOne();
+    if (!defaultDeliveryCharge) {
+      defaultDeliveryCharge = new DefaultDeliveryCharge({ defaultCharge });
+    } else {
+      defaultDeliveryCharge.defaultCharge = defaultCharge;
+    }
+    await defaultDeliveryCharge.save();
+    res.json(defaultDeliveryCharge);
+  } catch (error) {
+    console.error("Error setting default delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/api/delivery/default", async (req, res) => {
+  try {
+    const defaultCharge = await DefaultDeliveryCharge.findOne();
+    res.json({ defaultCharge: defaultCharge?.defaultCharge || 0 });
+  } catch (error) {
+    console.error("Error fetching default delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// PUT /api/admin/delivery/default
+app.put("/api/admin/delivery/default", async (req, res) => {
+  const { defaultCharge } = req.body;
+
+  try {
+    let defaultDeliveryCharge = await DefaultDeliveryCharge.findOne();
+    if (!defaultDeliveryCharge) {
+      defaultDeliveryCharge = new DefaultDeliveryCharge({ defaultCharge });
+    } else {
+      defaultDeliveryCharge.defaultCharge = defaultCharge;
+    }
+    await defaultDeliveryCharge.save();
+    res.json(defaultDeliveryCharge);
+  } catch (error) {
+    console.error("Error updating default delivery charge:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 
 
