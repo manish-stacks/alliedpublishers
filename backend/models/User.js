@@ -90,6 +90,8 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
+  resetToken: { type: String, default: null }, // Stores the reset token
+  resetTokenExpiry: { type: Date, default: null },
   address: {
     street: String,
     city: String,
