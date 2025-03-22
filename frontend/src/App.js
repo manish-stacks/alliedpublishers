@@ -33,8 +33,13 @@ import SearchResults from "./components/SearchResult";
 import SearchResultsPage from "./components/SearchResultsPage";
 import AdminUpdateImage from "./components/Admin/AdminUpdateImage";
 import AdminJournal from "./components/Admin/AdminJournal";
+import AddressDetail from "./components/Address/AddressDetail";
 // import AdminDashboard from "./components/Admin/AdminDashboard";
 import Cart from "./components/Cart/Cart";
+import Payment from "./components/Payment";
+import AdminPayment from "./components/Admin/AdminOrders";
+import ViewOrder from "./components/ViewOrder";
+import OrderStatus from "./components/OrderStatus";
 
 function App() {
 
@@ -78,6 +83,10 @@ function App() {
         <Route path="/search-results" element={<SearchResultsPage />} /> 
         {/* <Route path="/items" element={<ItemsList />} /> */}
         <Route path="/cart" element={<Cart />} />
+        <Route path="/address" element={<AddressDetail/>} />
+        <Route path="/payment" element={<Payment/>} />
+        <Route path="/admin/orders" element={<AdminPayment/>} />
+        <Route path="/view-order/:tempOrderId" element={<ViewOrder />} />
 
       </Routes>
     </Router>
