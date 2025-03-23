@@ -1,9 +1,9 @@
-import Management, { findOne } from "../models/Management";
+const Management = require("../models/Management");
 
 // ✅ GET Management Data
-export async function getManagement(req, res) {
+exports.getManagement = async (req, res) => {
   try {
-    const managementData = await findOne();
+    const managementData = await Management.findOne();
     if (!managementData) {
       return res.status(404).json({ message: "Management data not found" });
     }
@@ -12,14 +12,14 @@ export async function getManagement(req, res) {
     console.error("Error fetching management data:", error);
     res.status(500).json({ message: "Error fetching management data" });
   }
-}
+};
 
 // ✅ ADD a New Director or Branch Member
-export async function addManagementMember(req, res) {
+exports.addManagementMember = async (req, res) => {
   const { section, name, position, phone, city } = req.body;
   
   try {
-    let managementData = await findOne();
+    let managementData = await Management.findOne();
     if (!managementData) {
       managementData = new Management({ board_of_directors: [], branches: [] });
     }
@@ -41,14 +41,14 @@ export async function addManagementMember(req, res) {
     console.error("Error adding management member:", error);
     res.status(500).json({ message: "Error adding member" });
   }
-}
+};
 
 // ✅ DELETE a Director or Member by ID
-export async function deleteManagementMember(req, res) {
+exports.deleteManagementMember = async (req, res) => {
   const { section, id } = req.params;
 
   try {
-    let managementData = await findOne();
+    let managementData = await Management.findOne();
     if (!managementData) {
       return res.status(404).json({ message: "Management data not found" });
     }
@@ -69,4 +69,4 @@ export async function deleteManagementMember(req, res) {
     console.error("Error deleting management member:", error);
     res.status(500).json({ message: "Error deleting member" });
   }
-}
+};

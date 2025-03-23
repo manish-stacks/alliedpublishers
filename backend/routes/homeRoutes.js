@@ -1,23 +1,23 @@
-import { Router } from "express";
-import { getAboutUs, updateAboutUs } from "../controllers/AboutusController";
-import { getLocations, addLocation, deleteLocation } from "../controllers/LocationController";
-import { getBestsellers, addBestseller, deleteBestseller } from "../controllers/BestsellerController";
-import { getAuthors, addAuthor, deleteAuthor } from "../controllers/AuthorController";
-import { getConferenceProceedings, updateConferenceProceedings } from "../controllers/ConferenceProceedingsController";
+const express = require("express");
+const { getAboutUs, updateAboutUs } = require("../controllers/AboutusController");
+const { getLocations, addLocation, deleteLocation } = require("../controllers/LocationController");
+const { getBestsellers, addBestseller , deleteBestseller} = require("../controllers/BestsellerController");
+const { getAuthors, addAuthor, deleteAuthor} = require("../controllers/AuthorController");
+const { getConferenceProceedings,updateConferenceProceedings} = require("../controllers/ConferenceProceedingsController");
 // const branchController = require("../controllers/ContactController");
-import { getExportInfo, updateExportInfo } from "../controllers/ExportInfoController";
-import { getManagement, addManagementMember, deleteManagementMember } from "../controllers/ManagementController.js";
-import { getPublishers, addPublisher, deletePublisher } from "../controllers/PublisherController";
-import { getSpecialAgencies, addSpecialAgency, updateSpecialAgency, deleteSpecialAgency } from "../controllers/SagencyController";
-import { getData, addData, deleteData } from "../controllers/GeneralController";
-import { getImages, updateImages } from "../controllers/ImageController";
-import { getJournal, updateJournal } from "../controllers/JournalController";
-import { getBranches, addBranch, updateBranch, deleteBranch } from "../controllers/BranchController";
+const { getExportInfo, updateExportInfo} = require("../controllers/ExportInfoController");
+const managementController = require("../controllers/ManagementController");
+const { getPublishers, addPublisher, deletePublisher } = require("../controllers/PublisherController");
+const specialAgencyController = require("../controllers/SagencyController");
+const { getData, addData, deleteData } = require("../controllers/GeneralController");
+const imageController = require("../controllers/ImageController");
+const { getJournal, updateJournal } = require("../controllers/JournalController");
+const branchController = require("../controllers/BranchController");
 
 
 
 
-const router = Router();
+const router = express.Router();
 
 
 router.get("/locations", getLocations);
@@ -47,22 +47,22 @@ router.put("/admin/conference", updateConferenceProceedings);
 // router.put("/admin/contact/:id", branchController.updateBranch);
 // router.delete("/admin/contact/:id", branchController.deleteBranch);
 
-router.get("/contact", getBranches);
-router.post("/admin/contact", addBranch);
-router.put("/admin/contact/:id", updateBranch);
-router.delete("/admin/contact/:id", deleteBranch);
+router.get("/contact", branchController.getBranches);
+router.post("/admin/contact", branchController.addBranch);
+router.put("/admin/contact/:id", branchController.updateBranch);
+router.delete("/admin/contact/:id", branchController.deleteBranch);
 
 router.get("/about-us", getAboutUs);
 router.post("/admin/about-us", updateAboutUs);
 
-router.get("/management", getManagement);
-router.post("/admin/management", addManagementMember);
-router.delete("/admin/management/:section/:id", deleteManagementMember);
+router.get("/management", managementController.getManagement);
+router.post("/admin/management", managementController.addManagementMember);
+router.delete("/admin/management/:section/:id", managementController.deleteManagementMember);
 
-router.get("/special-agency", getSpecialAgencies);
-router.post("/admin/special-agency", addSpecialAgency);
-router.put("/admin/special-agency/:id", updateSpecialAgency);
-router.delete("/admin/special-agency/:id", deleteSpecialAgency);
+router.get("/special-agency", specialAgencyController.getSpecialAgencies);
+router.post("/admin/special-agency", specialAgencyController.addSpecialAgency);
+router.put("/admin/special-agency/:id", specialAgencyController.updateSpecialAgency);
+router.delete("/admin/special-agency/:id", specialAgencyController.deleteSpecialAgency);
 
 router.get("/general/:type", getData);
 
@@ -74,11 +74,11 @@ router.post("/admin/general", addData); // Correct
 router.delete("/admin/general/:id", deleteData);
 
 
-router.get("/images", getImages);
-router.put("/admin/images", updateImages);
+router.get("/images", imageController.getImages);
+router.put("/admin/images", imageController.updateImages);
 
 router.get("/journal", getJournal);
 router.put("/admin/journal/:id", updateJournal);
 
 
-export default router;
+module.exports = router;
