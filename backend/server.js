@@ -39,7 +39,8 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:3000", 
-    "https://alliedpublications-12.onrender.com"
+    "https://alliedpublications-12.onrender.com",
+     "https://allied-publications.vercel.app"
   ], // ✅ Allow both local and deployed frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies if required
