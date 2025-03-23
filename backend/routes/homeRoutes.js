@@ -6,7 +6,7 @@ const { getAuthors, addAuthor, deleteAuthor} = require("../controllers/AuthorCon
 const { getConferenceProceedings,updateConferenceProceedings} = require("../controllers/ConferenceProceedingsController");
 // const branchController = require("../controllers/ContactController");
 const { getExportInfo, updateExportInfo} = require("../controllers/ExportInfoController");
-const managementController = require("../controllers/ManagementController");
+// const managementController = require("../controllers/ManagementController");
 const { getPublishers, addPublisher, deletePublisher } = require("../controllers/PublisherController");
 const specialAgencyController = require("../controllers/SagencyController");
 const { getData, addData, deleteData } = require("../controllers/GeneralController");
@@ -55,9 +55,9 @@ router.delete("/admin/contact/:id", branchController.deleteBranch);
 router.get("/about-us", getAboutUs);
 router.post("/admin/about-us", updateAboutUs);
 
-router.get("/management", managementController.getManagement);
-router.post("/admin/management", managementController.addManagementMember);
-router.delete("/admin/management/:section/:id", managementController.deleteManagementMember);
+// router.get("/management", managementController.getManagement);
+// router.post("/admin/management", managementController.addManagementMember);
+// router.delete("/admin/management/:section/:id", managementController.deleteManagementMember);
 
 router.get("/special-agency", specialAgencyController.getSpecialAgencies);
 router.post("/admin/special-agency", specialAgencyController.addSpecialAgency);
