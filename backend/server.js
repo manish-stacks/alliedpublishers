@@ -31,11 +31,21 @@ connectDB();
 const app = express();
 
 // CORS middleware setup - allow frontend to access the backend
+// app.use(cors({
+//   origin: "http://localhost:3000", // Allow requests from your frontend
+//   methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
+//   credentials: true // Allow cookies if required
+// }));
 app.use(cors({
-  origin: "http://localhost:3000", // Allow requests from your frontend
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
-  credentials: true // Allow cookies if required
+  origin: [
+    "http://localhost:3000", 
+    "https://alliedpublications-12.onrender.com"
+  ], // ✅ Allow both local and deployed frontend
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true, // Allow cookies if required
+  allowedHeaders: ["Content-Type", "Authorization"] // ✅ Add common headers
 }));
+
 
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
