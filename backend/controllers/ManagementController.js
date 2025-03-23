@@ -1,4 +1,4 @@
-import Management, { findOne } from "../models/Management";
+import Management, { findOne } from "../models/Management.js";
 
 // ✅ GET Management Data
 export async function getManagement(req, res) {
