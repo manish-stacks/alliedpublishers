@@ -1030,13 +1030,13 @@ app.put("/api/admin/delivery/default", async (req, res) => {
 app.use("/api/home", homeRoutes);
 app.use("/api/auth", authRoutes);
 
-if(process.env.NODE_ENV === "production"){
-  const dirpath = path.resolve();
-  app.use(express.static("frontend/dist"));
-  app.get("*",(req,res) => {
-    res.sendFile(path.resolve(dirpath,"frontend","dist","index.html"));
-  })
-}
+// if(process.env.NODE_ENV === "production"){
+//   const dirpath = path.resolve();
+//   app.use(express.static("frontend/dist"));
+//   app.get("*",(req,res) => {
+//     res.sendFile(path.resolve(dirpath,"frontend","dist","index.html"));
+//   })
+// }
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
