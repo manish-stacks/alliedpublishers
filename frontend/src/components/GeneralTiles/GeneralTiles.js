@@ -1,4 +1,5 @@
 
+
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 // import Navbar from "../Navbar/Navbar";
@@ -65,7 +66,7 @@
 //   const [error, setError] = useState(null);
 //   const [selectedBook, setSelectedBook] = useState(null);
 //   const [zoom, setZoom] = useState(1.5);
-//   const navigate = useNavigate(); // For navigation
+//   const navigate = useNavigate();
 
 //   // Fetch books
 //   useEffect(() => {
@@ -103,7 +104,7 @@
 //   }, [selectedCategory, books, sortOption]);
 
 //   // Add to Cart Functionality
-//   const addToCart = async (bookId) => {
+//   const addToCart = async (bookId, bookName, bookPrice) => {
 //     try {
 //       const token = localStorage.getItem("token");
 //       if (!token) {
@@ -112,8 +113,8 @@
 //       }
 
 //       await axios.post(
-//         "http://localhost:5001/api/cart/add-to-cart", // Correct endpoint
-//         { itemId: bookId, quantity: 1 }, // Add 1 item by default
+//         "http://localhost:5001/api/cart/add-to-cart",
+//         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
 //         { headers: { Authorization: token } }
 //       );
 //       alert("Book added to cart!");
@@ -261,7 +262,7 @@
 
 //                   {/* Add to Cart Button */}
 //                   <button
-//                     onClick={() => addToCart(book._id)}
+//                     onClick={() => addToCart(book._id, book.title, book.price)}
 //                     className="w-full bg-teal-700 text-white px-4 py-2 mt-4 rounded-lg hover:bg-teal-600 transition"
 //                   >
 //                     🛒 Add to Cart
@@ -297,62 +298,13 @@
 
 
 
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import { useNavigate } from "react-router-dom"; // For navigation
 
-const categories = {
-  "Agriculture & Earth Science": ["Agriculture & Life Sciences", "Earth Science"],
-  "Art and Craft": [],
-  "Astrology": [],
-  "Competitive Examination": [],
-  "Cookery & Food Technology": [],
-  "Commerce": ["Business Studies & Management", "Commerce & Economics"],
-  "Demography": [],
-  "Disaster Management": [],
-  "Ergonomics": [],
-  "India, The World & Miscellaneous Topics": ["India", "The World"],
-  "Industry": [],
-  "Insurance": [],
-  "Military Affairs": [],
-  "Motivational and Self-help Books": [],
-  "Oceanography": [],
-  "Oil Exploration": [],
-  "Pets": [],
-  "Quality Control": [],
-  "Science & Engineering": [
-    "Mathematics",
-    "Science and Technology",
-    "Physics",
-    "Biological & Medical Sciences",
-    "Computer Science",
-    "Electronics, Electrical and Telecommunication Engineering",
-    "Civil Engineering",
-    "Mechanical Engineering",
-    "Chemistry, Chemical Engineering & Polymer Science",
-    "Minerals & Metallurgical Engineering"
-  ],
-  "Social Science": [
-    "Political Science & International Relations",
-    "Communication Studies",
-    "Public Administration",
-    "Sociology",
-    "Psychology",
-    "Biographies & Memoirs",
-    "Language & Literature",
-    "Philosophy & Religion",
-    "Energy and Environment",
-    "Library Science",
-    "Law",
-    "Education",
-    "Dictionaries"
-  ],
-  "Transportation": [],
-  "Valuation": [],
-  "Water Management": [],
-  "Yoga": []
-};
+
 
 const GeneralTiles = () => {
   const [books, setBooks] = useState([]);
@@ -363,7 +315,21 @@ const GeneralTiles = () => {
   const [error, setError] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
   const [zoom, setZoom] = useState(1.5);
+  const [categories,setCategories] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/api/categories");
+        setCategories(response.data);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
 
   // Fetch books
   useEffect(() => {

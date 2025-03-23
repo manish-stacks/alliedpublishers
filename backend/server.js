@@ -11,6 +11,7 @@ const bcrypt = require("bcryptjs");
 // Routes Import
 const homeRoutes = require("./routes/homeRoutes");
 const authRoutes = require("./routes/authRoutes");
+const categoryRoutes = require("./routes/categoryRoutes"); //server mei import krna hai
 const authenticateUser = require("./middleware/authMiddleware");
 
  
@@ -654,6 +655,7 @@ app.put("/api/admin/delivery/default", async (req, res) => {
 /// API Routes
 app.use("/api/home", homeRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api", categoryRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
