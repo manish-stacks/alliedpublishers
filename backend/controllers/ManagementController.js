@@ -1,4 +1,4 @@
-const Management = require("../models/Management");
+const Management = require("../models/Management.js");
 
 // ✅ GET Management Data
 exports.getManagement = async (req, res) => {
