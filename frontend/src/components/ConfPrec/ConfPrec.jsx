@@ -9,7 +9,7 @@ const ConfPrec = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/conference") // Backend URL fix
+      .get("https://alliedpublications-11.onrender.com/api/home/conference") // Backend URL fix
       .then((response) => {
         setConferenceData(response.data);
       })

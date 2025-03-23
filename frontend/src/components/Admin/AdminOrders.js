@@ -14,7 +14,7 @@ const AdminOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/admin/orders");
+      const response = await axios.get("https://alliedpublications-11.onrender.com/api/admin/orders");
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -35,7 +35,7 @@ const AdminOrders = () => {
       formData.append("tracking", tracking[orderIndex]);
       formData.append("invoice", invoice[orderIndex]); // Append the file
 
-      await axios.post("http://localhost:5001/api/admin/update-status", formData, {
+      await axios.post("https://alliedpublications-11.onrender.com/api/admin/update-status", formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the content type for file uploads
         },
@@ -94,7 +94,7 @@ const AdminOrders = () => {
                       </td>
                       <td className="p-2 lg:p-4">
                         <button
-                          onClick={() => handleViewFile(`http://localhost:5001${order.payment.screenshot}`)}
+                          onClick={() => handleViewFile(`https://alliedpublications-11.onrender.com${order.payment.screenshot}`)}
                           className="bg-[#75609c] text-white px-2 py-1 rounded-lg hover:bg-[#5a497a] transition-colors text-xs lg:text-sm"
                         >
                           View

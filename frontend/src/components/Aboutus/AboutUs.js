@@ -7,7 +7,7 @@ const AboutUs = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/about-us")
+      .get("https://alliedpublications-11.onrender.com/api/home/about-us")
       .then((response) => setAboutUsData(response.data))
       .catch((error) => console.error("Error fetching About Us data:", error));
   }, []);

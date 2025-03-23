@@ -12,7 +12,7 @@
 
 //   const fetchDeliveryCharges = async () => {
 //     try {
-//       const response = await axios.get("http://localhost:5001/api/delivery");
+//       const response = await axios.get("https://alliedpublications-11.onrender.com/api/delivery");
 //       setDeliveryCharges(response.data);
 //     } catch (error) {
 //       console.error("Error fetching delivery charges:", error);
@@ -21,7 +21,7 @@
 
 //   const handleAddCharge = async () => {
 //     try {
-//       await axios.post("http://localhost:5001/api/admin/delivery", newCharge);
+//       await axios.post("https://alliedpublications-11.onrender.com/api/admin/delivery", newCharge);
 //       setNewCharge({ pincode: "", charge: 0 });
 //       fetchDeliveryCharges();
 //     } catch (error) {
@@ -31,7 +31,7 @@
 
 //   const handleDeleteCharge = async (pincode) => {
 //     try {
-//       await axios.delete(`http://localhost:5001/api/admin/delivery/${pincode}`);
+//       await axios.delete(`https://alliedpublications-11.onrender.com/api/admin/delivery/${pincode}`);
 //       fetchDeliveryCharges();
 //     } catch (error) {
 //       console.error("Error deleting delivery charge:", error);
@@ -45,7 +45,7 @@
 //   const handleUpdateCharge = async () => {
 //     try {
 //       await axios.put(
-//         `http://localhost:5001/api/admin/delivery/${editCharge.pincode}`,
+//         `https://alliedpublications-11.onrender.com/api/admin/delivery/${editCharge.pincode}`,
 //         { charge: editCharge.charge }
 //       );
 //       setEditCharge({ pincode: "", charge: 0 }); // Reset edit form
@@ -168,7 +168,7 @@ const AdminDeliveryCharges = () => {
 
   const fetchDeliveryCharges = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/delivery");
+      const response = await axios.get("https://alliedpublications-11.onrender.com/api/delivery");
       setDeliveryCharges(response.data);
     } catch (error) {
       console.error("Error fetching delivery charges:", error);
@@ -177,7 +177,7 @@ const AdminDeliveryCharges = () => {
 
   const fetchDefaultCharge = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/delivery/default");
+      const response = await axios.get("https://alliedpublications-11.onrender.com/api/delivery/default");
       setDefaultCharge(response.data.defaultCharge);
     } catch (error) {
       console.error("Error fetching default delivery charge:", error);
@@ -186,7 +186,7 @@ const AdminDeliveryCharges = () => {
 
   const handleAddCharge = async () => {
     try {
-      await axios.post("http://localhost:5001/api/admin/delivery", newCharge);
+      await axios.post("https://alliedpublications-11.onrender.com/api/admin/delivery", newCharge);
       setNewCharge({ pincode: "", charge: 0 });
       fetchDeliveryCharges();
     } catch (error) {
@@ -196,7 +196,7 @@ const AdminDeliveryCharges = () => {
 
   const handleDeleteCharge = async (pincode) => {
     try {
-      await axios.delete(`http://localhost:5001/api/admin/delivery/${pincode}`);
+      await axios.delete(`https://alliedpublications-11.onrender.com/api/admin/delivery/${pincode}`);
       fetchDeliveryCharges();
     } catch (error) {
       console.error("Error deleting delivery charge:", error);
@@ -210,7 +210,7 @@ const AdminDeliveryCharges = () => {
   const handleUpdateCharge = async () => {
     try {
       await axios.put(
-        `http://localhost:5001/api/admin/delivery/${editCharge.pincode}`,
+        `https://alliedpublications-11.onrender.com/api/admin/delivery/${editCharge.pincode}`,
         { charge: editCharge.charge }
       );
       setEditCharge({ pincode: "", charge: 0 }); // Reset edit form
@@ -222,7 +222,7 @@ const AdminDeliveryCharges = () => {
 
   const handleSetDefaultCharge = async () => {
     try {
-      await axios.post("http://localhost:5001/api/admin/delivery/default", {
+      await axios.post("https://alliedpublications-11.onrender.com/api/admin/delivery/default", {
         defaultCharge,
       });
       alert("Default delivery charge set successfully!");

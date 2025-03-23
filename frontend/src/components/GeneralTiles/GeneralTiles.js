@@ -72,7 +72,7 @@
 //   useEffect(() => {
 //     const fetchBooks = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5001/api/home/general/book");
+//         const response = await axios.get("https://alliedpublications-11.onrender.com/api/home/general/book");
 //         setBooks(response.data);
 //         setFilteredBooks(response.data);
 //       } catch (err) {
@@ -113,7 +113,7 @@
 //       }
 
 //       await axios.post(
-//         "http://localhost:5001/api/cart/add-to-cart",
+//         "https://alliedpublications-11.onrender.com/api/cart/add-to-cart",
 //         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
 //         { headers: { Authorization: token } }
 //       );
@@ -321,7 +321,7 @@ const GeneralTiles = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/categories");
+        const response = await axios.get("https://alliedpublications-11.onrender.com/api/categories");
         setCategories(response.data);
       } catch (err) {
         console.error("Failed to fetch categories:", err);
@@ -335,7 +335,7 @@ const GeneralTiles = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/home/general/book");
+        const response = await axios.get("https://alliedpublications-11.onrender.com/api/home/general/book");
         setBooks(response.data);
         setFilteredBooks(response.data);
       } catch (err) {
@@ -376,7 +376,7 @@ const GeneralTiles = () => {
       }
 
       await axios.post(
-        "http://localhost:5001/api/cart/add-to-cart",
+        "https://alliedpublications-11.onrender.com/api/cart/add-to-cart",
         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
         { headers: { Authorization: token } }
       );

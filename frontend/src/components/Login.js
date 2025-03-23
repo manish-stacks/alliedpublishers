@@ -11,7 +11,7 @@
 
 //   const handleLogin = async () => {
 //     try {
-//       const response = await axios.post("http://localhost:5001/api/auth/login", { email, password });
+//       const response = await axios.post("https://alliedpublications-11.onrender.com/api/auth/login", { email, password });
 //       console.log("Login successful:", response.data);
 //       localStorage.setItem("token", response.data.token);
 //       navigate("/");
@@ -59,7 +59,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/login", { email, password });
+      const response = await axios.post("https://alliedpublications-11.onrender.com/api/auth/login", { email, password });
       console.log("Login successful:", response.data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify({ name: response.data.name })); // Store user data

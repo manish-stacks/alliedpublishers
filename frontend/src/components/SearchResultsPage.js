@@ -69,7 +69,7 @@
 //     const fetchBooks = async () => {
 //       try {
 //         const response = await axios.get(
-//           `http://localhost:5001/api/home/general/book?title=${searchQuery}`
+//           `https://alliedpublications-11.onrender.com/api/home/general/book?title=${searchQuery}`
 //         );
 //         setSearchResults(response.data);
 
@@ -320,8 +320,8 @@ const SearchResultsPage = () => {
       try {
         const response = await axios.get(
           searchQuery
-            ? `http://localhost:5001/api/home/general/book?title=${searchQuery}`
-            : "http://localhost:5001/api/home/general/book"
+            ? `https://alliedpublications-11.onrender.com/api/home/general/book?title=${searchQuery}`
+            : "https://alliedpublications-11.onrender.com/api/home/general/book"
         );
         setSearchResults(response.data);
         setFilteredBooks(response.data); // Set all books initially

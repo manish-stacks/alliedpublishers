@@ -18,7 +18,7 @@
 //     formData.append("screenshot", file);
 
 //     try {
-//       const response = await axios.post("http://localhost:5001/api/payment", formData, {
+//       const response = await axios.post("https://alliedpublications-11.onrender.com/api/payment", formData, {
 //         headers: { "Content-Type": "multipart/form-data", Authorization: token },
 //       });
 
@@ -77,7 +77,7 @@ const Payment = () => {
     formData.append("screenshot", file);
 
     try {
-      const response = await axios.post("http://localhost:5001/api/payment", formData, {
+      const response = await axios.post("https://alliedpublications-11.onrender.com/api/payment", formData, {
         headers: { "Content-Type": "multipart/form-data", Authorization: token },
       });
 

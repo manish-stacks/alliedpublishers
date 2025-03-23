@@ -8,7 +8,7 @@ const DistributionPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/publisher")
+      .get("https://alliedpublications-11.onrender.com/api/home/publisher")
       .then((response) => setPublishers(response.data))
       .catch((error) => console.error("Error fetching publishers:", error));
   }, []);

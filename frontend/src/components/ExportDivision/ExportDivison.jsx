@@ -8,7 +8,7 @@ const ExportInfo = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/export-info")
+      .get("https://alliedpublications-11.onrender.com/api/home/export-info")
       .then((response) => setData(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);

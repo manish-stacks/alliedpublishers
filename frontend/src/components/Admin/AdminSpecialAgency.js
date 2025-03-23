@@ -26,7 +26,7 @@ const AdminSpecialAgency = () => {
 
   const fetchAgencies = () => {
     axios
-      .get("http://localhost:5001/api/home/special-agency")
+      .get("https://alliedpublications-11.onrender.com/api/home/special-agency")
       .then((response) => setAgencies(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   };
@@ -59,7 +59,7 @@ const AdminSpecialAgency = () => {
 
     if (editingAgency) {
       axios
-        .put(`http://localhost:5001/api/home/admin/special-agency/${editingAgency._id}`, formattedData)
+        .put(`https://alliedpublications-11.onrender.com/api/home/admin/special-agency/${editingAgency._id}`, formattedData)
         .then(() => {
           fetchAgencies();
           setEditingAgency(null);
@@ -68,7 +68,7 @@ const AdminSpecialAgency = () => {
         .catch((error) => console.error("Error updating agency:", error));
     } else {
       axios
-        .post("http://localhost:5001/api/home/admin/special-agency", formattedData)
+        .post("https://alliedpublications-11.onrender.com/api/home/admin/special-agency", formattedData)
         .then((response) => {
           setAgencies([...agencies, response.data.agency]);
           resetForm();
@@ -79,7 +79,7 @@ const AdminSpecialAgency = () => {
 
   const handleDeleteAgency = (id) => {
     axios
-      .delete(`http://localhost:5001/api/home/admin/special-agency/${id}`)
+      .delete(`https://alliedpublications-11.onrender.com/api/home/admin/special-agency/${id}`)
       .then(() => fetchAgencies())
       .catch((error) => console.error("Error deleting agency:", error));
   };
