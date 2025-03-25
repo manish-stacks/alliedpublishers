@@ -8,7 +8,7 @@ const Management = () => {
 
   useEffect(() => {
     axios
-      .get("https://alliedpublications-11.onrender.com/api/home/management") // Update URL as per backend
+      .get("http://localhost:5001/api/home/management") // Update URL as per backend
       .then((response) => {
         setManagementData(response.data);
       })

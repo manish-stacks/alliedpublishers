@@ -10,7 +10,7 @@ const ViewOrder = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`https://alliedpublications-11.onrender.com/api/order/${tempOrderId}`);
+        const response = await axios.get(`http://localhost:5001/api/order/${tempOrderId}`);
         setOrder(response.data);
         setLoading(false);
       } catch (error) {

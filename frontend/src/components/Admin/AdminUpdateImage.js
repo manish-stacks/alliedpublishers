@@ -11,7 +11,7 @@
 
 //   const fetchImage = async () => {
 //     try {
-//       const res = await axios.get("https://alliedpublications-11.onrender.com/api/home/images");
+//       const res = await axios.get("http://localhost:5001/api/home/images");
 //       const image = res.data.find((img) => img._id === imageId);
 //       if (image) setImageUrl(image.imageUrl);
 //     } catch (error) {
@@ -22,7 +22,7 @@
 //   const updateImage = async () => {
 //     const newUrl = prompt("Enter new image URL:");
 //     if (newUrl) {
-//       await axios.put(`https://alliedpublications-11.onrender.com/api/home/admin/images/${imageId}`, {
+//       await axios.put(`http://localhost:5001/api/home/admin/images/${imageId}`, {
 //         imageUrl: newUrl,
 //       });
 //       setImageUrl(newUrl);
@@ -79,7 +79,7 @@ const AdminUpdateImages = () => {
 
   const fetchImages = async () => {
     try {
-      const res = await axios.get("https://alliedpublications-11.onrender.com/api/home/images");
+      const res = await axios.get("http://localhost:5001/api/home/images");
       if (res.data) setImages(res.data);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -88,7 +88,7 @@ const AdminUpdateImages = () => {
 
   const updateImages = async () => {
     try {
-      await axios.put("https://alliedpublications-11.onrender.com/api/home/admin/images", images);
+      await axios.put("http://localhost:5001/api/home/admin/images", images);
       alert("Images updated successfully!");
     } catch (error) {
       console.error("Error updating images:", error);

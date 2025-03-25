@@ -41,6 +41,7 @@ import AdminPayment from "./components/Admin/AdminOrders";
 import ViewOrder from "./components/ViewOrder";
 import OrderStatus from "./components/OrderStatus";
 import AdminDeliveryCharges from "./components/Admin/AdminDeliveryCharges";
+import AdminGeneral from "./components/Admin/AdminGeneral";
 
 function App() {
 
@@ -88,6 +89,7 @@ function App() {
         <Route path="/payment" element={<Payment/>} />
         <Route path="/admin/delivery" element={<AdminDeliveryCharges/>} />
         <Route path="/admin/orders" element={<AdminPayment/>} />
+        <Route path="/admin/general/upload" element={<AdminGeneral/>} />
         {/* <Route path="/view-order/:tempOrderId" element={<ViewOrder />} /> */}
 
       </Routes>

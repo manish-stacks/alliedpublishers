@@ -8,7 +8,7 @@ const JournalPage = () => {
 
   useEffect(() => {
     axios
-      .get("https://alliedpublications-11.onrender.com/api/home/journal")
+      .get("http://localhost:5001/api/home/journal")
       .then((response) => setJournal(response.data))
       .catch((error) => console.error("Error fetching journal data:", error));
   }, []);

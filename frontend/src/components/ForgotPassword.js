@@ -9,7 +9,7 @@ const ForgotPassword = () => {
 
   const handleReset = async () => {
     try {
-      const response = await fetch("https://alliedpublications-11.onrender.com/api/auth/forgot-password", {
+      const response = await fetch("http://localhost:5001/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

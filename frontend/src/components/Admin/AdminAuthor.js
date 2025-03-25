@@ -12,7 +12,7 @@ const AdminAuthor = () => {
   // Fetch all authors
   useEffect(() => {
     axios
-      .get("https://alliedpublications-11.onrender.com/api/home/authors")
+      .get("http://localhost:5001/api/home/authors")
       .then((response) => {
         setAuthors(response.data);
       })
@@ -23,7 +23,7 @@ const AdminAuthor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://alliedpublications-11.onrender.com/api/home/admin/authors", {
+      const response = await axios.post("http://localhost:5001/api/home/admin/authors", {
         name,
         image,
         description,
@@ -48,7 +48,7 @@ const AdminAuthor = () => {
   // Delete an author
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://alliedpublications-11.onrender.com/api/home/admin/authors/${id}`);
+      await axios.delete(`http://localhost:5001/api/home/admin/authors/${id}`);
 
       // Remove from UI
       setAuthors(authors.filter((author) => author._id !== id));

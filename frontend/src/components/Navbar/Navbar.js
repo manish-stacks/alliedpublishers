@@ -46,7 +46,7 @@
 
 //   const handleLogout = async () => {
 //     try {
-//       const response = await fetch("https://alliedpublications-11.onrender.com/api/auth/logout", {
+//       const response = await fetch("http://localhost:5001/api/auth/logout", {
 //         method: "POST",
 //         headers: {
 //           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -325,7 +325,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://alliedpublications-11.onrender.com/api/auth/logout", {
+      const response = await fetch("http://localhost:5001/api/auth/logout", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

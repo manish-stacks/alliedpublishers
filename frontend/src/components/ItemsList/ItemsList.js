@@ -7,7 +7,7 @@ const ItemsList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("https://alliedpublications-11.onrender.com/items").then((response) => {
+    axios.get("http://localhost:5001/items").then((response) => {
       setItems(response.data);
     });
   }, []);
@@ -15,7 +15,7 @@ const ItemsList = () => {
   const addToCart = (itemId) => {
     const token = localStorage.getItem("token");
     axios.post(
-      "https://alliedpublications-11.onrender.com/add-to-cart",
+      "http://localhost:5001/add-to-cart",
       { itemId, quantity: 1 },
       { headers: { Authorization: token } }
     );

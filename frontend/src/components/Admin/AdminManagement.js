@@ -7,7 +7,7 @@ const AdminManagement = () => {
   const [newMember, setNewMember] = useState({ section: "", name: "", position: "", phone: "", city: "" });
 
   useEffect(() => {
-    axios.get("https://alliedpublications-11.onrender.com/api/home/management/")
+    axios.get("http://localhost:5001/api/home/management/")
       .then(response => setManagement(response.data))
       .catch(error => console.error("Error fetching management data:", error));
   }, []);
@@ -18,7 +18,7 @@ const AdminManagement = () => {
 
   const handleAddMember = (e) => {
     e.preventDefault();
-    axios.post("https://alliedpublications-11.onrender.com/api/home/admin/management", newMember)
+    axios.post("http://localhost:5001/api/home/admin/management", newMember)
       .then(response => {
         setManagement(response.data.managementData);
         setNewMember({ section: "", name: "", position: "", phone: "", city: "" });
@@ -27,7 +27,7 @@ const AdminManagement = () => {
   };
 
   const handleDelete = (section, id) => {
-    axios.delete(`https://alliedpublications-11.onrender.com/api/home/admin/management/${section}/${id}`)
+    axios.delete(`http://localhost:5001/api/home/admin/management/${section}/${id}`)
       .then(() => {
         setManagement(prevState => ({
           ...prevState,

@@ -10,7 +10,7 @@
 
 //   useEffect(() => {
 //     axios
-//       .get("https://alliedpublications-11.onrender.com/api/home/about-us")
+//       .get("http://localhost:5001/api/home/about-us")
 //       .then((response) => {
 //         if (response.data) {
 //           setTitle(response.data.title);
@@ -24,7 +24,7 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post("https://alliedpublications-11.onrender.com/api/home/admin/about-us", {
+//       await axios.post("http://localhost:5001/api/home/admin/about-us", {
 //         title,
 //         content: { image, description },
 //       });
@@ -99,7 +99,7 @@ const AdminAboutUs = () => {
 
   useEffect(() => {
     axios
-      .get("https://alliedpublications-11.onrender.com/api/home/about-us")
+      .get("http://localhost:5001/api/home/about-us")
       .then((response) => {
         if (response.data) {
           setTitle(response.data.title);
@@ -113,7 +113,7 @@ const AdminAboutUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://alliedpublications-11.onrender.com/api/home/admin/about-us", {
+      await axios.post("http://localhost:5001/api/home/admin/about-us", {
         title,
         content: { image, description },
       });

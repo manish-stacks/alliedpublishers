@@ -1,3 +1,4 @@
+
 // import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 
@@ -118,6 +119,16 @@
 //             </ul>
 //           )}
 //         </li>
+
+//         {/* Orders Link */}
+//         <li>
+//           <Link
+//             to="/admin/orders"
+//             className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition"
+//           >
+//             <i className="fas fa-shopping-cart mr-3"></i> Orders
+//           </Link>
+//         </li>
 //       </ul>
 //     </div>
 //   );
@@ -126,13 +137,13 @@
 // export default Sidebar;
 
 
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [adminHomeOpen, setAdminHomeOpen] = useState(false);
   const [adminNavbarOpen, setAdminNavbarOpen] = useState(false);
+  const [adminBooksOpen, setAdminBooksOpen] = useState(false); // New state for books dropdown
 
   return (
     <div className="w-64 h-screen bg-gradient-to-br from-gray-800 to-gray-900 text-white fixed left-0 top-0 p-5 shadow-lg overflow-y-auto">
@@ -179,6 +190,37 @@ const Sidebar = () => {
                   className="block p-2 text-sm hover:bg-gray-700 rounded"
                 >
                   Location
+                </Link>
+              </li>
+            </ul>
+          )}
+        </li>
+
+        {/* Books Dropdown - NEW SECTION */}
+        <li>
+          <button
+            className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition"
+            onClick={() => setAdminBooksOpen(!adminBooksOpen)}
+            aria-expanded={adminBooksOpen}
+          >
+            <i className="fas fa-book mr-3"></i> Books
+          </button>
+          {adminBooksOpen && (
+            <ul className="ml-4 space-y-1">
+              <li>
+                <Link
+                  to="/admin/general/upload"
+                  className="block p-2 text-sm hover:bg-gray-700 rounded"
+                >
+                  General Books Upload
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/admin/bestsellers"
+                  className="block p-2 text-sm hover:bg-gray-700 rounded"
+                >
+                  Bestsellers
                 </Link>
               </li>
             </ul>

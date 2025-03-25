@@ -10,7 +10,7 @@ const AdminBestseller = () => {
   // Fetch bestsellers
   useEffect(() => {
     axios
-      .get("https://alliedpublications-11.onrender.com/api/home/bestsellers")
+      .get("http://localhost:5001/api/home/bestsellers")
       .then((response) => setBestsellers(response.data))
       .catch((error) => console.error("Error fetching bestsellers:", error));
   }, []);
@@ -19,7 +19,7 @@ const AdminBestseller = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://alliedpublications-11.onrender.com/api/home/admin/bestsellers", { name, image });
+      const response = await axios.post("http://localhost:5001/api/home/admin/bestsellers", { name, image });
       setBestsellers([...bestsellers, response.data]); // Update UI
       setName("");
       setImage("");
@@ -32,7 +32,7 @@ const AdminBestseller = () => {
   // Delete a bestseller
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://alliedpublications-11.onrender.com/api/home/admin/bestsellers/${id}`);
+      await axios.delete(`http://localhost:5001/api/home/admin/bestsellers/${id}`);
       setBestsellers(bestsellers.filter((book) => book._id !== id));
       alert("Bestseller deleted successfully!");
     } catch (error) {

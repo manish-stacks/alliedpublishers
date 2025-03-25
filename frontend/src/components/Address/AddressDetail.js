@@ -22,7 +22,7 @@
 
 //   const fetchUserData = async () => {
 //     try {
-//       const response = await axios.get("https://alliedpublications-11.onrender.com/api/user", {
+//       const response = await axios.get("http://localhost:5001/api/user", {
 //         headers: { Authorization: token },
 //       });
 //       setUser((prevUser) => ({ ...prevUser, email: response.data.email }));
@@ -38,7 +38,7 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post("https://alliedpublications-11.onrender.com/api/address", user, {
+//       await axios.post("http://localhost:5001/api/address", user, {
 //         headers: { Authorization: token },
 //       });
 //       navigate("/payment"); // Redirect to checkout page
@@ -167,7 +167,7 @@ const Address = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("https://alliedpublications-11.onrender.com/api/user", {
+      const response = await axios.get("http://localhost:5001/api/user", {
         headers: { Authorization: token },
       });
       setUser((prevUser) => ({ ...prevUser, email: response.data.email }));
@@ -178,7 +178,7 @@ const Address = () => {
 
   const fetchCartTotal = async () => {
     try {
-      const response = await axios.get("https://alliedpublications-11.onrender.com/api/cart/total", {
+      const response = await axios.get("http://localhost:5001/api/cart/total", {
         headers: { Authorization: token },
       });
       setCartTotal(response.data.cartTotal);
@@ -191,7 +191,7 @@ const Address = () => {
 
   const fetchDefaultDeliveryCharge = async () => {
     try {
-      const response = await axios.get("https://alliedpublications-11.onrender.com/api/delivery/default");
+      const response = await axios.get("http://localhost:5001/api/delivery/default");
       setDefaultDeliveryCharge(response.data.defaultCharge);
     } catch (error) {
       console.error("Error fetching default delivery charge:", error);
@@ -205,7 +205,7 @@ const Address = () => {
     if (name === "zipCode" && value.length === 6) {
       try {
         // Fetch delivery charge for the entered pincode
-        const response = await axios.get(`https://alliedpublications-11.onrender.com/api/delivery/${value}`);
+        const response = await axios.get(`http://localhost:5001/api/delivery/${value}`);
         setDeliveryCharge(response.data.charge); // Use the fetched charge
         setTotalAmount(cartTotal + response.data.charge);
       } catch (error) {
@@ -228,7 +228,7 @@ const Address = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "https://alliedpublications-11.onrender.com/api/address",
+        "http://localhost:5001/api/address",
         { ...user, deliveryCharges: deliveryCharge },
         { headers: { Authorization: token } }
       );

@@ -7,7 +7,7 @@ const AdminPublisher = () => {
   const [newPublisher, setNewPublisher] = useState({ category: "", publisherName: "" });
 
   useEffect(() => {
-    axios.get("https://alliedpublications-11.onrender.com/api/home/publisher")
+    axios.get("http://localhost:5001/api/home/publisher")
       .then(response => setPublishers(response.data))
       .catch(error => console.error("Error fetching publishers:", error));
   }, []);
@@ -18,7 +18,7 @@ const AdminPublisher = () => {
 
   const handleAddPublisher = (e) => {
     e.preventDefault();
-    axios.post("https://alliedpublications-11.onrender.com/api/home/admin/publisher", newPublisher)
+    axios.post("http://localhost:5001/api/home/admin/publisher", newPublisher)
       .then(response => {
         setPublishers(prevState => {
           const updatedPublishers = [...prevState];
@@ -36,7 +36,7 @@ const AdminPublisher = () => {
   };
 
   const handleDelete = (category, publisherName) => {
-    axios.delete(`https://alliedpublications-11.onrender.com/api/home/admin/publisher/${category}/${publisherName}`)
+    axios.delete(`http://localhost:5001/api/home/admin/publisher/${category}/${publisherName}`)
       .then(() => {
         setPublishers(prevState =>
           prevState.map(pub =>

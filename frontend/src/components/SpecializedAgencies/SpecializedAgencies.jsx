@@ -8,7 +8,7 @@ const SpecializedAgencies = () => {
 
   useEffect(() => {
     axios
-      .get("https://alliedpublications-11.onrender.com/api/home/special-agency")
+      .get("http://localhost:5001/api/home/special-agency")
       .then((response) => setData(response.data[0]))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);

@@ -24,7 +24,7 @@ const AdminExportInfo = () => {
 
   const fetchExportInfo = async () => {
     try {
-      const res = await axios.get("https://alliedpublications-11.onrender.com/api/home/export-info");
+      const res = await axios.get("http://localhost:5001/api/home/export-info");
       if (res.data) {
         setExportInfo(res.data);
       }
@@ -57,7 +57,7 @@ const AdminExportInfo = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put("https://alliedpublications-11.onrender.com/api/home/admin/export-info", exportInfo);
+      await axios.put("http://localhost:5001/api/home/admin/export-info", exportInfo);
       alert("Export Info updated successfully!");
       fetchExportInfo();
     } catch (err) {
