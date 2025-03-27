@@ -45,6 +45,7 @@ import AdminGeneral from "./components/Admin/AdminGeneral";
 import AdminConferenceBooks from "./components/Admin/AdminConferenceBooks";
 import AdminCategory from "./components/Admin/AdminCategory";
 import AdminConferenceCategory from "./components/Admin/AdminConferenceCategory";
+import AdminQRCode from "./components/Admin/AdminQRcode";
 
 function App() {
 
@@ -96,6 +97,7 @@ function App() {
         <Route path="/admin/conference/upload" element={<AdminConferenceBooks/>} />
         <Route path="/admin/category" element={<AdminCategory/>} />
         <Route path="/admin/conference-categories" element={<AdminConferenceCategory/>} />
+        <Route path="/admin/qrcode" element={<AdminQRCode/>} />
         
         {/* <Route path="/view-order/:tempOrderId" element={<ViewOrder />} /> */}
 

@@ -1,3 +1,5 @@
+
+
 // import React, { useEffect, useState, useRef } from "react";
 // import { Link, useNavigate } from "react-router-dom";
 // import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
@@ -20,7 +22,6 @@
 //       }
 //     }
 //   }, []);
-  
 
 //   useEffect(() => {
 //     // Close mobile menu when clicking outside
@@ -277,10 +278,10 @@
 
 // export default Navbar;
 
-
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -288,21 +289,62 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const mobileMenuRef = useRef(null);
+  const tokenCheckInterval = useRef(null);
+
+  const checkTokenExpiration = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+
+    try {
+      const decoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      
+      if (decoded.exp < currentTime) {
+        handleAutoLogout();
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      handleAutoLogout();
+      return false;
+    }
+  };
+
+  const handleAutoLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    if (tokenCheckInterval.current) {
+      clearInterval(tokenCheckInterval.current);
+    }
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        if (checkTokenExpiration()) {
+          setUser(JSON.parse(storedUser));
+        } else {
+          localStorage.removeItem("user");
+        }
       } catch (error) {
         console.error("Error parsing user data:", error);
-        localStorage.removeItem("user"); // Remove corrupted data
+        localStorage.removeItem("user");
       }
     }
+
+    tokenCheckInterval.current = setInterval(checkTokenExpiration, 5 * 60 * 1000);
+
+    return () => {
+      if (tokenCheckInterval.current) {
+        clearInterval(tokenCheckInterval.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
-    // Close mobile menu when clicking outside
     const handleClickOutside = (event) => {
       if (
         mobileMenuRef.current &&
@@ -334,10 +376,7 @@ const Navbar = () => {
       });
 
       if (response.ok) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setUser(null);
-        alert("Logout successful.");
+        handleAutoLogout();
         navigate("/");
       } else {
         const data = await response.json();
@@ -368,6 +407,7 @@ const Navbar = () => {
             className="p-2 w-full outline-none text-gray-700"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           />
           <button
             onClick={handleSearch}
@@ -483,7 +523,7 @@ const Navbar = () => {
           </nav>
         </div>
 
-        {/* Mobile Menu (Hidden by Default) */}
+        {/* Mobile Menu */}
         <div
           ref={mobileMenuRef}
           className={`${

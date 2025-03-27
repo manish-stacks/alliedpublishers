@@ -15,6 +15,7 @@ const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const authenticateUser = require("./middleware/authMiddleware");
 const conferenceCategoryRoutes = require("./routes/ConferenceCategoryRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
  
 const User = require("./models/User");
@@ -376,6 +377,38 @@ app.get("/api/admin/orders", async (req, res) => {
   }
 });
 
+// In your backend route (e.g., orders.js)
+// app.get('/api/admin/orders', async (req, res) => {
+//   try {
+//     // Find users who have at least one order
+//     const users = await User.find({ 
+//       'orders.0': { $exists: true } // Users with at least one order
+//     }).sort({ 'orders.payment.createdAt': -1 }).lean();
+
+//     // Safely flatten orders with user information
+//     const allOrders = users.reduce((acc, user) => {
+//       // Check if user.orders exists and is an array
+//       if (user.orders && Array.isArray(user.orders)) {
+//         const userOrders = user.orders.map(order => ({
+//           ...order,
+//           user: {
+//             _id: user._id,
+//             name: user.name,
+//             email: user.email,
+//             address: user.address || {} // Ensure address exists
+//           }
+//         }));
+//         return [...acc, ...userOrders];
+//       }
+//       return acc;
+//     }, []);
+
+//     res.status(200).json(allOrders);
+//   } catch (error) {
+//     console.error('Error fetching orders:', error);
+//     res.status(500).json({ message: 'Failed to fetch orders' });
+//   }
+// });
 
 const fs = require('fs');
 
@@ -730,6 +763,58 @@ app.post("/admin/general/upload", upload.single("file"), async (req, res) => {
 });
 
 
+// Get all books
+app.get("/admin/general/books", async (req, res) => {
+  try {
+    const books = await General.find({});
+    res.status(200).json(books);
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    res.status(500).json({ error: "Failed to fetch books" });
+  }
+});
+
+// Get single book
+app.get("/admin/general/books/:id", async (req, res) => {
+  try {
+    const book = await General.findById(req.params.id);
+    if (!book) return res.status(404).json({ error: "Book not found" });
+    res.status(200).json(book);
+  } catch (error) {
+    console.error("Error fetching book:", error);
+    res.status(500).json({ error: "Failed to fetch book" });
+  }
+});
+
+// Update book
+app.put("/admin/general/books/:id", async (req, res) => {
+  try {
+    const updatedBook = await General.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedBook) return res.status(404).json({ error: "Book not found" });
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    console.error("Error updating book:", error);
+    res.status(500).json({ error: "Failed to update book" });
+  }
+});
+
+// Delete book
+app.delete("/admin/general/books/:id", async (req, res) => {
+  try {
+    const deletedBook = await General.findByIdAndDelete(req.params.id);
+    if (!deletedBook) return res.status(404).json({ error: "Book not found" });
+    res.status(200).json({ message: "Book deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    res.status(500).json({ error: "Failed to delete book" });
+  }
+});
+
+
 
 app.post("/admin/conference/upload", upload.single("file"), async (req, res) => {
   try {
@@ -801,11 +886,63 @@ app.post("/admin/conference/upload", upload.single("file"), async (req, res) => 
 });
 
 
+app.get("/admin/conference/books", async (req, res) => {
+  try {
+    const books = await Conference.find({});
+    res.status(200).json(books);
+  } catch (error) {
+    console.error("Error fetching conference books:", error);
+    res.status(500).json({ error: "Failed to fetch conference books" });
+  }
+});
+
+// Get single conference book
+app.get("/admin/conference/books/:id", async (req, res) => {
+  try {
+    const book = await Conference.findById(req.params.id);
+    if (!book) return res.status(404).json({ error: "Conference book not found" });
+    res.status(200).json(book);
+  } catch (error) {
+    console.error("Error fetching conference book:", error);
+    res.status(500).json({ error: "Failed to fetch conference book" });
+  }
+});
+
+// Update conference book
+app.put("/admin/conference/books/:id", async (req, res) => {
+  try {
+    const updatedBook = await Conference.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedBook) return res.status(404).json({ error: "Conference book not found" });
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    console.error("Error updating conference book:", error);
+    res.status(500).json({ error: "Failed to update conference book" });
+  }
+});
+
+// Delete conference book
+app.delete("/admin/conference/books/:id", async (req, res) => {
+  try {
+    const deletedBook = await Conference.findByIdAndDelete(req.params.id);
+    if (!deletedBook) return res.status(404).json({ error: "Conference book not found" });
+    res.status(200).json({ message: "Conference book deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting conference book:", error);
+    res.status(500).json({ error: "Failed to delete conference book" });
+  }
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
 /// API Routes
 app.use("/api/home", homeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", conferenceCategoryRoutes);
+app.use("/api", paymentRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

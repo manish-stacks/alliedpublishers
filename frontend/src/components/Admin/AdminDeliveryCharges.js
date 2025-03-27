@@ -1,165 +1,13 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-
-// const AdminDeliveryCharges = () => {
-//   const [deliveryCharges, setDeliveryCharges] = useState([]);
-//   const [newCharge, setNewCharge] = useState({ pincode: "", charge: 0 });
-//   const [editCharge, setEditCharge] = useState({ pincode: "", charge: 0 });
-
-//   useEffect(() => {
-//     fetchDeliveryCharges();
-//   }, []);
-
-//   const fetchDeliveryCharges = async () => {
-//     try {
-//       const response = await axios.get("http://localhost:5001/api/delivery");
-//       setDeliveryCharges(response.data);
-//     } catch (error) {
-//       console.error("Error fetching delivery charges:", error);
-//     }
-//   };
-
-//   const handleAddCharge = async () => {
-//     try {
-//       await axios.post("http://localhost:5001/api/admin/delivery", newCharge);
-//       setNewCharge({ pincode: "", charge: 0 });
-//       fetchDeliveryCharges();
-//     } catch (error) {
-//       console.error("Error adding delivery charge:", error);
-//     }
-//   };
-
-//   const handleDeleteCharge = async (pincode) => {
-//     try {
-//       await axios.delete(`http://localhost:5001/api/admin/delivery/${pincode}`);
-//       fetchDeliveryCharges();
-//     } catch (error) {
-//       console.error("Error deleting delivery charge:", error);
-//     }
-//   };
-
-//   const handleEditCharge = (charge) => {
-//     setEditCharge(charge); // Set the charge to be edited
-//   };
-
-//   const handleUpdateCharge = async () => {
-//     try {
-//       await axios.put(
-//         `http://localhost:5001/api/admin/delivery/${editCharge.pincode}`,
-//         { charge: editCharge.charge }
-//       );
-//       setEditCharge({ pincode: "", charge: 0 }); // Reset edit form
-//       fetchDeliveryCharges();
-//     } catch (error) {
-//       console.error("Error updating delivery charge:", error);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50 p-8">
-//       <h1 className="text-2xl font-bold mb-6">Set Delivery Charges</h1>
-
-//       {/* Add New Charge Form */}
-//       <div className="space-y-4 mb-8">
-//         <div>
-//           <label className="block text-gray-700 font-semibold">Pincode:</label>
-//           <input
-//             type="text"
-//             value={newCharge.pincode}
-//             onChange={(e) => setNewCharge({ ...newCharge, pincode: e.target.value })}
-//             className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-//           />
-//         </div>
-//         <div>
-//           <label className="block text-gray-700 font-semibold">Charge:</label>
-//           <input
-//             type="number"
-//             value={newCharge.charge}
-//             onChange={(e) => setNewCharge({ ...newCharge, charge: e.target.value })}
-//             className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-//           />
-//         </div>
-//         <button
-//           onClick={handleAddCharge}
-//           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-//         >
-//           Add Charge
-//         </button>
-//       </div>
-
-//       {/* Edit Charge Form */}
-//       {editCharge.pincode && (
-//         <div className="space-y-4 mb-8">
-//           <h2 className="text-xl font-bold">Edit Delivery Charge</h2>
-//           <div>
-//             <label className="block text-gray-700 font-semibold">Pincode:</label>
-//             <input
-//               type="text"
-//               value={editCharge.pincode}
-//               disabled
-//               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
-//             />
-//           </div>
-//           <div>
-//             <label className="block text-gray-700 font-semibold">Charge:</label>
-//             <input
-//               type="number"
-//               value={editCharge.charge}
-//               onChange={(e) => setEditCharge({ ...editCharge, charge: e.target.value })}
-//               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-//             />
-//           </div>
-//           <button
-//             onClick={handleUpdateCharge}
-//             className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-//           >
-//             Update Charge
-//           </button>
-//         </div>
-//       )}
-
-//       {/* Current Delivery Charges List */}
-//       <div className="mt-8">
-//         <h2 className="text-xl font-bold mb-4">Current Delivery Charges</h2>
-//         <ul>
-//           {deliveryCharges.map((charge) => (
-//             <li key={charge.pincode} className="mb-2 flex items-center justify-between">
-//               <div>
-//                 <span className="font-semibold">{charge.pincode}:</span> ₹{charge.charge}
-//               </div>
-//               <div>
-//                 <button
-//                   onClick={() => handleEditCharge(charge)}
-//                   className="px-2 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 mr-2"
-//                 >
-//                   Edit
-//                 </button>
-//                 <button
-//                   onClick={() => handleDeleteCharge(charge.pincode)}
-//                   className="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
-//                 >
-//                   Delete
-//                 </button>
-//               </div>
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdminDeliveryCharges;
-
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Sidebar from "./Sidebar";
 
 const AdminDeliveryCharges = () => {
   const [deliveryCharges, setDeliveryCharges] = useState([]);
   const [newCharge, setNewCharge] = useState({ pincode: "", charge: 0 });
   const [editCharge, setEditCharge] = useState({ pincode: "", charge: 0 });
-  const [defaultCharge, setDefaultCharge] = useState(0); // State for default charge
+  const [defaultCharge, setDefaultCharge] = useState(0);
 
   useEffect(() => {
     fetchDeliveryCharges();
@@ -204,7 +52,7 @@ const AdminDeliveryCharges = () => {
   };
 
   const handleEditCharge = (charge) => {
-    setEditCharge(charge); // Set the charge to be edited
+    setEditCharge(charge);
   };
 
   const handleUpdateCharge = async () => {
@@ -213,7 +61,7 @@ const AdminDeliveryCharges = () => {
         `http://localhost:5001/api/admin/delivery/${editCharge.pincode}`,
         { charge: editCharge.charge }
       );
-      setEditCharge({ pincode: "", charge: 0 }); // Reset edit form
+      setEditCharge({ pincode: "", charge: 0 });
       fetchDeliveryCharges();
     } catch (error) {
       console.error("Error updating delivery charge:", error);
@@ -232,115 +80,114 @@ const AdminDeliveryCharges = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-2xl font-bold mb-6">Set Delivery Charges</h1>
+    <div className="flex min-h-screen bg-[#d5d8dc]">
+      <Sidebar />
+      
+      {/* Main Content Area Shifted Right */}
+      <div className="flex-1 flex justify-center items-center px-10 ml-[260px]">
+        <div className="w-full max-w-3xl bg-white/40 backdrop-blur-md border border-white/30 rounded-lg p-8 shadow-lg transition-all duration-500 hover:scale-[1.03] hover:shadow-xl">
+          <h3 className="text-3xl font-bold text-black uppercase mb-6 text-center">
+            Manage Delivery Charges
+          </h3>
 
-      {/* Set Default Delivery Charge */}
-      <div className="space-y-4 mb-8">
-        <h2 className="text-xl font-bold">Default Delivery Charge</h2>
-        <div>
-          <label className="block text-gray-700 font-semibold">Default Charge:</label>
-          <input
-            type="number"
-            value={defaultCharge}
-            onChange={(e) => setDefaultCharge(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-          />
-        </div>
-        <button
-          onClick={handleSetDefaultCharge}
-          className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600"
-        >
-          Set Default Charge
-        </button>
-      </div>
+          <div className="flex flex-col items-center space-y-4">
+            {/* Default Delivery Charge Section */}
+            <div className="w-full space-y-4">
+              <h3 className="text-2xl font-bold text-black uppercase text-center">Default Charge</h3>
+              <label className="text-lg font-bold text-black uppercase text-center">Default Delivery Charge (₹)</label>
+              <input
+                type="number"
+                value={defaultCharge}
+                onChange={(e) => setDefaultCharge(e.target.value)}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <button 
+                onClick={handleSetDefaultCharge}
+                className="w-full px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95"
+              >
+                Set Default Charge
+              </button>
+            </div>
 
-      {/* Add New Charge Form */}
-      <div className="space-y-4 mb-8">
-        <h2 className="text-xl font-bold">Add New Delivery Charge</h2>
-        <div>
-          <label className="block text-gray-700 font-semibold">Pincode:</label>
-          <input
-            type="text"
-            value={newCharge.pincode}
-            onChange={(e) => setNewCharge({ ...newCharge, pincode: e.target.value })}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700 font-semibold">Charge:</label>
-          <input
-            type="number"
-            value={newCharge.charge}
-            onChange={(e) => setNewCharge({ ...newCharge, charge: e.target.value })}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-          />
-        </div>
-        <button
-          onClick={handleAddCharge}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
-          Add Charge
-        </button>
-      </div>
+            {/* Add New Charge Section */}
+            <div className="w-full space-y-4">
+              <h3 className="text-2xl font-bold text-black uppercase text-center">Add New Charge</h3>
+              <label className="text-lg font-bold text-black uppercase text-center">Pincode</label>
+              <input
+                type="text"
+                value={newCharge.pincode}
+                onChange={(e) => setNewCharge({ ...newCharge, pincode: e.target.value })}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <label className="text-lg font-bold text-black uppercase text-center">Charge (₹)</label>
+              <input
+                type="number"
+                value={newCharge.charge}
+                onChange={(e) => setNewCharge({ ...newCharge, charge: e.target.value })}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <button 
+                onClick={handleAddCharge}
+                className="w-full px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95"
+              >
+                Add Charge
+              </button>
+            </div>
 
-      {/* Edit Charge Form */}
-      {editCharge.pincode && (
-        <div className="space-y-4 mb-8">
-          <h2 className="text-xl font-bold">Edit Delivery Charge</h2>
-          <div>
-            <label className="block text-gray-700 font-semibold">Pincode:</label>
-            <input
-              type="text"
-              value={editCharge.pincode}
-              disabled
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-semibold">Charge:</label>
-            <input
-              type="number"
-              value={editCharge.charge}
-              onChange={(e) => setEditCharge({ ...editCharge, charge: e.target.value })}
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg"
-            />
-          </div>
-          <button
-            onClick={handleUpdateCharge}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-          >
-            Update Charge
-          </button>
-        </div>
-      )}
-
-      {/* Current Delivery Charges List */}
-      <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Current Delivery Charges</h2>
-        <ul>
-          {deliveryCharges.map((charge) => (
-            <li key={charge.pincode} className="mb-2 flex items-center justify-between">
-              <div>
-                <span className="font-semibold">{charge.pincode}:</span> ₹{charge.charge}
-              </div>
-              <div>
-                <button
-                  onClick={() => handleEditCharge(charge)}
-                  className="px-2 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 mr-2"
+            {/* Edit Charge Section */}
+            {editCharge.pincode && (
+              <div className="w-full space-y-4">
+                <h3 className="text-2xl font-bold text-black uppercase text-center">Edit Charge</h3>
+                <label className="text-lg font-bold text-black uppercase text-center">Pincode</label>
+                <input
+                  type="text"
+                  value={editCharge.pincode}
+                  disabled
+                  className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-gray-100 text-black text-center outline-none cursor-not-allowed"
+                />
+                <label className="text-lg font-bold text-black uppercase text-center">Charge (₹)</label>
+                <input
+                  type="number"
+                  value={editCharge.charge}
+                  onChange={(e) => setEditCharge({ ...editCharge, charge: e.target.value })}
+                  className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+                />
+                <button 
+                  onClick={handleUpdateCharge}
+                  className="w-full px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95"
                 >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteCharge(charge.pincode)}
-                  className="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                >
-                  Delete
+                  Update Charge
                 </button>
               </div>
-            </li>
-          ))}
-        </ul>
+            )}
+
+            {/* Current Charges List */}
+            <div className="w-full space-y-4">
+              <h3 className="text-2xl font-bold text-black uppercase text-center">Current Delivery Charges</h3>
+              <div className="space-y-2">
+                {deliveryCharges.map((charge) => (
+                  <div key={charge.pincode} className="flex justify-between items-center p-3 bg-white/80 rounded-lg">
+                    <span className="font-semibold">{charge.pincode}: ₹{charge.charge}</span>
+                    <div className="space-x-2">
+                      <button
+                        onClick={() => handleEditCharge(charge)}
+                        className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCharge(charge.pincode)}
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
