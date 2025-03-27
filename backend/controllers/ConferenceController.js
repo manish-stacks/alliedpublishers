@@ -1,6 +1,6 @@
-const General = require("../models/General");
+const Conference = require("../models/Conference");
 
-const getData = async (req, res) => {
+const getConferenceData = async (req, res) => {
   try {
     const { type } = req.params;
     const { title } = req.query;
@@ -10,7 +10,7 @@ const getData = async (req, res) => {
       query.title = new RegExp(title, "i"); // Case-insensitive search
     }
 
-    const data = await General.find(query);
+    const data = await Conference.find(query);
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -22,11 +22,11 @@ const getData = async (req, res) => {
 
 
 // 📌 POST: Add new book entry
-const addData = async (req, res) => {
+const addConferenceData = async (req, res) => {
   try {
     const { type, title, author, category, price, stock, isbn, coverImage, backImage, discount, coverType } = req.body;
 
-    const newEntry = new General({ 
+    const newEntry = new Conference({ 
       type, 
       title, 
       author, 
@@ -49,10 +49,10 @@ const addData = async (req, res) => {
 };
 
 // 📌 DELETE: Remove entry by ID
-const deleteData = async (req, res) => {
+const deleteConferenceData = async (req, res) => {
   try {
     const { id } = req.params;
-    await General.findByIdAndDelete(id);
+    await Conference.findByIdAndDelete(id);
     res.json({ message: "Data deleted successfully" });
   } catch (error) {
     res.status(400).json({ message: "Error deleting data", error });
@@ -60,4 +60,4 @@ const deleteData = async (req, res) => {
 };
 
 
-module.exports = { getData, addData, deleteData };
+module.exports = { getConferenceData, addConferenceData, deleteConferenceData };

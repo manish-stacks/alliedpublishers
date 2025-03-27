@@ -1,61 +1,14 @@
 
 
+
+
+
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 // import Navbar from "../Navbar/Navbar";
 // import { useNavigate } from "react-router-dom"; // For navigation
 
-// const categories = {
-//   "Agriculture & Earth Science": ["Agriculture & Life Sciences", "Earth Science"],
-//   "Art and Craft": [],
-//   "Astrology": [],
-//   "Competitive Examination": [],
-//   "Cookery & Food Technology": [],
-//   "Commerce": ["Business Studies & Management", "Commerce & Economics"],
-//   "Demography": [],
-//   "Disaster Management": [],
-//   "Ergonomics": [],
-//   "India, The World & Miscellaneous Topics": ["India", "The World"],
-//   "Industry": [],
-//   "Insurance": [],
-//   "Military Affairs": [],
-//   "Motivational and Self-help Books": [],
-//   "Oceanography": [],
-//   "Oil Exploration": [],
-//   "Pets": [],
-//   "Quality Control": [],
-//   "Science & Engineering": [
-//     "Mathematics",
-//     "Science and Technology",
-//     "Physics",
-//     "Biological & Medical Sciences",
-//     "Computer Science",
-//     "Electronics, Electrical and Telecommunication Engineering",
-//     "Civil Engineering",
-//     "Mechanical Engineering",
-//     "Chemistry, Chemical Engineering & Polymer Science",
-//     "Minerals & Metallurgical Engineering"
-//   ],
-//   "Social Science": [
-//     "Political Science & International Relations",
-//     "Communication Studies",
-//     "Public Administration",
-//     "Sociology",
-//     "Psychology",
-//     "Biographies & Memoirs",
-//     "Language & Literature",
-//     "Philosophy & Religion",
-//     "Energy and Environment",
-//     "Library Science",
-//     "Law",
-//     "Education",
-//     "Dictionaries"
-//   ],
-//   "Transportation": [],
-//   "Valuation": [],
-//   "Water Management": [],
-//   "Yoga": []
-// };
+
 
 // const GeneralTiles = () => {
 //   const [books, setBooks] = useState([]);
@@ -66,7 +19,21 @@
 //   const [error, setError] = useState(null);
 //   const [selectedBook, setSelectedBook] = useState(null);
 //   const [zoom, setZoom] = useState(1.5);
+//   const [categories,setCategories] = useState([]);
 //   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchCategories = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5001/api/categories");
+//         setCategories(response.data);
+//       } catch (err) {
+//         console.error("Failed to fetch categories:", err);
+//       }
+//     };
+//     fetchCategories();
+//   }, []);
+
 
 //   // Fetch books
 //   useEffect(() => {
@@ -296,15 +263,10 @@
 
 // export default GeneralTiles;
 
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
-import { useNavigate } from "react-router-dom"; // For navigation
-
-
+import { useNavigate } from "react-router-dom";
 
 const GeneralTiles = () => {
   const [books, setBooks] = useState([]);
@@ -315,13 +277,15 @@ const GeneralTiles = () => {
   const [error, setError] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
   const [zoom, setZoom] = useState(1.5);
-  const [categories,setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get("http://localhost:5001/api/categories");
+        console.log("Categories data:", response.data);
         setCategories(response.data);
       } catch (err) {
         console.error("Failed to fetch categories:", err);
@@ -329,7 +293,6 @@ const GeneralTiles = () => {
     };
     fetchCategories();
   }, []);
-
 
   // Fetch books
   useEffect(() => {
@@ -350,23 +313,31 @@ const GeneralTiles = () => {
   // Filter and sort books
   useEffect(() => {
     let updatedBooks = [...books];
-    const subcategories = categories[selectedCategory] || [];
-
+    
     if (selectedCategory) {
-      updatedBooks = updatedBooks.filter((book) =>
-        subcategories.length > 0 ? subcategories.includes(book.category) : book.category === selectedCategory
-      );
+      updatedBooks = updatedBooks.filter(book => {
+        // Check if book matches main category
+        if (book.category === selectedCategory) return true;
+        
+        // Check if book matches any subcategory
+        const categoryObj = categories.find(cat => cat.name === selectedCategory);
+        if (categoryObj?.subcategories?.includes(book.category)) {
+          return true;
+        }
+        
+        return false;
+      });
     }
 
+    // Sorting logic
     if (sortOption === "title-asc") updatedBooks.sort((a, b) => a.title.localeCompare(b.title));
     if (sortOption === "title-desc") updatedBooks.sort((a, b) => b.title.localeCompare(a.title));
     if (sortOption === "price-asc") updatedBooks.sort((a, b) => a.price - b.price);
     if (sortOption === "price-desc") updatedBooks.sort((a, b) => b.price - a.price);
 
     setFilteredBooks(updatedBooks);
-  }, [selectedCategory, books, sortOption]);
+  }, [selectedCategory, books, sortOption, categories]);
 
-  // Add to Cart Functionality
   const addToCart = async (bookId, bookName, bookPrice) => {
     try {
       const token = localStorage.getItem("token");
@@ -387,12 +358,10 @@ const GeneralTiles = () => {
     }
   };
 
-  // Go to Cart Functionality
   const goToCart = () => {
-    navigate("/cart"); // Navigate to the cart page
+    navigate("/cart");
   };
 
-  // Popup and Zoom Functions
   const openPopup = (book) => {
     setSelectedBook(book);
     setZoom(1);
@@ -413,7 +382,6 @@ const GeneralTiles = () => {
     setZoom((prev) => Math.max(prev - 0.2, 1));
   };
 
-  // Calculate Discounted Price
   const calculateDiscountedPrice = (price, discount) => {
     return (price - (price * discount) / 100).toFixed(2);
   };
@@ -437,27 +405,27 @@ const GeneralTiles = () => {
             📚 Show All Books
           </button>
           <ul className="mt-3">
-            {Object.keys(categories).map((category) => (
-              <li key={category} className="mt-2">
+            {categories.map((category) => (
+              <li key={category._id} className="mt-2">
                 <button
                   className={`w-full text-left p-2 rounded-lg transition ${
-                    selectedCategory === category ? "bg-teal-500" : "hover:bg-teal-600"
+                    selectedCategory === category.name ? "bg-teal-500" : "hover:bg-teal-600"
                   }`}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => setSelectedCategory(category.name)}
                 >
-                  {category}
+                  {category.name}
                 </button>
-                {categories[category].length > 0 && (
+                {category.subcategories?.length > 0 && (
                   <ul className="pl-4 mt-1">
-                    {categories[category].map((sub) => (
-                      <li key={sub} className="mt-1">
+                    {category.subcategories.map((subcategory) => (
+                      <li key={subcategory} className="mt-1">
                         <button
                           className={`w-full text-left p-2 rounded-lg text-sm transition ${
-                            selectedCategory === sub ? "bg-teal-400" : "hover:bg-teal-500"
+                            selectedCategory === subcategory ? "bg-teal-400" : "hover:bg-teal-500"
                           }`}
-                          onClick={() => setSelectedCategory(sub)}
+                          onClick={() => setSelectedCategory(subcategory)}
                         >
-                          ↳ {sub}
+                          ↳ {subcategory}
                         </button>
                       </li>
                     ))}
@@ -470,7 +438,6 @@ const GeneralTiles = () => {
 
         {/* Main Book Section */}
         <div className="flex-1">
-          {/* Go to Cart Button */}
           <div className="mb-4 flex justify-between">
             <button
               onClick={goToCart}
@@ -496,7 +463,7 @@ const GeneralTiles = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {filteredBooks.map((book) => (
-                <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4" key={book.id}>
+                <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4" key={book._id}>
                   <img
                     src={book.coverImage}
                     alt={book.title}
@@ -507,7 +474,6 @@ const GeneralTiles = () => {
                   <p className="text-gray-600">Author: {book.author}</p>
                   <p className="text-gray-500">ISBN: {book.isbn}</p>
 
-                  {/* Pricing Logic */}
                   {book.stock === 0 ? (
                     <p className="text-red-600 font-bold">Out of Stock</p>
                   ) : book.discount > 0 ? (
@@ -523,7 +489,6 @@ const GeneralTiles = () => {
                     </div>
                   )}
 
-                  {/* Add to Cart Button */}
                   <button
                     onClick={() => addToCart(book._id, book.title, book.price)}
                     className="w-full bg-teal-700 text-white px-4 py-2 mt-4 rounded-lg hover:bg-teal-600 transition"
@@ -537,7 +502,6 @@ const GeneralTiles = () => {
         </div>
       </div>
 
-      {/* Enlarged Image Popup */}
       {selectedBook && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closePopup}>
           <div className="relative" onClick={(e) => e.stopPropagation()}>

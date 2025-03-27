@@ -217,10 +217,10 @@ const Sidebar = () => {
               </li>
               <li>
                 <Link
-                  to="/admin/bestsellers"
+                  to="/admin/conference/upload"
                   className="block p-2 text-sm hover:bg-gray-700 rounded"
                 >
-                  Bestsellers
+                  Conference Proceeding Books
                 </Link>
               </li>
             </ul>

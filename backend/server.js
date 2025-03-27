@@ -12,8 +12,9 @@ const xlsx = require('xlsx');
 // Routes Import
 const homeRoutes = require("./routes/homeRoutes");
 const authRoutes = require("./routes/authRoutes");
-const categoryRoutes = require("./routes/categoryRoutes"); //server mei import krna hai
+const categoryRoutes = require("./routes/categoryRoutes");
 const authenticateUser = require("./middleware/authMiddleware");
+const conferenceCategoryRoutes = require("./routes/ConferenceCategoryRoutes");
 
  
 const User = require("./models/User");
@@ -31,12 +32,6 @@ connectDB();
 // Initialize Express App
 const app = express();
 
-// CORS middleware setup - allow frontend to access the backend
-// app.use(cors({
-//   origin: "http://localhost:3000", // Allow requests from your frontend
-//   methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
-//   credentials: true // Allow cookies if required
-// }));
 app.use(cors({
   origin: [
     "http://localhost:3000", 
@@ -663,6 +658,7 @@ app.put("/api/admin/delivery/default", async (req, res) => {
 });
 
 const General = require("./models/General");
+const Conference = require("./models/Conference");
 
 app.post("/admin/general/upload", upload.single("file"), async (req, res) => {
   try {
@@ -733,10 +729,83 @@ app.post("/admin/general/upload", upload.single("file"), async (req, res) => {
   }
 });
 
+
+
+app.post("/admin/conference/upload", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    // 1. Read Excel File
+    const workbook = xlsx.readFile(req.file.path);
+    const sheetName = workbook.SheetNames[0];
+    let sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+    if (sheetData.length === 0) {
+      return res.status(400).json({ error: "Empty sheet" });
+    }
+
+    // 2. Normalize Excel Data (Match Schema Fields)
+    const normalizedData = sheetData.map((row) => {
+      return {
+        type: row.type || row.Type || "", // Handle different Excel column cases
+        title: row.title || row.Title || "",
+        author: row.author || row.Author || "",
+        category: row.category || row.Category || "",
+        price: Number(row.price || row.Price || 0),
+        stock: Number(row.stock || row.Stock || 0),
+        isbn: row.isbn || row.ISBN || "",
+        coverImage: row.coverImage || row["Cover Image"] || "",
+        backImage: row.backImage || row["Back Image"] || "",
+        discount: Number(row.discount || row.Discount || 0),
+        coverType: row.coverType || row["Cover Type"] || "",
+      };
+    });
+
+    // 3. Filter Valid Data (Ensure Required Fields Exist)
+    const validData = normalizedData.filter(
+      (item) => item.title && item.type // Example: Require 'title' and 'type'
+    );
+
+    if (validData.length === 0) {
+      return res.status(400).json({ error: "No valid data found (missing required fields)" });
+    }
+
+    // 4. Bulk Insert/Update (Upsert)
+    const bulkOps = validData.map((item) => ({
+      updateOne: {
+        filter: { title: item.title }, // Use 'title' as the unique key
+        update: { $set: item },
+        upsert: true, // Insert if not found, else update
+      },
+    }));
+
+    // 5. Execute Database Operations
+    const result = await Conference.bulkWrite(bulkOps);
+    console.log("Database update result:", result);
+
+    // 6. Cleanup: Delete the uploaded file
+    fs.unlinkSync(req.file.path);
+
+    res.status(200).json({
+      message: "Data processed successfully!",
+      inserted: result.upsertedCount,
+      updated: result.modifiedCount,
+    });
+  } catch (error) {
+    console.error("Error processing file:", error);
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path); // Cleanup on error
+    }
+    res.status(500).json({ error: "Failed to process file" });
+  }
+});
+
+
 /// API Routes
 app.use("/api/home", homeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", conferenceCategoryRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

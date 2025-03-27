@@ -1,20 +1,20 @@
 
 const mongoose = require('mongoose');
 const express = require("express");
-const Category = require("../models/Category");
+const ConferenceCategory = require("../models/ConferenceCategory");
 const router = express.Router();
 
 // Create category
-router.post("/admin/categories", async (req, res) => {
+router.post("/admin/conference-categories", async (req, res) => {
   try {
     const { name, subcategories } = req.body;
 
-    const existingCategory = await Category.findOne({ name });
+    const existingCategory = await ConferenceCategory.findOne({ name });
     if (existingCategory) {
       return res.status(400).json({ message: "Category already exists" });
     }
 
-    const newCategory = new Category({
+    const newCategory = new ConferenceCategory({
       name,
       subcategories,
     });
@@ -28,9 +28,9 @@ router.post("/admin/categories", async (req, res) => {
 });
 
 // In your categoryRoutes.js (backend)
-router.get("/categories", async (req, res) => {
+router.get("/conference-categories", async (req, res) => {
   try {
-    const categories = await Category.find({});
+    const categories = await ConferenceCategory.find({});
     res.status(200).json(categories); // This already returns an array
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -39,7 +39,7 @@ router.get("/categories", async (req, res) => {
 });
 
 // Update category
-router.put("/admin/categories/:id", async (req, res) => {
+router.put("/admin/conference-categories/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { name, subcategories } = req.body;
@@ -51,7 +51,7 @@ router.put("/admin/categories/:id", async (req, res) => {
 
     // Check for duplicate name
     if (name) {
-      const existingCategory = await Category.findOne({ 
+      const existingCategory = await ConferenceCategory.findOne({ 
         name, 
         _id: { $ne: id } 
       });
@@ -60,7 +60,7 @@ router.put("/admin/categories/:id", async (req, res) => {
       }
     }
 
-    const updatedCategory = await Category.findByIdAndUpdate(
+    const updatedCategory = await ConferenceCategory.findByIdAndUpdate(
       id,
       { name, subcategories },
       { new: true, runValidators: true }
@@ -78,7 +78,7 @@ router.put("/admin/categories/:id", async (req, res) => {
 });
 
 // Delete category
-router.delete("/admin/categories/:id", async (req, res) => {
+router.delete("/admin/conference-categories/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -87,7 +87,7 @@ router.delete("/admin/categories/:id", async (req, res) => {
       return res.status(400).json({ message: "Invalid category ID" });
     }
 
-    const deletedCategory = await Category.findByIdAndDelete(id);
+    const deletedCategory = await ConferenceCategory.findByIdAndDelete(id);
     
     if (!deletedCategory) {
       return res.status(404).json({ message: "Category not found" });

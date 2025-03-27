@@ -42,6 +42,9 @@ import ViewOrder from "./components/ViewOrder";
 import OrderStatus from "./components/OrderStatus";
 import AdminDeliveryCharges from "./components/Admin/AdminDeliveryCharges";
 import AdminGeneral from "./components/Admin/AdminGeneral";
+import AdminConferenceBooks from "./components/Admin/AdminConferenceBooks";
+import AdminCategory from "./components/Admin/AdminCategory";
+import AdminConferenceCategory from "./components/Admin/AdminConferenceCategory";
 
 function App() {
 
@@ -90,6 +93,10 @@ function App() {
         <Route path="/admin/delivery" element={<AdminDeliveryCharges/>} />
         <Route path="/admin/orders" element={<AdminPayment/>} />
         <Route path="/admin/general/upload" element={<AdminGeneral/>} />
+        <Route path="/admin/conference/upload" element={<AdminConferenceBooks/>} />
+        <Route path="/admin/category" element={<AdminCategory/>} />
+        <Route path="/admin/conference-categories" element={<AdminConferenceCategory/>} />
+        
         {/* <Route path="/view-order/:tempOrderId" element={<ViewOrder />} /> */}
 
       </Routes>

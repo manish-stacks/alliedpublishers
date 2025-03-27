@@ -1,230 +1,517 @@
-import React, { useState } from "react";
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import Navbar from "../Navbar/Navbar";
+// import { useNavigate } from "react-router-dom"; // For navigation
+
+
+// const ConfPrecBooks = () => {
+//   const [books, setBooks] = useState([]);
+//   const [filteredBooks, setFilteredBooks] = useState([]);
+//   const [selectedCategory, setSelectedCategory] = useState("");
+//   const [sortOption, setSortOption] = useState("");
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [selectedBook, setSelectedBook] = useState(null);
+//   const [zoom, setZoom] = useState(1.5);
+//   const [categories,setCategories] = useState([]);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchCategories = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5001/api/conference-categories");
+//         setCategories(response.data);
+//       } catch (err) {
+//         console.error("Failed to fetch categories:", err);
+//       }
+//     };
+//     fetchCategories();
+//   }, []);
+
+
+//   // Fetch books
+//   useEffect(() => {
+//     const fetchBooks = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5001/api/home/conference/book");
+//         setBooks(response.data);
+//         setFilteredBooks(response.data);
+//       } catch (err) {
+//         setError("Failed to fetch books");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchBooks();
+//   }, []);
+
+//   // Filter and sort books
+//   useEffect(() => {
+//     let updatedBooks = [...books];
+//     const subcategories = categories[selectedCategory] || [];
+
+//     if (selectedCategory) {
+//       updatedBooks = updatedBooks.filter((book) =>
+//         subcategories.length > 0 ? subcategories.includes(book.category) : book.category === selectedCategory
+//       );
+//     }
+
+//     if (sortOption === "title-asc") updatedBooks.sort((a, b) => a.title.localeCompare(b.title));
+//     if (sortOption === "title-desc") updatedBooks.sort((a, b) => b.title.localeCompare(a.title));
+//     if (sortOption === "price-asc") updatedBooks.sort((a, b) => a.price - b.price);
+//     if (sortOption === "price-desc") updatedBooks.sort((a, b) => b.price - a.price);
+
+//     setFilteredBooks(updatedBooks);
+//   }, [selectedCategory, books, sortOption]);
+
+//   // Add to Cart Functionality
+//   const addToCart = async (bookId, bookName, bookPrice) => {
+//     try {
+//       const token = localStorage.getItem("token");
+//       if (!token) {
+//         alert("Please log in to add items to the cart.");
+//         return;
+//       }
+
+//       await axios.post(
+//         "http://localhost:5001/api/cart/add-to-cart",
+//         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
+//         { headers: { Authorization: token } }
+//       );
+//       alert("Book added to cart!");
+//     } catch (error) {
+//       console.error("Error adding to cart:", error);
+//       alert("Failed to add book to cart.");
+//     }
+//   };
+
+//   // Go to Cart Functionality
+//   const goToCart = () => {
+//     navigate("/cart"); // Navigate to the cart page
+//   };
+
+//   // Popup and Zoom Functions
+//   const openPopup = (book) => {
+//     setSelectedBook(book);
+//     setZoom(1);
+//   };
+
+//   const closePopup = () => {
+//     setSelectedBook(null);
+//     setZoom(1.5);
+//   };
+
+//   const zoomIn = (e) => {
+//     e.stopPropagation();
+//     setZoom((prev) => Math.min(prev + 0.2, 3));
+//   };
+
+//   const zoomOut = (e) => {
+//     e.stopPropagation();
+//     setZoom((prev) => Math.max(prev - 0.2, 1));
+//   };
+
+//   // Calculate Discounted Price
+//   const calculateDiscountedPrice = (price, discount) => {
+//     return (price - (price * discount) / 100).toFixed(2);
+//   };
+
+//   if (loading) return <p className="text-center text-gray-500 text-lg mt-10">Loading books...</p>;
+//   if (error) return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className="flex flex-col md:flex-row gap-8 p-8 bg-gray-100 min-h-screen">
+//         {/* Sidebar */}
+//         <div className="w-full md:w-1/4 bg-teal-700 text-white p-5 rounded-xl shadow-lg">
+//           <h2 className="text-2xl font-bold border-b-2 border-white pb-2">CATEGORIES</h2>
+//           <button
+//             className={`w-full text-left p-2 mt-3 rounded-lg transition ${
+//               selectedCategory === "" ? "bg-teal-500" : "hover:bg-teal-600"
+//             }`}
+//             onClick={() => setSelectedCategory("")}
+//           >
+//             📚 Show All Books
+//           </button>
+//           <ul className="mt-3">
+//             {Object.keys(categories).map((category) => (
+//               <li key={category} className="mt-2">
+//                 <button
+//                   className={`w-full text-left p-2 rounded-lg transition ${
+//                     selectedCategory === category ? "bg-teal-500" : "hover:bg-teal-600"
+//                   }`}
+//                   onClick={() => setSelectedCategory(category)}
+//                 >
+//                   {category}
+//                 </button>
+//                 {categories[category].length > 0 && (
+//                   <ul className="pl-4 mt-1">
+//                     {categories[category].map((sub) => (
+//                       <li key={sub} className="mt-1">
+//                         <button
+//                           className={`w-full text-left p-2 rounded-lg text-sm transition ${
+//                             selectedCategory === sub ? "bg-teal-400" : "hover:bg-teal-500"
+//                           }`}
+//                           onClick={() => setSelectedCategory(sub)}
+//                         >
+//                           ↳ {sub}
+//                         </button>
+//                       </li>
+//                     ))}
+//                   </ul>
+//                 )}
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+
+//         {/* Main Book Section */}
+//         <div className="flex-1">
+//           {/* Go to Cart Button */}
+//           <div className="mb-4 flex justify-between">
+//             <button
+//               onClick={goToCart}
+//               className="bg-teal-700 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+//             >
+//               🛒 Go to Cart
+//             </button>
+//             <select
+//               className="p-2 border rounded-lg"
+//               value={sortOption}
+//               onChange={(e) => setSortOption(e.target.value)}
+//             >
+//               <option value="">Sort By</option>
+//               <option value="title-asc">Title (A-Z)</option>
+//               <option value="title-desc">Title (Z-A)</option>
+//               <option value="price-asc">Price (Low to High)</option>
+//               <option value="price-desc">Price (High to Low)</option>
+//             </select>
+//           </div>
+
+//           {filteredBooks.length === 0 ? (
+//             <p className="text-center text-gray-600 text-lg mt-10">📖 No books found for this category.</p>
+//           ) : (
+//             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+//               {filteredBooks.map((book) => (
+//                 <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4" key={book.id}>
+//                   <img
+//                     src={book.coverImage}
+//                     alt={book.title}
+//                     className="w-full h-64 object-cover cursor-pointer"
+//                     onClick={() => openPopup(book)}
+//                   />
+//                   <h4 className="text-xl font-bold text-gray-900 mt-2">{book.title}</h4>
+//                   <p className="text-gray-600">Author: {book.author}</p>
+//                   <p className="text-gray-500">ISBN: {book.isbn}</p>
+
+//                   {/* Pricing Logic */}
+//                   {book.stock === 0 ? (
+//                     <p className="text-red-600 font-bold">Out of Stock</p>
+//                   ) : book.discount > 0 ? (
+//                     <div className="flex items-center justify-between mt-2">
+//                       <p className="text-red-500 line-through">₹{book.price}</p>
+//                       <p className="text-green-600 font-bold">₹{calculateDiscountedPrice(book.price, book.discount)}</p>
+//                       <p className="text-gray-700">Cover: {book.coverType}</p>
+//                     </div>
+//                   ) : (
+//                     <div className="flex items-center justify-between mt-2">
+//                       <p className="text-green-600 font-bold">₹{book.price}</p>
+//                       <p className="text-gray-700">Cover: {book.coverType}</p>
+//                     </div>
+//                   )}
+
+//                   {/* Add to Cart Button */}
+//                   <button
+//                     onClick={() => addToCart(book._id, book.title, book.price)}
+//                     className="w-full bg-teal-700 text-white px-4 py-2 mt-4 rounded-lg hover:bg-teal-600 transition"
+//                   >
+//                     🛒 Add to Cart
+//                   </button>
+//                 </div>
+//               ))}
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* Enlarged Image Popup */}
+//       {selectedBook && (
+//         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closePopup}>
+//           <div className="relative" onClick={(e) => e.stopPropagation()}>
+//             <img
+//               src={selectedBook.backImage}
+//               alt="Enlarged"
+//               className="rounded-lg shadow-2xl transition-transform"
+//               style={{ transform: `scale(${zoom})`, maxWidth: "90vw", maxHeight: "90vh" }}
+//             />
+//             <div className="absolute top-4 right-4">
+//               <button className="bg-gray-700 text-white px-3 py-2 rounded-full text-xl" onClick={closePopup}>✖</button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+// export default ConfPrecBooks;
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "../Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const ConfPrecBooks = () => {
-  const categories = [
-    "Agribusiness",
-    "Agricultural Economics",
-    "Agricultural Engineering",
-    "Agriculture",
-    "Agriculture Extension",
-    "Agriculture Statistics",
-    "Agronomy",
-    "Climate Change and Meteorology",
-    "Entomology",
-    "Horticulture and Pomology",
-  ];
-
-  const initialBooks = [
-    {
-      title: "Microconomics",
-      author: "Franz Kafka",
-      format: "Paperback",
-      price: 88,
-      mrp: 199,
-      discount: "56% off",
-      category: "Agribusiness",
-      image:
-        "https://www.dropbox.com/scl/fi/0bgiqmy6n2zkp9km5dje1/01_Microconomics.jpg?rlkey=oyrppv2vduiuo3fjvsgf214uu&st=beyugsu0&raw=1",
-    },
-    {
-      title: "Children and Learning",
-      author: "Nick Trenton",
-      format: "Paperback",
-      price: 159,
-      mrp: 299,
-      discount: "47% off",
-      category: "Agribusiness",
-      image:
-        "https://www.dropbox.com/scl/fi/sfcoa05b8d7p6tl2md38l/02_Children-and-Learning.jpg?rlkey=lnlzrsoliec75yj2pj4731f6z&st=i6tihor9&raw=1",
-    },
-    {
-            title: 'Advances in Fish Processing Technology',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/pcswyc8m47b6txitbyrq8/03_Advances-in-Fish-Processing-Technology.jpg?rlkey=ts6nbx1ipjpvidb8k8zxibsw4&st=vvf78bdx&raw=1',
-          },
-          {
-            title: 'Engineering Graphics with an Introduction to AutoCAD',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/w5skm1xxyrt0ot2y6gwdu/04_Engineering-Graphics-with-an-Introduction-to-AutoCAD.jpg?rlkey=zcs9whv8jhq5xlvkfcqglxx20&st=061fgkug&raw=1',
-          },
-          {
-            title: 'Bhagavad Gita',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/3a8b7akgloj0h2n3oogru/05_Bhagavad-Gita.jpg?rlkey=jrg13xchrrpmaq739ap3nctw9&st=kpzagtvh&raw=1',
-          },
-          {
-            title: 'PHANTOMS OF CHITTAGONG',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/qwrp4pc1b5s2s89sso3b7/06_PHANTOMS-OF-CHITTAGONG.jpg?rlkey=rpchtn8i0q6weaantbd92nnff&st=vvvocoop&raw=1',
-          },
-          {
-            title: 'The Real Ramakrishna',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/7dch8xhy9e0pv29keu2jt/07_The-Real-Ramakrishna.jpg?rlkey=qj1zgdafe2tbwxctjcs5ecbx1&st=4bpo59nl&raw=1',
-          },
-          {
-            title: 'Millets 2023 A Transdisciplinary Approach to its Resurgence and Sustainability',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/8qvadqpnmmwjer2fddyno/08_Millets-2023-A-Transdisciplinary-Approach-to-its-Resurgence-and-Sustainability_cover_29-09-2023.jpg?rlkey=6f1w154rcmrcx213shzyufzic&st=0b713glt&raw=1',
-          },
-          {
-            title: 'Water Security for Agriculture_Cover_14-05-2024_Curve_',
-            author: 'M.C. Nair',
-            format: 'Hard Bound',
-            price: 120,
-            mrp: 250,
-            discount: '52% off',
-            category: 'Agricultural Economics',
-            image: 'https://www.dropbox.com/scl/fi/v4h8qbpgrbs61ewggqjz9/09_Water-Security-for-Agriculture_Cover_14-05-2024_Curve_.jpg?rlkey=2qhsar2fmg3mvs229a0p3msyf&st=aodgjid2&raw=1',
-          },
-  ];
-
-  const [books, setBooks] = useState(initialBooks);
+  const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [zoom, setZoom] = useState(1.5);
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
-  // Filter books based on selected category
-  const filteredBooks = selectedCategory
-    ? books.filter((book) => book.category === selectedCategory)
-    : books;
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/api/conference-categories");
+        console.log("Categories data:", response.data);
+        setCategories(response.data);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
-  // Sorting function
-  const handleSort = (option) => {
-    let sortedBooks = [...filteredBooks];
-    if (option === "title") {
-      sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (option === "price") {
-      sortedBooks.sort((a, b) => a.price - b.price);
+  // Fetch books
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/api/home/conference/book");
+        setBooks(response.data);
+        setFilteredBooks(response.data);
+      } catch (err) {
+        setError("Failed to fetch books");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBooks();
+  }, []);
+
+  // Filter and sort books
+  useEffect(() => {
+    let updatedBooks = [...books];
+    
+    if (selectedCategory) {
+      updatedBooks = updatedBooks.filter(book => {
+        // Check if book matches main category
+        if (book.category === selectedCategory) return true;
+        
+        // Check if book matches any subcategory
+        const categoryObj = categories.find(cat => cat.name === selectedCategory);
+        if (categoryObj?.subcategories?.includes(book.category)) {
+          return true;
+        }
+        
+        return false;
+      });
     }
-    setBooks(sortedBooks);
-    setSortOption(option);
+
+    // Sorting logic
+    if (sortOption === "title-asc") updatedBooks.sort((a, b) => a.title.localeCompare(b.title));
+    if (sortOption === "title-desc") updatedBooks.sort((a, b) => b.title.localeCompare(a.title));
+    if (sortOption === "price-asc") updatedBooks.sort((a, b) => a.price - b.price);
+    if (sortOption === "price-desc") updatedBooks.sort((a, b) => b.price - a.price);
+
+    setFilteredBooks(updatedBooks);
+  }, [selectedCategory, books, sortOption, categories]);
+
+  const addToCart = async (bookId, bookName, bookPrice) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please log in to add items to the cart.");
+        return;
+      }
+
+      await axios.post(
+        "http://localhost:5001/api/cart/add-to-cart",
+        { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
+        { headers: { Authorization: token } }
+      );
+      alert("Book added to cart!");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add book to cart.");
+    }
   };
+
+  const goToCart = () => {
+    navigate("/cart");
+  };
+
+  const openPopup = (book) => {
+    setSelectedBook(book);
+    setZoom(1);
+  };
+
+  const closePopup = () => {
+    setSelectedBook(null);
+    setZoom(1.5);
+  };
+
+  const zoomIn = (e) => {
+    e.stopPropagation();
+    setZoom((prev) => Math.min(prev + 0.2, 3));
+  };
+
+  const zoomOut = (e) => {
+    e.stopPropagation();
+    setZoom((prev) => Math.max(prev - 0.2, 1));
+  };
+
+  const calculateDiscountedPrice = (price, discount) => {
+    return (price - (price * discount) / 100).toFixed(2);
+  };
+
+  if (loading) return <p className="text-center text-gray-500 text-lg mt-10">Loading books...</p>;
+  if (error) return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
   return (
     <>
       <Navbar />
-      <div className="flex flex-col md:flex-row gap-8 p-8 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
+      <div className="flex flex-col md:flex-row gap-8 p-8 bg-gray-100 min-h-screen">
         {/* Sidebar */}
-        <div className="w-1/4 bg-gradient-to-b from-teal-600 to-teal-700 text-white p-5 rounded-xl shadow-lg h-fit">
-
-          <h2 className="text-2xl font-bold border-b-2 border-white pb-2">
-            CATEGORIES
-          </h2>
-          <ul className="mt-4 space-y-2">
-            {categories.map((category, index) => (
-              <li
-                key={index}
-                className={`cursor-pointer p-2 rounded-md transition-all ${
-                  selectedCategory === category
-                    ? "font-bold underline bg-teal-500"
-                    : "hover:bg-teal-500 hover:scale-105"
-                }`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
+        <div className="w-full md:w-1/4 bg-teal-700 text-white p-5 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-bold border-b-2 border-white pb-2">CATEGORIES</h2>
+          <button
+            className={`w-full text-left p-2 mt-3 rounded-lg transition ${
+              selectedCategory === "" ? "bg-teal-500" : "hover:bg-teal-600"
+            }`}
+            onClick={() => setSelectedCategory("")}
+          >
+            📚 Show All Books
+          </button>
+          <ul className="mt-3">
+            {categories.map((category) => (
+              <li key={category._id} className="mt-2">
+                <button
+                  className={`w-full text-left p-2 rounded-lg transition ${
+                    selectedCategory === category.name ? "bg-teal-500" : "hover:bg-teal-600"
+                  }`}
+                  onClick={() => setSelectedCategory(category.name)}
+                >
+                  {category.name}
+                </button>
+                {category.subcategories?.length > 0 && (
+                  <ul className="pl-4 mt-1">
+                    {category.subcategories.map((subcategory) => (
+                      <li key={subcategory} className="mt-1">
+                        <button
+                          className={`w-full text-left p-2 rounded-lg text-sm transition ${
+                            selectedCategory === subcategory ? "bg-teal-400" : "hover:bg-teal-500"
+                          }`}
+                          onClick={() => setSelectedCategory(subcategory)}
+                        >
+                          ↳ {subcategory}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
-          <button
-            className="mt-4 w-full py-2 bg-teal-700 hover:bg-teal-500 rounded-md shadow-md transition"
-            onClick={() => setSelectedCategory("")}
-          >
-            Show All Books
-          </button>
         </div>
 
-        {/* Books Section */}
-        <div className="w-full md:w-3/4">
-          {/* Sorting Options */}
-          <div className="flex items-center space-x-4 mb-6">
-            <p className="font-semibold">Sort By:</p>
+        {/* Main Book Section */}
+        <div className="flex-1">
+          <div className="mb-4 flex justify-between">
             <button
-              className={`px-4 py-2 rounded-md transition ${
-                sortOption === "title"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-300 hover:bg-gray-400"
-              }`}
-              onClick={() => handleSort("title")}
+              onClick={goToCart}
+              className="bg-teal-700 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
             >
-              Title
+              🛒 Go to Cart
             </button>
-            <button
-              className={`px-4 py-2 rounded-md transition ${
-                sortOption === "price"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-300 hover:bg-gray-400"
-              }`}
-              onClick={() => handleSort("price")}
+            <select
+              className="p-2 border rounded-lg"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
             >
-              Price
-            </button>
+              <option value="">Sort By</option>
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+              <option value="price-asc">Price (Low to High)</option>
+              <option value="price-desc">Price (High to Low)</option>
+            </select>
           </div>
 
           {filteredBooks.length === 0 ? (
-            <p className="text-center text-gray-600 text-xl font-semibold">
-              No Books Found!
-            </p>
+            <p className="text-center text-gray-600 text-lg mt-10">📖 No books found for this category.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {filteredBooks.map((book, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col p-4 border border-gray-300 rounded-lg shadow-md bg-white transition transform hover:-translate-y-2 hover:scale-105"
-                >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {filteredBooks.map((book) => (
+                <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4" key={book._id}>
                   <img
-                    src={book.image}
+                    src={book.coverImage}
                     alt={book.title}
-                    className="w-full h-48 object-contain mb-4"
+                    className="w-full h-64 object-cover cursor-pointer"
+                    onClick={() => openPopup(book)}
                   />
-                  <h4 className="text-lg font-semibold">{book.title}</h4>
-                  <p className="text-gray-600 text-sm">by {book.author}</p>
-                  <p className="text-gray-500 text-sm">{book.format}</p>
-                  <p className="text-orange-600 font-bold text-lg">
-                    ₹{book.price}{" "}
-                    <span className="text-gray-500 line-through text-sm">
-                      M.R.P.: ₹{book.mrp}
-                    </span>
-                    <span className="text-red-600 text-sm ml-2">
-                      {book.discount}
-                    </span>
-                  </p>
+                  <h4 className="text-xl font-bold text-gray-900 mt-2">{book.title}</h4>
+                  <p className="text-gray-600">Author: {book.author}</p>
+                  <p className="text-gray-500">ISBN: {book.isbn}</p>
+
+                  {book.stock === 0 ? (
+                    <p className="text-red-600 font-bold">Out of Stock</p>
+                  ) : book.discount > 0 ? (
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-red-500 line-through">₹{book.price}</p>
+                      <p className="text-green-600 font-bold">₹{calculateDiscountedPrice(book.price, book.discount)}</p>
+                      <p className="text-gray-700">Cover: {book.coverType}</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-green-600 font-bold">₹{book.price}</p>
+                      <p className="text-gray-700">Cover: {book.coverType}</p>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => addToCart(book._id, book.title, book.price)}
+                    className="w-full bg-teal-700 text-white px-4 py-2 mt-4 rounded-lg hover:bg-teal-600 transition"
+                  >
+                    🛒 Add to Cart
+                  </button>
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
+
+      {selectedBook && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closePopup}>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={selectedBook.backImage}
+              alt="Enlarged"
+              className="rounded-lg shadow-2xl transition-transform"
+              style={{ transform: `scale(${zoom})`, maxWidth: "90vw", maxHeight: "90vh" }}
+            />
+            <div className="absolute top-4 right-4">
+              <button className="bg-gray-700 text-white px-3 py-2 rounded-full text-xl" onClick={closePopup}>✖</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

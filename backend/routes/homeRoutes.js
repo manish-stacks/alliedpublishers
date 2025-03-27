@@ -10,6 +10,7 @@ const { getExportInfo, updateExportInfo} = require("../controllers/ExportInfoCon
 const { getPublishers, addPublisher, deletePublisher } = require("../controllers/PublisherController");
 const specialAgencyController = require("../controllers/SagencyController");
 const { getData, addData, deleteData } = require("../controllers/GeneralController");
+const { getConferenceData, addConferenceData, deleteConferenceData } = require("../controllers/ConferenceController");
 const imageController = require("../controllers/ImageController");
 const { getJournal, updateJournal } = require("../controllers/JournalController");
 const branchController = require("../controllers/BranchController");
@@ -42,10 +43,6 @@ router.put("/admin/export-info", updateExportInfo);
 router.get("/conference", getConferenceProceedings);
 router.put("/admin/conference", updateConferenceProceedings);
 
-// router.get("/contact", branchController.getAllBranches);
-// router.post("/admin/contact", branchController.addBranch);
-// router.put("/admin/contact/:id", branchController.updateBranch);
-// router.delete("/admin/contact/:id", branchController.deleteBranch);
 
 router.get("/contact", branchController.getBranches);
 router.post("/admin/contact", branchController.addBranch);
@@ -65,13 +62,13 @@ router.put("/admin/special-agency/:id", specialAgencyController.updateSpecialAge
 router.delete("/admin/special-agency/:id", specialAgencyController.deleteSpecialAgency);
 
 router.get("/general/:type", getData);
-
-// 📌 POST: Add new data
 router.post("/admin/general", addData); // Correct
-
-
-// 📌 DELETE: Delete data by ID
 router.delete("/admin/general/:id", deleteData);
+
+
+router.get("/conference/:type", getConferenceData);
+router.post("/admin/conference", addConferenceData); // Correct
+router.delete("/admin/conference/:id", deleteConferenceData);
 
 
 router.get("/images", imageController.getImages);
