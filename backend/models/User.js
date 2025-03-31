@@ -1,12 +1,11 @@
 
-
 // const mongoose = require("mongoose");
 
 // const UserSchema = new mongoose.Schema({
 //   name: String,
 //   email: { type: String, unique: true },
 //   password: String,
-//   resetToken: { type: String, default: null }, // Stores the reset token
+//   resetToken: { type: String, default: null },
 //   resetTokenExpiry: { type: Date, default: null },
 //   address: {
 //     street: String,
@@ -30,13 +29,13 @@
 //         screenshot: String,
 //         invoice: { type: String, default: "" },
 //         tracking: { type: String, default: "" },
-//         createdAt: { type: Date, default: Date.now },
+//         createdAt: { type: Date, default: Date.now, index: true }, // Added index for sorting
 //         status: {
 //           type: String,
 //           enum: ["Pending", "Approved", "Dispatched", "Delivered", "Cancelled"],
 //           default: "Pending",
 //         },
-//         deliveryCharges: { type: Number, default: 0 }, // Add delivery charges
+//         deliveryCharges: { type: Number, default: 0 },
 //       },
 //     },
 //   ],
@@ -51,6 +50,7 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
+  role: { type: String, enum: ["user", "admin"], default: "user" }, // Added role field
   resetToken: { type: String, default: null },
   resetTokenExpiry: { type: Date, default: null },
   address: {
@@ -75,7 +75,7 @@ const UserSchema = new mongoose.Schema({
         screenshot: String,
         invoice: { type: String, default: "" },
         tracking: { type: String, default: "" },
-        createdAt: { type: Date, default: Date.now, index: true }, // Added index for sorting
+        createdAt: { type: Date, default: Date.now, index: true },
         status: {
           type: String,
           enum: ["Pending", "Approved", "Dispatched", "Delivered", "Cancelled"],

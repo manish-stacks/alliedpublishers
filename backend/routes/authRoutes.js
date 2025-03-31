@@ -1,10 +1,17 @@
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
+const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-// const express = require("express");
-// const router = express.Router();
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const User = require("../models/User");
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+});
 
 // // Register Route
 // router.post("/register", async (req, res) => {
@@ -35,6 +42,8 @@
 //     res.status(500).send("Failed to register user");
 //   }
 // });
+
+// // Login Route
 // router.post("/login", async (req, res) => {
 //   const { email, password } = req.body;
 
@@ -59,35 +68,16 @@
 //     const token = jwt.sign({ userId: user._id }, "secret_key", { expiresIn: "1h" });
 //     console.log("Login successful:", email);
 
-//     res.json({ token, userId: user._id });
+//     res.json({ token, userId: user._id, name: user.name });
 //   } catch (err) {
 //     console.error("Error logging in:", err);
 //     res.status(500).send("Failed to log in");
 //   }
 // });
 
+// ... (previous imports remain the same)
 
-// module.exports = router;
-
-
-
-
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const nodemailer = require("nodemailer");
-require("dotenv").config();
-
-const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-});
-
-// Register Route
+// Register Route - Updated to handle admin role
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -101,12 +91,21 @@ router.post("/register", async (req, res) => {
       return res.status(400).send("User already exists");
     }
 
+    // Set role based on email
+    const role = email === process.env.ADMIN_EMAIL ? "admin" : "user";
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log("Password hashed successfully");
 
-    // Create a new user
-    const user = new User({ name, email, password: hashedPassword, cart: [] });
+    // Create a new user with role
+    const user = new User({ 
+      name, 
+      email, 
+      password: hashedPassword, 
+      role,  // Add role here
+      cart: [] 
+    });
     await user.save();
     console.log("User registered successfully:", user);
 
@@ -117,7 +116,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login Route
+// Login Route - Updated to return role
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -139,15 +138,22 @@ router.post("/login", async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id }, "secret_key", { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user._id, role: user.role }, "secret_key", { expiresIn: "1h" });
     console.log("Login successful:", email);
 
-    res.json({ token, userId: user._id, name: user.name });
+    res.json({ 
+      token, 
+      userId: user._id, 
+      name: user.name,
+      role: user.role // Include role in response
+    });
   } catch (err) {
     console.error("Error logging in:", err);
     res.status(500).send("Failed to log in");
   }
 });
+
+// ... rest of the routes remain the same
 
 // Logout Route
 router.post("/logout", (req, res) => {

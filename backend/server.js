@@ -35,9 +35,8 @@ const app = express();
 
 app.use(cors({
   origin: [
-    "http://localhost:3000", 
-    "https://alliedpublications-12.onrender.com",
-     "https://allied-publications.vercel.app"
+    process.env.FRONTEND_URL, 
+     process.env.DEPLOYED_URL
   ], // ✅ Allow both local and deployed frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies if required
@@ -73,7 +72,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = (to, subject, text, attachments = []) => {
   const mailOptions = {
-    from: 'avant.publishing.services@gmail.com',
+    from: process.env.EMAIL_USER,
     to,
     subject,
     text,

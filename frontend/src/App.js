@@ -1,7 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./components/Home/Home";
 import DistributionPage from "./components/Distribution/DistributionPage";
 import SpecializedAgencies from "./components/SpecializedAgencies/SpecializedAgencies";
@@ -29,23 +28,20 @@ import Register from "./components/Register";
 import ResetPassword from "./components/ResetPassword";
 import GeneralTiles from "./components/GeneralTiles/GeneralTiles"; 
 import ConfPrecBooks from "./components/ConfPrecBooks/ConfPrecBooks";
-import SearchResults from "./components/SearchResult";
 import SearchResultsPage from "./components/SearchResultsPage";
 import AdminUpdateImage from "./components/Admin/AdminUpdateImage";
 import AdminJournal from "./components/Admin/AdminJournal";
 import AddressDetail from "./components/Address/AddressDetail";
-// import AdminDashboard from "./components/Admin/AdminDashboard";
 import Cart from "./components/Cart/Cart";
 import Payment from "./components/Payment";
 import AdminPayment from "./components/Admin/AdminOrders";
-import ViewOrder from "./components/ViewOrder";
-import OrderStatus from "./components/OrderStatus";
 import AdminDeliveryCharges from "./components/Admin/AdminDeliveryCharges";
 import AdminGeneral from "./components/Admin/AdminGeneral";
 import AdminConferenceBooks from "./components/Admin/AdminConferenceBooks";
 import AdminCategory from "./components/Admin/AdminCategory";
 import AdminConferenceCategory from "./components/Admin/AdminConferenceCategory";
 import AdminQRCode from "./components/Admin/AdminQRcode";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
 
@@ -67,40 +63,35 @@ function App() {
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/all-authors" element={<AllAuthors />} />
         <Route path="/books" element={<BooksPage />} />
-        <Route path="/admin/about-us" element={<AdminAboutUs />} />
-        <Route path="/admin/locations" element={<AdminLocation />} />
-        <Route path="/admin/bestsellers" element={<AdminBestseller />} />
-        <Route path="/admin/authors" element={<AdminAuthor />} />
-        <Route path="/admin/conference" element={<AdminConference />} />
-        <Route path="/admin/contact" element={<AdminContact />} />
-        <Route path="/admin/export-info" element={<AdminExportInfo />} />
-        <Route path="/admin/management" element={<AdminManagement />} />
-        <Route path="/admin/publisher" element={<AdminPublisher />} />
-        <Route path="/admin/special-agency" element={<AdminSpecialAgency />} />
-        <Route path="/admin/images" element={<AdminUpdateImage />} />
-        <Route path="/admin/journal" element={<AdminJournal />} />
+        <Route path="/admin/about-us" element={ <AdminRoute><AdminAboutUs /></AdminRoute>} />
+        <Route path="/admin/locations" element={ <AdminRoute><AdminLocation /></AdminRoute> } />
+        <Route path="/admin/bestsellers" element={<AdminRoute><AdminBestseller /></AdminRoute>} />
+        <Route path="/admin/authors" element={<AdminRoute><AdminAuthor /></AdminRoute>} />
+        <Route path="/admin/conference" element={<AdminRoute><AdminConference /></AdminRoute>} />
+        <Route path="/admin/contact" element={<AdminRoute><AdminContact /></AdminRoute>} />
+        <Route path="/admin/export-info" element={<AdminRoute><AdminExportInfo /></AdminRoute>} />
+        <Route path="/admin/management" element={<AdminRoute><AdminManagement /></AdminRoute>} />
+        <Route path="/admin/publisher" element={<AdminRoute><AdminPublisher /></AdminRoute>} />
+        <Route path="/admin/special-agency" element={<AdminRoute><AdminSpecialAgency /></AdminRoute>} />
+        <Route path="/admin/images" element={<AdminRoute><AdminUpdateImage /></AdminRoute>} />
+        <Route path="/admin/journal" element={<AdminRoute><AdminJournal /></AdminRoute>} />
         <Route path="/login" element={<Login setUser={setUser} />} />
-
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/general-tyles" element={  <GeneralTiles/>} />
         <Route path="/conf-prec-books" element={<ConfPrecBooks />} />
         <Route path="/search-results" element={<SearchResultsPage />} /> 
-        {/* <Route path="/items" element={<ItemsList />} /> */}
         <Route path="/cart" element={<Cart />} />
         <Route path="/address" element={<AddressDetail/>} />
         <Route path="/payment" element={<Payment/>} />
-        <Route path="/admin/delivery" element={<AdminDeliveryCharges/>} />
-        <Route path="/admin/orders" element={<AdminPayment/>} />
-        <Route path="/admin/general/upload" element={<AdminGeneral/>} />
-        <Route path="/admin/conference/upload" element={<AdminConferenceBooks/>} />
-        <Route path="/admin/category" element={<AdminCategory/>} />
-        <Route path="/admin/conference-categories" element={<AdminConferenceCategory/>} />
-        <Route path="/admin/qrcode" element={<AdminQRCode/>} />
-        
-        {/* <Route path="/view-order/:tempOrderId" element={<ViewOrder />} /> */}
-
+        <Route path="/admin/delivery" element={<AdminRoute><AdminDeliveryCharges/></AdminRoute>} />
+        <Route path="/admin/orders" element={<AdminRoute><AdminPayment/></AdminRoute>} />
+        <Route path="/admin/general/upload" element={<AdminRoute><AdminGeneral/></AdminRoute>} />
+        <Route path="/admin/conference/upload" element={<AdminRoute><AdminConferenceBooks/></AdminRoute>} />
+        <Route path="/admin/category" element={<AdminRoute><AdminCategory/></AdminRoute>} />
+        <Route path="/admin/conference-categories" element={<AdminRoute><AdminConferenceCategory/></AdminRoute>} />
+        <Route path="/admin/qrcode" element={<AdminRoute><AdminQRCode/></AdminRoute>} />
       </Routes>
     </Router>
   );
