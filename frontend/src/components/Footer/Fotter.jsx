@@ -9,7 +9,7 @@ const Footer = () => {
           {/* About Section */}
           <div className="space-y-6 text-center md:text-left">
             <h2 className="text-2xl font-bold text-[#75609c]">Allied Publishers</h2>
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-gray-300 text-sm leading-relaxed justify-right">
               Allied Publishers is dedicated to bringing you the best books,
               authors, and literary experiences. We strive to connect readers
               with the knowledge and stories that inspire and enlighten.
@@ -21,17 +21,13 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-[#75609c]">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <a href="/about" className="text-gray-300 hover:text-[#75609c] transition duration-300">
+                <a href="/about-us" className="text-gray-300 hover:text-[#75609c] transition duration-300">
                   About Us
                 </a>
               </li>
+             
               <li>
-                <a href="/bestsellers" className="text-gray-300 hover:text-[#75609c] transition duration-300">
-                  Bestsellers
-                </a>
-              </li>
-              <li>
-                <a href="/featured-author" className="text-gray-300 hover:text-[#75609c] transition duration-300">
+                <a href="/all-authors" className="text-gray-300 hover:text-[#75609c] transition duration-300">
                   Featured Author
                 </a>
               </li>

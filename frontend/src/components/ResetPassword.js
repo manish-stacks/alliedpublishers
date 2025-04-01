@@ -85,6 +85,8 @@
 
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Fotter";
 
 const ResetPassword = () => {
   const { token } = useParams(); // Extract token from URL
@@ -120,6 +122,8 @@ const ResetPassword = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold text-center text-gray-700">Reset Password</h2>
@@ -134,7 +138,7 @@ const ResetPassword = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition duration-300"
+            className="w-full  bg-blue-700  text-white font-bold py-3 rounded-lg transition duration-300"
           >
             Reset Password
           </button>
@@ -142,6 +146,8 @@ const ResetPassword = () => {
         {message && <p className="text-center text-red-500">{message}</p>}
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

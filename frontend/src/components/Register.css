@@ -8,6 +8,7 @@
   align-items: center;
   height: 100vh; /* Full viewport height */
   color: #333;
+  flex-direction: column; /* Ensure vertical alignment */
 }
 
 .register-container {
@@ -18,7 +19,14 @@
   width: 100%;
   max-width: 400px;
   text-align: center;
+  flex-grow: 1; /* Make the container flexible */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align items at the top */
   animation: fadeIn 1s ease-in-out;
+  margin-left:35%;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
 @keyframes fadeIn {
@@ -58,7 +66,7 @@
   width: 100%;
   padding: 0.75rem;
   margin-top: 1rem;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  background: blue;
   color: white;
   border: none;
   border-radius: 8px;
@@ -68,7 +76,7 @@
 }
 
 .register-container button:hover {
-  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  background: blue;
   transform: translateY(-2px);
 }
 
@@ -82,7 +90,7 @@
 }
 
 .register-container a {
-  color: #6a11cb;
+  color: blue;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
@@ -90,6 +98,45 @@
 
 .register-container a:hover {
   color: #2575fc;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #20232a;
+  color: #fff;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+/* Other existing styles */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 100%;
+  margin: 10 auto;
+  padding: 10px 10px;
+}
+
+.footer-left {
+  flex: 1;
+  margin-right: 40px;
+  margin-left: 5px;
+}
+
+.footer-left h2 {
+  font-size: 1.8rem;
+  color: #61dafb;
+}
+
+.footer-left p {
+  line-height: 1.5;
+  font-size: 1rem;
+  color: #ccc;
 }
 
 @media (max-width: 480px) {

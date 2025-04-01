@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Register.css"; // Import the CSS file
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Fotter";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -22,6 +24,8 @@ const Register = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="register-container">
       <h1>Register</h1>
       <input
@@ -47,6 +51,8 @@ const Register = () => {
         Already have an account? <a href="/login">Login</a>
       </p>
     </div>
+    <Footer/>
+    </>
   );
 };
 

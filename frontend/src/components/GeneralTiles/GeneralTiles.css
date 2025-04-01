@@ -111,16 +111,32 @@ body {
     margin-bottom: 1%;
   }
   
-  .book-card-horizontal:hover {
-    transform: translateY(-3px) scale(1.01);
-  }
+  .book-card-horizontal {
+    display: flex;
+    flex-direction: column;
+    width: 23%;
+    min-height: 400px; /* Ensures consistent card height */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin-bottom: 1%;
+    overflow: hidden; /* Prevents content from spilling out */
+}
   
   .book-image {
     width: 100%;
-    height: 220px; /* Ensuring uniform height */
-    object-fit: contain;
-    margin-bottom: 8px;
-  }
+    max-height: 250px; /* Changed from fixed height to max-height */
+    height: auto; /* Allows flexible scaling */
+    object-fit: contain; /* Ensures full image fits */
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #f5f5f5; /* Light gray if image is missing */
+    padding: 10px; /* Adds breathing space */
+}
   
   .book-details {
     flex: 1;

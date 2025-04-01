@@ -139,14 +139,16 @@
 
 
 /* Wrapper for the carousel and blurred background */
+/* Carousel Wrapper */
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 40vh;
+  max-height: 400px;
   overflow: hidden;
 }
 
-/* Blurred background */
+/* Blurred Background */
 .carousel-background {
   position: absolute;
   top: 0;
@@ -159,7 +161,7 @@
   z-index: 1;
 }
 
-/* Carousel container */
+/* Carousel Container */
 .carousel-container {
   position: relative;
   z-index: 2;
@@ -171,7 +173,7 @@
   overflow: hidden;
 }
 
-/* Track holding the slides */
+/* Track Holding the Slides */
 .carousel-track {
   display: flex;
   transition: transform 0.3s ease-in-out;
@@ -179,7 +181,7 @@
   height: 100%;
 }
 
-/* Individual slide */
+/* Individual Slide */
 .carousel-slide {
   flex-shrink: 0;
   width: 100%;
@@ -192,22 +194,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  max-height: 100%;
 }
 
+/* Slide Text */
 .slide-text {
   position: absolute;
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
-  color: #fff; /* Text color */
+  color: #fff;
   font-size: 24px;
   font-weight: bold;
-  background: #00b5c2; /* Updated background color */
-  padding: 5px 10px;
+  background: rgba(0, 181, 194, 0.8);
+  padding: 8px 15px;
   border-radius: 5px;
   z-index: 3;
+  text-align: center;
 }
-/* Overlay on each slide */
+
+/* Overlay on Each Slide */
 .carousel-overlay {
   position: absolute;
   bottom: 10%;
@@ -216,22 +222,23 @@
   text-align: center;
 }
 
-/* "Know More" button */
+/* "Know More" Button */
 .know-more-btn {
   background-color: #75609c;
   color: white;
   border: none;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 3px;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .know-more-btn:hover {
   background-color: #0056b3;
 }
 
-/* Navigation buttons */
+/* Navigation Buttons */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -239,11 +246,12 @@
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 12px 18px;
   cursor: pointer;
   font-size: 18px;
   border-radius: 3px;
   z-index: 3;
+  transition: background 0.3s ease;
 }
 
 .carousel-btn.prev {
@@ -258,23 +266,53 @@
   background: rgba(0, 0, 0, 0.7);
 }
 
-/* Responsive adjustments */
+/* Responsive Adjustments */
+@media screen and (max-width: 1024px) {
+  .carousel-wrapper {
+    height: 35vh;
+  }
+  .slide-text {
+    font-size: 20px;
+    padding: 6px 12px;
+  }
+  .know-more-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .carousel-wrapper {
-    height: 250px;
+    height: 30vh;
   }
-
   .slide-text {
     font-size: 18px;
+    padding: 5px 10px;
   }
-
   .know-more-btn {
     font-size: 12px;
     padding: 8px 12px;
   }
-
   .carousel-btn {
-    font-size: 16px;
+    font-size: 14px;
     padding: 8px 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .carousel-wrapper {
+    height: 25vh;
+  }
+  .slide-text {
+    font-size: 16px;
+    padding: 4px 8px;
+  }
+  .know-more-btn {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+  .carousel-btn {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }

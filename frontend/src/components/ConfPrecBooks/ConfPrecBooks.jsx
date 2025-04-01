@@ -462,7 +462,7 @@ const ConfPrecBooks = () => {
                   <img
                     src={book.coverImage}
                     alt={book.title}
-                    className="w-full h-64 object-cover cursor-pointer"
+                    className="w-full h-auto max-h-64 object-contain cursor-pointer bg-gray-100 p-2 rounded"
                     onClick={() => openPopup(book)}
                   />
                   <h4 className="text-xl font-bold text-gray-900 mt-2">{book.title}</h4>
@@ -498,20 +498,40 @@ const ConfPrecBooks = () => {
       </div>
 
       {selectedBook && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closePopup}>
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={selectedBook.backImage}
-              alt="Enlarged"
-              className="rounded-lg shadow-2xl transition-transform"
-              style={{ transform: `scale(${zoom})`, maxWidth: "90vw", maxHeight: "90vh" }}
-            />
-            <div className="absolute top-4 right-4">
-              <button className="bg-gray-700 text-white px-3 py-2 rounded-full text-xl" onClick={closePopup}>✖</button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closePopup}>
+    <div className="relative" onClick={(e) => e.stopPropagation()}>
+      <img
+        src={selectedBook.backImage}
+        alt="Enlarged"
+        className="rounded-lg shadow-2xl transition-transform"
+        style={{ transform: `scale(${zoom})`, maxWidth: "90vw", maxHeight: "90vh" }}
+      />
+      <div className="absolute top-4 right-4 flex flex-col space-y-2">
+        <button 
+          className="bg-gray-700 text-white px-3 py-1 rounded-full text-xl hover:bg-gray-600"
+          onClick={zoomIn}
+        >
+          +
+        </button>
+        <button 
+          className="bg-gray-700 text-white px-3 py-1 rounded-full text-xl hover:bg-gray-600"
+          onClick={zoomOut}
+        >
+          -
+        </button>
+        <button 
+          className="bg-gray-700 text-white px-3 py-2 rounded-full text-xl hover:bg-gray-600"
+          onClick={closePopup}
+        >
+          ✖
+        </button>
+      </div>
+      <div className="absolute bottom-4 left-0 right-0 text-center text-white text-sm">
+        Current zoom: {zoom.toFixed(1)}x
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 };

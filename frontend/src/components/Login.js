@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css"; // Import the CSS file
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Fotter";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,6 +43,8 @@ const Login = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="login-container">
       <h1>Login</h1>
       <input
@@ -63,6 +67,8 @@ const Login = () => {
         Forgot your password? <a href="/forgot-password">Reset Password</a>
       </p>
     </div>
+    <Footer/>
+    </>
   );
 };
 
