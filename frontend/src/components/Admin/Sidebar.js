@@ -202,6 +202,14 @@ const Sidebar = () => {
             <i className="fas fa-shopping-cart mr-3"></i> Orders
           </Link>
         </li>
+        <li>
+          <Link
+            to="/admin/about-us-page"
+            className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition"
+          >
+            <i className="fas fa-shopping-cart mr-3"></i> About us page
+          </Link>
+        </li>
 
         {/* New Payments & Delivery Dropdown */}
         <li>
