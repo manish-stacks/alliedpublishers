@@ -16,6 +16,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const authenticateUser = require("./middleware/authMiddleware");
 const conferenceCategoryRoutes = require("./routes/ConferenceCategoryRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const aboutUsPageRoutes=require("./routes/aboutUsPageRoutes");
 
  
 const User = require("./models/User");
@@ -521,7 +522,6 @@ app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) 
 });
 
 
-
 // GET /api/cart/total
 app.get("/api/cart/total", authenticateUser, async (req, res) => {
   try {
@@ -942,6 +942,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", conferenceCategoryRoutes);
 app.use("/api", paymentRoutes);
+app.use("/api", aboutUsPageRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

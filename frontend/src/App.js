@@ -42,6 +42,7 @@ import AdminCategory from "./components/Admin/AdminCategory";
 import AdminConferenceCategory from "./components/Admin/AdminConferenceCategory";
 import AdminQRCode from "./components/Admin/AdminQRcode";
 import AdminRoute from "./components/AdminRoute";
+import AdminAboutUsPage from "./components/Admin/AdminAboutUsPage";
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
         <Route path="/all-authors" element={<AllAuthors />} />
         <Route path="/books" element={<BooksPage />} />
         <Route path="/admin/about-us" element={ <AdminRoute><AdminAboutUs /></AdminRoute>} />
+        <Route path="/admin/about-us-page" element={ <AdminRoute requiredRole="admin"><AdminAboutUsPage /></AdminRoute>} />
         <Route path="/admin/locations" element={ <AdminRoute><AdminLocation /></AdminRoute> } />
         <Route path="/admin/bestsellers" element={<AdminRoute><AdminBestseller /></AdminRoute>} />
         <Route path="/admin/authors" element={<AdminRoute><AdminAuthor /></AdminRoute>} />
