@@ -498,37 +498,66 @@ const ConfPrecBooks = () => {
       </div>
 
       {selectedBook && (
-  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closePopup}>
-    <div className="relative" onClick={(e) => e.stopPropagation()}>
-      <img
-        src={selectedBook.backImage}
-        alt="Enlarged"
-        className="rounded-lg shadow-2xl transition-transform"
-        style={{ transform: `scale(${zoom})`, maxWidth: "90vw", maxHeight: "90vh" }}
-      />
-      <div className="absolute top-4 right-4 flex flex-col space-y-2">
-        <button 
-          className="bg-gray-700 text-white px-3 py-1 rounded-full text-xl hover:bg-gray-600"
-          onClick={zoomIn}
-        >
-          +
-        </button>
-        <button 
-          className="bg-gray-700 text-white px-3 py-1 rounded-full text-xl hover:bg-gray-600"
-          onClick={zoomOut}
-        >
-          -
-        </button>
-        <button 
-          className="bg-gray-700 text-white px-3 py-2 rounded-full text-xl hover:bg-gray-600"
-          onClick={closePopup}
-        >
-          ✖
-        </button>
+  <div className="fixed inset-0 bg-black bg-opacity-75 z-50 overflow-hidden">
+    {/* Close button */}
+    <button 
+      className="absolute top-4 right-4 bg-white p-2 rounded-full z-20 hover:bg-gray-100 transition"
+      onClick={closePopup}
+    >
+      ✖
+    </button>
+
+    {/* Scrollable container */}
+    <div className="absolute inset-0 overflow-auto">
+      {/* Zoomable content */}
+      <div 
+        className="flex items-center justify-center min-w-full min-h-full p-8"
+        style={{
+          transform: `scale(${zoom})`,
+          transformOrigin: 'top left',
+          width: `${100/zoom}%`,
+          height: `${100/zoom}%`
+        }}
+      >
+        {/* Actual image */}
+        <img
+          src={selectedBook.backImage}
+          alt="Book back cover"
+          className="rounded-lg shadow-xl"
+          style={{
+            maxWidth: '600px',
+            width: '100%',
+            height: 'auto'
+          }}
+        />
       </div>
-      <div className="absolute bottom-4 left-0 right-0 text-center text-white text-sm">
-        Current zoom: {zoom.toFixed(1)}x
-      </div>
+    </div>
+
+    {/* Zoom controls */}
+    <div className="fixed bottom-4 left-0 right-0 flex justify-center space-x-4 z-10">
+      <button 
+        className="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition"
+        onClick={(e) => {
+          e.stopPropagation();
+          zoomOut(e);
+        }}
+        disabled={zoom <= 1}
+      >
+        -
+      </button>
+      <span className="bg-white px-3 py-2 rounded-full text-sm flex items-center">
+        {zoom.toFixed(1)}x
+      </span>
+      <button 
+        className="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition"
+        onClick={(e) => {
+          e.stopPropagation();
+          zoomIn(e);
+        }}
+        disabled={zoom >= 3}
+      >
+        +
+      </button>
     </div>
   </div>
 )}
