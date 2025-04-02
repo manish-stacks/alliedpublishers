@@ -239,8 +239,17 @@ const Sidebar = () => {
                 </Link>
               </li>
             </ul>
+            
           )}
         </li>
+        <li>
+                <Link
+                  to="/"
+                  className="block p-2 text-sm hover:bg-gray-700 rounded"
+                >
+                  Back to Home
+                </Link>
+              </li>
       </ul>
     </div>
   );
