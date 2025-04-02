@@ -39,24 +39,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info Section */}
-          <div className="space-y-6 text-center md:text-left">
-            <h3 className="text-xl font-bold text-[#75609c]">Contact Info</h3>
-            <ul className="space-y-3 text-gray-300">
-              <li className="flex items-center justify-center md:justify-start space-x-2">
-                <i className="fas fa-map-marker-alt text-[#75609c]"></i>
-                <span>123 Book Street, Knowledge City</span>
-              </li>
-              <li className="flex items-center justify-center md:justify-start space-x-2">
-                <i className="fas fa-phone text-[#75609c]"></i>
-                <span>+1 234 567 890</span>
-              </li>
-              <li className="flex items-center justify-center md:justify-start space-x-2">
-                <i className="fas fa-envelope text-[#75609c]"></i>
-                <span>info@alliedpublishers.com</span>
-              </li>
-            </ul>
-          </div>
+        
 
           {/* Social Media Section */}
           <div className="space-y-6 text-center md:text-left">
@@ -103,6 +86,22 @@ const Footer = () => {
           <p className="text-gray-300 text-sm">
             &copy; {new Date().getFullYear()} Allied Publishers. All Rights Reserved.
           </p>
+          <p>
+  A Digital Creation by&nbsp;
+  <a href="https://www.linkedin.com/in/disha-purwar-392b7a319/" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     className="text-blue-400 hover:underline">
+    Disha Purwar
+  </a>&nbsp;and&nbsp;
+  <a href="https://www.linkedin.com/in/mansi-bakshi-386b762a7/" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     className="text-blue-400 hover:underline">
+    Mansi Bakshi
+  </a>
+</p>
+
         </div>
       </div>
     </footer>

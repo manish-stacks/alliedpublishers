@@ -132,20 +132,22 @@ const Home = () => {
       <Navbar />
 
       {/* 📍 Locations Section */}
-      <div className="flex ml-12 mt-1">
-        <p className="text-gray-600 font-semibold mr-5">Available Locations:</p>
-        <div className="flex items-center space-x-4 px-2 py-1 max-w-xs">
-          {locations.map((loc, index) => (
-            <span
-              key={index}
-              className="flex items-center text-gray-800 hover:text-red-500 transition text-sm"
-            >
-              <FaMapPin className="text-red-500 text-xl mr-1" />
-              {loc.name}
-            </span>
-          ))}
-        </div>
-      </div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center ml-4 sm:ml-12 mt-1 px-2 sm:px-0">
+  <p className="text-gray-600 font-semibold mb-2 sm:mb-0 sm:mr-5 whitespace-nowrap">
+    Available Locations:
+  </p>
+  <div className="flex flex-wrap items-center gap-x-2 gap-y-2 px-2 py-1 w-full sm:max-w-xs">
+    {locations.map((loc, index) => (
+      <span
+        key={index}
+        className="flex items-center text-gray-800 hover:text-red-500 transition text-sm whitespace-nowrap"
+      >
+        <FaMapPin className="text-red-500 text-lg mr-1" />
+        {loc.name}
+      </span>
+    ))}
+  </div>
+</div>
 
       {/* 🎡 Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between p-6 md:p-8 bg-slate-200 shadow-lg rounded-lg">

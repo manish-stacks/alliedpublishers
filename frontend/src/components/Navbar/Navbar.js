@@ -452,15 +452,15 @@ const Navbar = () => {
 
       {/* Header Section: Logo and Navigation */}
       <header className="bg-[#20232a] text-white shadow-md">
-        <div className="container mx-auto flex items-center justify-between py-3 px-6">
+        <div className="container  flex items-center justify-between py-3 px-6">
           {/* Logo */}
-          <div>
-            <img
-              src="/images/alliedlogo.png"
-              alt="Allied Publishers"
-              className="h-12 w-auto"
-            />
-          </div>
+          <div className="flex-shrink-0 ml-0">
+      <img
+        src="/images/alliedlogo.png"
+        alt="Allied Publishers"
+        className="h-12 w-auto"
+      />
+    </div>
 
           {/* Mobile Menu Toggle Button */}
           <button
