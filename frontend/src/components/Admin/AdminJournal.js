@@ -31,7 +31,7 @@ const AdminJournal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:5000/api/journal/${journal._id}`, formData)
+    axios.put(`http://localhost:5001/api/journal/${journal._id}`, formData)
       .then(() => alert("Updated Successfully"))
       .catch((error) => console.error("Error updating journal:", error));
   };
