@@ -16,7 +16,7 @@ const Carousel = () => {
 
   const fetchImages = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/home/images");
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/images`);
       if (res.data) setImages([res.data.image1, res.data.image2, res.data.image3]);
     } catch (error) {
       console.error("Error fetching images:", error);

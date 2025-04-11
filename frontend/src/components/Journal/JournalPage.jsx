@@ -8,10 +8,11 @@ const JournalPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/journal")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/journal`)
       .then((response) => setJournal(response.data))
       .catch((error) => console.error("Error fetching journal data:", error));
   }, []);
+  
 
   if (!journal) return <p>Loading...</p>;
 
@@ -73,11 +74,13 @@ const JournalPage = () => {
               Strategies:
             </h4>
             <ul className="list-disc list-inside text-gray-700">
-              {journal.journalsAndMagazines.strategies.map((strategy, index) => (
-                <li key={index} className="mb-2">
-                  {strategy}
-                </li>
-              ))}
+              {journal.journalsAndMagazines.strategies.map(
+                (strategy, index) => (
+                  <li key={index} className="mb-2">
+                    {strategy}
+                  </li>
+                )
+              )}
             </ul>
           </section>
 
@@ -95,8 +98,12 @@ const JournalPage = () => {
                   {branch.city}
                 </h4>
                 <p className="text-gray-700 text-lg">📍 {branch.address}</p>
-                <p className="text-gray-700 text-lg">👤 {branch.contactPerson}</p>
-                <p className="text-gray-700 text-lg">📞 {branch.phone.join(", ")}</p>
+                <p className="text-gray-700 text-lg">
+                  👤 {branch.contactPerson}
+                </p>
+                <p className="text-gray-700 text-lg">
+                  📞 {branch.phone.join(", ")}
+                </p>
                 <p className="text-gray-700 text-lg">
                   📧{" "}
                   {branch.email.map((email, idx) => (

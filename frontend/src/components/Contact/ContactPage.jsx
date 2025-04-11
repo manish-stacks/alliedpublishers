@@ -56,7 +56,7 @@
 //           {/* Bangalore Office */}
 
 //         </main>
-    
+
 //       </div>
 //       <Footer />
 //     </>
@@ -78,10 +78,10 @@
 //   useEffect(() => {
 //     const fetchBranchData = async () => {
 //       try {
-//         const response = await fetch("http://localhost:5001/api/home/contact");
+//         const response = await fetch("${process.env.REACT_APP_BACKEND_URL}/api/home/contact");
 //         const data = await response.json();
 //         console.log('Fetched Data:', data);  // Log data to check its structure
-  
+
 //         // Access the nested branches array: data.branches[0].branches
 //         if (data && data.branches && data.branches[0].branches) {
 //           setBranchData(data.branches[0].branches);  // Access the second-level branches array
@@ -95,11 +95,9 @@
 //         setLoading(false);
 //       }
 //     };
-  
+
 //     fetchBranchData();
 //   }, []);
-  
-  
 
 //   if (loading) {
 //     return <p>Loading...</p>;
@@ -142,7 +140,6 @@
 
 // export default ContactPage;
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
@@ -153,7 +150,8 @@ const ContactPage = () => {
   const [branches, setBranches] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/home/contact")
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/contact`)
       .then((response) => setBranches(response.data))
       .catch((error) => console.error("Error fetching branches:", error));
   }, []);
@@ -168,9 +166,16 @@ const ContactPage = () => {
             <section key={branch._id}>
               <h3>{branch.city} Office</h3>
               <ul>
-                <li><strong>Address:</strong> {branch.address}</li>
-                <li><strong>Phone:</strong> {branch.phone.join(", ")}</li>
-                <li><strong>Email:</strong> <a href={`mailto:${branch.email}`}>{branch.email}</a></li>
+                <li>
+                  <strong>Address:</strong> {branch.address}
+                </li>
+                <li>
+                  <strong>Phone:</strong> {branch.phone.join(", ")}
+                </li>
+                <li>
+                  <strong>Email:</strong>{" "}
+                  <a href={`mailto:${branch.email}`}>{branch.email}</a>
+                </li>
               </ul>
             </section>
           ))}

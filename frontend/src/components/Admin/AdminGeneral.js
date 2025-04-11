@@ -25,7 +25,7 @@
 //     formData.append("file", file);
 
 //     try {
-//       const response = await axios.post("http://localhost:5001/admin/general/upload", formData, {
+//       const response = await axios.post("${process.env.REACT_APP_BACKEND_URL}/admin/general/upload", formData, {
 //         headers: { "Content-Type": "multipart/form-data" },
 //       });
 
@@ -138,7 +138,7 @@ const AdminGeneral = () => {
   const fetchBooks = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://localhost:5001/admin/general/books");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/admin/general/books`);
       setBooks(response.data);
     } catch (error) {
       setMessage(error.response?.data?.error || "Error fetching books");
@@ -167,7 +167,7 @@ const AdminGeneral = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5001/admin/general/upload",
+        `${process.env.REACT_APP_BACKEND_URL}/admin/general/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -189,7 +189,7 @@ const AdminGeneral = () => {
 
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:5001/admin/general/books/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/admin/general/books/${id}`);
       setMessage("Book deleted successfully");
       fetchBooks(); // Refresh the book list
     } catch (error) {
@@ -210,7 +210,7 @@ const AdminGeneral = () => {
     setIsLoading(true);
     try {
       await axios.put(
-        `http://localhost:5001/admin/general/books/${editingBook._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/admin/general/books/${editingBook._id}`,
         editingBook
       );
       setMessage("Book updated successfully");

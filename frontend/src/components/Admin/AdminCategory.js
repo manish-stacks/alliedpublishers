@@ -17,7 +17,7 @@ const AdminCategory = () => {
   // Fetch existing categories
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/categories');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/categories`);
       setCategories(response.data);
     } catch (error) {
       toast.error('Failed to load categories');
@@ -48,13 +48,13 @@ const AdminCategory = () => {
         .filter(item => item);
 
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/admin/categories/${editingId}`, {
+        await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/admin/categories/${editingId}`, {
           name: formData.name,
           subcategories: subcategoriesArray
         });
         toast.success('Category updated successfully!');
       } else {
-        await axios.post('http://localhost:5001/api/admin/categories', {
+        await axios.post('${process.env.REACT_APP_BACKEND_URL}/api/admin/categories', {
           name: formData.name,
           subcategories: subcategoriesArray
         });
@@ -85,7 +85,7 @@ const AdminCategory = () => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     
     try {
-      await axios.delete(`http://localhost:5001/api/admin/categories/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/admin/categories/${id}`);
       toast.success('Category deleted successfully!');
       await fetchCategories();
     } catch (error) {

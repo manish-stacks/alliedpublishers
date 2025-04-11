@@ -18,7 +18,7 @@
 
 //   const fetchBranches = () => {
 //     axios
-//       .get("http://localhost:5001/api/home/contact")
+//       .get("${process.env.REACT_APP_BACKEND_URL}/api/home/contact")
 //       .then((response) => setBranches(response.data.branches))
 //       .catch((error) => console.error("Error fetching branches:", error));
 //   };
@@ -37,7 +37,7 @@
 
 //     if (editingBranch) {
 //       axios
-//         .put(`http://localhost:5001/api/home/admin/contact/${editingBranch._id}`, formattedData)
+//         .put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact/${editingBranch._id}`, formattedData)
 //         .then(() => {
 //           fetchBranches();
 //           setEditingBranch(null);
@@ -46,7 +46,7 @@
 //         .catch((error) => console.error("Error updating branch:", error));
 //     } else {
 //       axios
-//         .post("http://localhost:5001/api/home/admin/contact", formattedData)
+//         .post("${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact", formattedData)
 //         .then(() => {
 //           fetchBranches();
 //           resetForm();
@@ -57,7 +57,7 @@
 
 //   const handleDeleteBranch = (id) => {
 //     axios
-//       .delete(`http://localhost:5001/api/home/admin/contact/${id}`)
+//       .delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact/${id}`)
 //       .then(() => fetchBranches())
 //       .catch((error) => console.error("Error deleting branch:", error));
 //   };
@@ -183,7 +183,7 @@
 
 //   const fetchBranches = async () => {
 //     try {
-//       const response = await axios.get("http://localhost:5001/api/home/contact");
+//       const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/contact");
 //       setBranches(response.data);
 //     } catch (error) {
 //       console.error("Error fetching branches:", error);
@@ -198,9 +198,9 @@
 //     e.preventDefault();
 //     try {
 //       if (editingId) {
-//         await axios.put(`http://localhost:5001/api/home/admin/contact/${editingId}`, formData);
+//         await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact/${editingId}`, formData);
 //       } else {
-//         await axios.post("http://localhost:5001/api/home/admin/contact", formData);
+//         await axios.post("${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact", formData);
 //       }
 //       fetchBranches();
 //       setFormData({ city: "", address: "", phone: "", email: "" });
@@ -268,7 +268,7 @@ const AdminContact = () => {
 
   const fetchBranches = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/home/contact");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/contact`);
       setBranches(response.data);
     } catch (error) {
       console.error("Error fetching branches:", error);
@@ -283,9 +283,9 @@ const AdminContact = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/home/admin/contact/${editingId}`, formData);
+        await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact/${editingId}`, formData);
       } else {
-        await axios.post("http://localhost:5001/api/home/admin/contact", formData);
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact`, formData);
       }
       fetchBranches();
       setFormData({ city: "", address: "", phone: "", email: "" });
@@ -297,7 +297,7 @@ const AdminContact = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/api/home/admin/contact/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/contact/${id}`);
       fetchBranches();
     } catch (error) {
       console.error("Error deleting branch:", error);

@@ -8,10 +8,11 @@ const ExportInfo = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/export-info")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/export-info`)
       .then((response) => setData(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  
 
   if (!data) return <div>Loading...</div>;
 
@@ -78,9 +79,11 @@ const ExportInfo = () => {
             <br />
             {data.contact.address}
             <br />
-            <strong className="text-gray-800">Phone:</strong> {data.contact.phone.join(", ")}
+            <strong className="text-gray-800">Phone:</strong>{" "}
+            {data.contact.phone.join(", ")}
             <br />
-            <strong className="text-gray-800">Mobile:</strong> {data.contact.mobile}
+            <strong className="text-gray-800">Mobile:</strong>{" "}
+            {data.contact.mobile}
             <br />
             <strong className="text-gray-800">Email:</strong>{" "}
             <a

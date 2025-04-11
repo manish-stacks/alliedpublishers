@@ -7,7 +7,7 @@ const AdminManagement = () => {
   const [newMember, setNewMember] = useState({ section: "", name: "", position: "", phone: "", city: "" });
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/home/management/")
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/management/`)
       .then(response => setManagement(response.data))
       .catch(error => console.error("Error fetching management data:", error));
   }, []);
@@ -18,7 +18,7 @@ const AdminManagement = () => {
 
   const handleAddMember = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5001/api/home/admin/management", newMember)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/management`, newMember)
       .then(response => {
         setManagement(response.data.managementData);
         setNewMember({ section: "", name: "", position: "", phone: "", city: "" });
@@ -27,7 +27,7 @@ const AdminManagement = () => {
   };
 
   const handleDelete = (section, id) => {
-    axios.delete(`http://localhost:5001/api/home/admin/management/${section}/${id}`)
+    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/management/${section}/${id}`)
       .then(() => {
         setManagement(prevState => ({
           ...prevState,

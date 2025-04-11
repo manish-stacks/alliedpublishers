@@ -18,7 +18,7 @@
 //     }
 
 //     try {
-//       const response = await fetch(`http://localhost:5001/api/auth/reset-password/${token}`, {
+//       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/reset-password/${token}`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ password }),
@@ -98,7 +98,7 @@ const ResetPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5001/api/auth/reset-password/${token}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/reset-password/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),

@@ -7,7 +7,7 @@ const ItemsList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5001/items").then((response) => {
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/items`).then((response) => {
       setItems(response.data);
     });
   }, []);
@@ -15,7 +15,7 @@ const ItemsList = () => {
   const addToCart = (itemId) => {
     const token = localStorage.getItem("token");
     axios.post(
-      "http://localhost:5001/add-to-cart",
+      `${process.env.REACT_APP_BACKEND_URL}/add-to-cart`,
       { itemId, quantity: 1 },
       { headers: { Authorization: token } }
     );

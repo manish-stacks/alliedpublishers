@@ -23,7 +23,7 @@
 //     formData.append("screenshot", file);
 
 //     try {
-//       const response = await axios.post("http://localhost:5001/api/payment", formData, {
+//       const response = await axios.post("${process.env.REACT_APP_BACKEND_URL}/api/payment", formData, {
 //         headers: { "Content-Type": "multipart/form-data", Authorization: token },
 //       });
 
@@ -124,7 +124,7 @@ const Payment = () => {
   useEffect(() => {
     const fetchQRCode = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/qrcode");
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/qrcode`);
         setQRCode(response.data);
       } catch (error) {
         console.error("Error fetching QR code:", error);
@@ -147,7 +147,7 @@ const Payment = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/payment",
+        `${process.env.REACT_APP_BACKEND_URL}/api/payment`,
         formData,
         {
           headers: {
@@ -192,7 +192,7 @@ const Payment = () => {
   
         {/* QR Code Image from backend */}
         <img
-          src={`http://localhost:5001${qrCode.imagePath}`}
+          src={`${process.env.REACT_APP_BACKEND_URL}${qrCode.imagePath}`}
           alt="QR Code"
           className="w-64 mx-auto mb-8"
         />

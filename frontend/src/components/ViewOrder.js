@@ -10,7 +10,7 @@ const ViewOrder = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/order/${tempOrderId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/order/${tempOrderId}`);
         setOrder(response.data);
         setLoading(false);
       } catch (error) {

@@ -9,7 +9,7 @@ const ConfPrec = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/conference") // Backend URL fix
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/conference`)
       .then((response) => {
         setConferenceData(response.data);
       })
@@ -17,6 +17,7 @@ const ConfPrec = () => {
         console.error("Error fetching conference data:", error);
       });
   }, []);
+  
 
   if (!conferenceData) {
     return <p>Loading...</p>;
@@ -52,7 +53,8 @@ const ConfPrec = () => {
             {conferenceData.contact.position} <br />
             {conferenceData.contact.company} <br />
             {conferenceData.contact.address} <br />
-            <strong>Mobile:</strong> {conferenceData.contact.mobile.join("; ")} <br />
+            <strong>Mobile:</strong> {conferenceData.contact.mobile.join("; ")}{" "}
+            <br />
             <strong>Email:</strong>{" "}
             <a href={`mailto:${conferenceData.contact.email[0]}`}>
               {conferenceData.contact.email[0]}

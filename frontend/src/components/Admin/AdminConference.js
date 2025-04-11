@@ -19,7 +19,7 @@ const AdminConference = () => {
 
   const fetchConferenceData = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/home/conference");
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/conference`);
       setConferenceData(res.data);
     } catch (err) {
       console.error("Error fetching conference data:", err);
@@ -41,7 +41,7 @@ const AdminConference = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put("http://localhost:5001/api/home/admin/conference", conferenceData);
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/conference`, conferenceData);
       alert("Conference data updated successfully!");
       fetchConferenceData();
     } catch (err) {

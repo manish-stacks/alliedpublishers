@@ -19,7 +19,7 @@
 //   // Fetch cart data from the backend
 //   const fetchCart = async () => {
 //     try {
-//       const response = await axios.get("http://localhost:5001/api/cart", {
+//       const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/cart", {
 //         headers: { Authorization: token },
 //       });
 //       setCart(response.data);
@@ -31,7 +31,7 @@
 //   // Remove an item from the cart
 //   const removeItem = async (itemId) => {
 //     try {
-//       await axios.delete(`http://localhost:5001/api/cart/${itemId}`, {
+//       await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`, {
 //         headers: { Authorization: token },
 //       });
 //       fetchCart(); // Refresh the cart after removing the item
@@ -44,7 +44,7 @@
 //   const updateQuantity = async (itemId, newQuantity) => {
 //     try {
 //       await axios.put(
-//         `http://localhost:5001/api/cart/${itemId}`,
+//         `${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`,
 //         { quantity: newQuantity },
 //         { headers: { Authorization: token } }
 //       );
@@ -162,7 +162,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/cart", {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/cart`, {
         headers: { Authorization: token },
       });
       setCart(response.data);
@@ -173,7 +173,7 @@ const Cart = () => {
 
   const removeItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/cart/${itemId}`, {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`, {
         headers: { Authorization: token },
       });
       fetchCart();
@@ -185,7 +185,7 @@ const Cart = () => {
   const updateQuantity = async (itemId, newQuantity) => {
     try {
       await axios.put(
-        `http://localhost:5001/api/cart/${itemId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`,
         { quantity: newQuantity },
         { headers: { Authorization: token } }
       );

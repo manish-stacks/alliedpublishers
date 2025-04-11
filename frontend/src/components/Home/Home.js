@@ -8,7 +8,7 @@
 // import Bestsellers from "../Bestseller/Bestseller";
 // import Author from "../FeaturedAuthor/Author";
 // import Footer from "../Footer/Fotter";
-// const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001";
+// const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || "${process.env.REACT_APP_BACKEND_URL}";
 // ;
 // const Home = () => {
 //   const [locations, setLocations] = useState([]);
@@ -17,21 +17,21 @@
 
 //   // 📍 Fetch Locations
 //   useEffect(() => {
-//     axios.get("http://localhost:5001/api/home/locations")
+//     axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/locations")
 //       .then((res) => setLocations(res.data))
 //       .catch((err) => console.log(err));
 //   }, []);
 
 //   // 📚 Fetch Bestsellers
 //   useEffect(() => {
-//     axios.get("http://localhost:5001/api/home/bestsellers")
+//     axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/bestsellers")
 //       .then((res) => setBooks(res.data))
 //       .catch((err) => console.log(err));
 //   }, []);
 
 //   // ✍ Fetch Featured Authors
 //   useEffect(() => {
-//     axios.get("http://localhost:5001/api/home/authors")
+//     axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/authors")
 //       .then((res) => setAuthors(res.data))
 //       .catch((err) => console.log(err));
 //   }, []);
@@ -99,7 +99,8 @@ import Bestsellers from "../Bestseller/Bestseller";
 import Author from "../FeaturedAuthor/Author";
 import Footer from "../Footer/Fotter";
 
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001";
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 const Home = () => {
   const [locations, setLocations] = useState([]);
@@ -108,7 +109,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/api/home/locations`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/locations`)
       .then((res) => setLocations(res.data))
       .catch((err) => console.log(err));
   }, []);

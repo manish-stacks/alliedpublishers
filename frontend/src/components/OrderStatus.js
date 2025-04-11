@@ -10,7 +10,7 @@ const OrderStatus = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/order/${orderId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/order/${orderId}`);
         setOrder(response.data);
         setLoading(false);
       } catch (error) {
@@ -42,7 +42,7 @@ const OrderStatus = () => {
                 <h3 className="text-xl font-semibold">Tracking Details</h3>
                 <p className="text-gray-700">{order.payment.tracking}</p>
                 <a
-                  href={`http://localhost:5001${order.payment.invoice}`}
+                  href={`${process.env.REACT_APP_BACKEND_URL}${order.payment.invoice}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 underline"

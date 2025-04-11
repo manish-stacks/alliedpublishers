@@ -3,7 +3,6 @@
 // import Navbar from "../Navbar/Navbar";
 // import { useNavigate } from "react-router-dom"; // For navigation
 
-
 // const ConfPrecBooks = () => {
 //   const [books, setBooks] = useState([]);
 //   const [filteredBooks, setFilteredBooks] = useState([]);
@@ -19,7 +18,7 @@
 //   useEffect(() => {
 //     const fetchCategories = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5001/api/conference-categories");
+//         const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/conference-categories");
 //         setCategories(response.data);
 //       } catch (err) {
 //         console.error("Failed to fetch categories:", err);
@@ -28,12 +27,11 @@
 //     fetchCategories();
 //   }, []);
 
-
 //   // Fetch books
 //   useEffect(() => {
 //     const fetchBooks = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5001/api/home/conference/book");
+//         const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/conference/book");
 //         setBooks(response.data);
 //         setFilteredBooks(response.data);
 //       } catch (err) {
@@ -74,7 +72,7 @@
 //       }
 
 //       await axios.post(
-//         "http://localhost:5001/api/cart/add-to-cart",
+//         "${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart",
 //         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
 //         { headers: { Authorization: token } }
 //       );
@@ -257,7 +255,6 @@
 
 // export default ConfPrecBooks;
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
@@ -279,7 +276,9 @@ const ConfPrecBooks = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/conference-categories");
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/conference-categories`
+        );
         console.log("Categories data:", response.data);
         setCategories(response.data);
       } catch (err) {
@@ -293,7 +292,9 @@ const ConfPrecBooks = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/home/conference/book");
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/home/conference/book`
+        );
         setBooks(response.data);
         setFilteredBooks(response.data);
       } catch (err) {
@@ -308,27 +309,33 @@ const ConfPrecBooks = () => {
   // Filter and sort books
   useEffect(() => {
     let updatedBooks = [...books];
-    
+
     if (selectedCategory) {
-      updatedBooks = updatedBooks.filter(book => {
+      updatedBooks = updatedBooks.filter((book) => {
         // Check if book matches main category
         if (book.category === selectedCategory) return true;
-        
+
         // Check if book matches any subcategory
-        const categoryObj = categories.find(cat => cat.name === selectedCategory);
+        const categoryObj = categories.find(
+          (cat) => cat.name === selectedCategory
+        );
         if (categoryObj?.subcategories?.includes(book.category)) {
           return true;
         }
-        
+
         return false;
       });
     }
 
     // Sorting logic
-    if (sortOption === "title-asc") updatedBooks.sort((a, b) => a.title.localeCompare(b.title));
-    if (sortOption === "title-desc") updatedBooks.sort((a, b) => b.title.localeCompare(a.title));
-    if (sortOption === "price-asc") updatedBooks.sort((a, b) => a.price - b.price);
-    if (sortOption === "price-desc") updatedBooks.sort((a, b) => b.price - a.price);
+    if (sortOption === "title-asc")
+      updatedBooks.sort((a, b) => a.title.localeCompare(b.title));
+    if (sortOption === "title-desc")
+      updatedBooks.sort((a, b) => b.title.localeCompare(a.title));
+    if (sortOption === "price-asc")
+      updatedBooks.sort((a, b) => a.price - b.price);
+    if (sortOption === "price-desc")
+      updatedBooks.sort((a, b) => b.price - a.price);
 
     setFilteredBooks(updatedBooks);
   }, [selectedCategory, books, sortOption, categories]);
@@ -342,7 +349,7 @@ const ConfPrecBooks = () => {
       }
 
       await axios.post(
-        "http://localhost:5001/api/cart/add-to-cart",
+        `${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart`,
         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
         { headers: { Authorization: token } }
       );
@@ -381,8 +388,14 @@ const ConfPrecBooks = () => {
     return (price - (price * discount) / 100).toFixed(2);
   };
 
-  if (loading) return <p className="text-center text-gray-500 text-lg mt-10">Loading books...</p>;
-  if (error) return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
+  if (loading)
+    return (
+      <p className="text-center text-gray-500 text-lg mt-10">
+        Loading books...
+      </p>
+    );
+  if (error)
+    return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
   return (
     <>
@@ -390,7 +403,9 @@ const ConfPrecBooks = () => {
       <div className="flex flex-col md:flex-row gap-8 p-8 bg-gray-100 min-h-screen">
         {/* Sidebar */}
         <div className="w-full md:w-1/4 bg-teal-700 text-white p-5 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold border-b-2 border-white pb-2">CATEGORIES</h2>
+          <h2 className="text-2xl font-bold border-b-2 border-white pb-2">
+            CATEGORIES
+          </h2>
           <button
             className={`w-full text-left p-2 mt-3 rounded-lg transition ${
               selectedCategory === "" ? "bg-teal-500" : "hover:bg-teal-600"
@@ -404,7 +419,9 @@ const ConfPrecBooks = () => {
               <li key={category._id} className="mt-2">
                 <button
                   className={`w-full text-left p-2 rounded-lg transition ${
-                    selectedCategory === category.name ? "bg-teal-500" : "hover:bg-teal-600"
+                    selectedCategory === category.name
+                      ? "bg-teal-500"
+                      : "hover:bg-teal-600"
                   }`}
                   onClick={() => setSelectedCategory(category.name)}
                 >
@@ -416,7 +433,9 @@ const ConfPrecBooks = () => {
                       <li key={subcategory} className="mt-1">
                         <button
                           className={`w-full text-left p-2 rounded-lg text-sm transition ${
-                            selectedCategory === subcategory ? "bg-teal-400" : "hover:bg-teal-500"
+                            selectedCategory === subcategory
+                              ? "bg-teal-400"
+                              : "hover:bg-teal-500"
                           }`}
                           onClick={() => setSelectedCategory(subcategory)}
                         >
@@ -454,18 +473,25 @@ const ConfPrecBooks = () => {
           </div>
 
           {filteredBooks.length === 0 ? (
-            <p className="text-center text-gray-600 text-lg mt-10">📖 No books found for this category.</p>
+            <p className="text-center text-gray-600 text-lg mt-10">
+              📖 No books found for this category.
+            </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {filteredBooks.map((book) => (
-                <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4" key={book._id}>
+                <div
+                  className="bg-white shadow-lg rounded-lg overflow-hidden p-4"
+                  key={book._id}
+                >
                   <img
                     src={book.coverImage}
                     alt={book.title}
                     className="w-full h-auto max-h-64 object-contain cursor-pointer bg-gray-100 p-2 rounded"
                     onClick={() => openPopup(book)}
                   />
-                  <h4 className="text-xl font-bold text-gray-900 mt-2">{book.title}</h4>
+                  <h4 className="text-xl font-bold text-gray-900 mt-2">
+                    {book.title}
+                  </h4>
                   <p className="text-gray-600">Author: {book.author}</p>
                   <p className="text-gray-500">ISBN: {book.isbn}</p>
 
@@ -474,7 +500,9 @@ const ConfPrecBooks = () => {
                   ) : book.discount > 0 ? (
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-red-500 line-through">₹{book.price}</p>
-                      <p className="text-green-600 font-bold">₹{calculateDiscountedPrice(book.price, book.discount)}</p>
+                      <p className="text-green-600 font-bold">
+                        ₹{calculateDiscountedPrice(book.price, book.discount)}
+                      </p>
                       <p className="text-gray-700">Cover: {book.coverType}</p>
                     </div>
                   ) : (
@@ -498,69 +526,69 @@ const ConfPrecBooks = () => {
       </div>
 
       {selectedBook && (
-  <div className="fixed inset-0 bg-black bg-opacity-75 z-50 overflow-hidden">
-    {/* Close button */}
-    <button 
-      className="absolute top-4 right-4 bg-white p-2 rounded-full z-20 hover:bg-gray-100 transition"
-      onClick={closePopup}
-    >
-      ✖
-    </button>
+        <div className="fixed inset-0 bg-black bg-opacity-75 z-50 overflow-hidden">
+          {/* Close button */}
+          <button
+            className="absolute top-4 right-4 bg-white p-2 rounded-full z-20 hover:bg-gray-100 transition"
+            onClick={closePopup}
+          >
+            ✖
+          </button>
 
-    {/* Scrollable container */}
-    <div className="absolute inset-0 overflow-auto">
-      {/* Zoomable content */}
-      <div 
-        className="flex items-center justify-center min-w-full min-h-full p-8"
-        style={{
-          transform: `scale(${zoom})`,
-          transformOrigin: 'top left',
-          width: `${100/zoom}%`,
-          height: `${100/zoom}%`
-        }}
-      >
-        {/* Actual image */}
-        <img
-          src={selectedBook.backImage}
-          alt="Book back cover"
-          className="rounded-lg shadow-xl"
-          style={{
-            maxWidth: '600px',
-            width: '100%',
-            height: 'auto'
-          }}
-        />
-      </div>
-    </div>
+          {/* Scrollable container */}
+          <div className="absolute inset-0 overflow-auto">
+            {/* Zoomable content */}
+            <div
+              className="flex items-center justify-center min-w-full min-h-full p-8"
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: "top left",
+                width: `${100 / zoom}%`,
+                height: `${100 / zoom}%`,
+              }}
+            >
+              {/* Actual image */}
+              <img
+                src={selectedBook.backImage}
+                alt="Book back cover"
+                className="rounded-lg shadow-xl"
+                style={{
+                  maxWidth: "600px",
+                  width: "100%",
+                  height: "auto",
+                }}
+              />
+            </div>
+          </div>
 
-    {/* Zoom controls */}
-    <div className="fixed bottom-4 left-0 right-0 flex justify-center space-x-4 z-10">
-      <button 
-        className="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition"
-        onClick={(e) => {
-          e.stopPropagation();
-          zoomOut(e);
-        }}
-        disabled={zoom <= 1}
-      >
-        -
-      </button>
-      <span className="bg-white px-3 py-2 rounded-full text-sm flex items-center">
-        {zoom.toFixed(1)}x
-      </span>
-      <button 
-        className="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition"
-        onClick={(e) => {
-          e.stopPropagation();
-          zoomIn(e);
-        }}
-        disabled={zoom >= 3}
-      >
-        +
-      </button>
-    </div>
-  </div>
-)}
+          {/* Zoom controls */}
+          <div className="fixed bottom-4 left-0 right-0 flex justify-center space-x-4 z-10">
+            <button
+              className="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition"
+              onClick={(e) => {
+                e.stopPropagation();
+                zoomOut(e);
+              }}
+              disabled={zoom <= 1}
+            >
+              -
+            </button>
+            <span className="bg-white px-3 py-2 rounded-full text-sm flex items-center">
+              {zoom.toFixed(1)}x
+            </span>
+            <button
+              className="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition"
+              onClick={(e) => {
+                e.stopPropagation();
+                zoomIn(e);
+              }}
+              disabled={zoom >= 3}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -7,14 +7,15 @@ const AdminJournal = () => {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/journal")
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/journal`)
       .then((response) => {
         setJournal(response.data);
         setFormData(response.data);
       })
       .catch((error) => console.error("Error fetching journal data:", error));
   }, []);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });

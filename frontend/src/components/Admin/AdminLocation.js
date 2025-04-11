@@ -8,7 +8,7 @@ const AdminLocation = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/locations")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/locations`)
       .then((response) => setLocations(response.data))
       .catch((error) => console.error("Error fetching locations:", error));
   }, []);
@@ -16,7 +16,7 @@ const AdminLocation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5001/api/home/admin/locations", { name: location });
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/locations`, { name: location });
       setLocations([...locations, response.data]);
       setLocation("");
       alert("Location added successfully!");
@@ -27,7 +27,7 @@ const AdminLocation = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/api/home/admin/locations/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/locations/${id}`);
       setLocations(locations.filter((loc) => loc._id !== id));
       alert("Location deleted successfully!");
     } catch (error) {

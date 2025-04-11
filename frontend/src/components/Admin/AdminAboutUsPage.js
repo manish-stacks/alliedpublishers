@@ -10,7 +10,7 @@ const AdminAboutUsPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/about-us-page")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/about-us-page`)
       .then((response) => {
         if (response.data) {
           setHistoryTitle(response.data.historyTitle);
@@ -25,7 +25,7 @@ const AdminAboutUsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5001/api/admin/about-us-page", {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/about-us-page`, {
         historyTitle,
         historyContent,
         objectiveTitle,

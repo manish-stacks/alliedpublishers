@@ -15,7 +15,7 @@
 
 //   const handleLogin = async () => {
 //     try {
-//       const response = await axios.post("http://localhost:5001/api/auth/login", { email, password });
+//       const response = await axios.post("${process.env.REACT_APP_BACKEND_URL}/api/auth/login", { email, password });
 //       console.log("Login successful:", response.data);
 //       localStorage.setItem("token", response.data.token);
 //       localStorage.setItem("user", JSON.stringify({ 
@@ -76,7 +76,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/login", { 
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, { 
         email, 
         password 
       });

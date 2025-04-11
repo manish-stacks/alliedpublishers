@@ -11,7 +11,7 @@ const AdminAboutUs = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/about-us")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/about-us`)
       .then((response) => {
         if (response.data) {
           setTitle(response.data.title);
@@ -25,7 +25,7 @@ const AdminAboutUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5001/api/home/admin/about-us", {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/about-us`, {
         title,
         content: { image, description },
       });

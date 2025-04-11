@@ -7,7 +7,7 @@ const AdminPublisher = () => {
   const [newPublisher, setNewPublisher] = useState({ category: "", publisherName: "" });
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/home/publisher")
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/publisher`)
       .then(response => setPublishers(response.data))
       .catch(error => console.error("Error fetching publishers:", error));
   }, []);
@@ -18,7 +18,7 @@ const AdminPublisher = () => {
 
   const handleAddPublisher = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5001/api/home/admin/publisher", newPublisher)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/publisher`, newPublisher)
       .then(response => {
         setPublishers(prevState => {
           const updatedPublishers = [...prevState];
@@ -36,7 +36,7 @@ const AdminPublisher = () => {
   };
 
   const handleDelete = (category, publisherName) => {
-    axios.delete(`http://localhost:5001/api/home/admin/publisher/${category}/${publisherName}`)
+    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/publisher/${category}/${publisherName}`)
       .then(() => {
         setPublishers(prevState =>
           prevState.map(pub =>

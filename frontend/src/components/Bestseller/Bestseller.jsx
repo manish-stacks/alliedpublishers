@@ -1,6 +1,6 @@
 // import React from "react";
 // import "./Bestseller.css";
-// import { FaArrowRight } from "react-icons/fa"; 
+// import { FaArrowRight } from "react-icons/fa";
 
 // const products = [
 //   { id: "blush", name: "Prashad—Cooking with Indian Masters", img: "https://www.dropbox.com/scl/fi/qgivg5tj3p0zjlattqlad/01_Prashad-Cooking-with-Indian-Masters.jpg?rlkey=9f711wo7yk1a9i0n2vbkac6n8&st=fmt5tts8&raw=1" },
@@ -46,10 +46,11 @@ import { FaArrowRight } from "react-icons/fa";
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Bestsellers = () => {
-  const [products, setProducts] = useState([]);  // Bestseller books ka state
+  const [products, setProducts] = useState([]); // Bestseller books ka state
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/home/bestsellers") // API call
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/bestsellers`) // API call
       .then((res) => setProducts(res.data))
       .catch((err) => console.error("Error fetching bestsellers:", err));
   }, []);

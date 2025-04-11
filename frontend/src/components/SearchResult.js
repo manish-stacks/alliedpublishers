@@ -14,7 +14,7 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/home/search?query=${query}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/search?query=${query}`);
         setBooks(response.data);
       } catch (err) {
         setError("Failed to fetch search results.");

@@ -71,28 +71,29 @@
 
 // export default Author;
 
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Author = () => {
   const [authors, setAuthors] = useState([]);
   const [currentAuthorIndex, setCurrentAuthorIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [transitionStage, setTransitionStage] = useState('fadeIn');
+  const [transitionStage, setTransitionStage] = useState("fadeIn");
   const navigate = useNavigate();
 
   // Fetch authors from backend
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/home/authors');
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/home/authors`
+        );
         setAuthors(response.data);
       } catch (err) {
-        setError(err.message || 'Failed to fetch authors');
-        console.error('Error fetching authors:', err);
+        setError(err.message || "Failed to fetch authors");
+        console.error("Error fetching authors:", err);
       } finally {
         setLoading(false);
       }
@@ -105,10 +106,12 @@ const Author = () => {
   useEffect(() => {
     if (authors.length > 0) {
       const interval = setInterval(() => {
-        setTransitionStage('fadeOut');
+        setTransitionStage("fadeOut");
         setTimeout(() => {
-          setCurrentAuthorIndex((prevIndex) => (prevIndex + 1) % authors.length);
-          setTransitionStage('fadeIn');
+          setCurrentAuthorIndex(
+            (prevIndex) => (prevIndex + 1) % authors.length
+          );
+          setTransitionStage("fadeIn");
         }, 500); // Half second for fade out before changing content
       }, 8000);
       return () => clearInterval(interval);
@@ -116,15 +119,15 @@ const Author = () => {
   }, [authors]);
 
   const nextAuthor = () => {
-    setTransitionStage('fadeOut');
+    setTransitionStage("fadeOut");
     setTimeout(() => {
       setCurrentAuthorIndex((prevIndex) => (prevIndex + 1) % authors.length);
-      setTransitionStage('fadeIn');
+      setTransitionStage("fadeIn");
     }, 500);
   };
 
   const handleShowAllAuthors = () => {
-    navigate('/all-authors');
+    navigate("/all-authors");
   };
 
   if (loading) {
@@ -140,7 +143,7 @@ const Author = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center p-4 bg-red-100 rounded-lg max-w-md">
           <p className="text-red-600 font-medium">Error: {error}</p>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-[#75609c] text-white rounded hover:bg-[#5a497a] transition"
           >
@@ -170,7 +173,7 @@ const Author = () => {
       </div>
 
       <div className="relative">
-        <button 
+        <button
           onClick={nextAuthor}
           className="absolute right-[20px] flex items-center px-[8px] py-[7px] border-2 border-[#75609c] text-[#75609c] font-bold rounded-[5px] hover:bg-[#75609c] hover:text-white transition-all duration-300"
         >
@@ -178,15 +181,16 @@ const Author = () => {
           <span>→</span>
         </button>
 
-        <div className={`flex flex-wrap items-center rounded-[50px] max-w-[900px] mx-auto mt-[4%] mb-[5%] 
-          ${transitionStage === 'fadeOut' ? 'opacity-0' : 'opacity-100'} 
+        <div
+          className={`flex flex-wrap items-center rounded-[50px] max-w-[900px] mx-auto mt-[4%] mb-[5%] 
+          ${transitionStage === "fadeOut" ? "opacity-0" : "opacity-100"} 
           transition-opacity duration-500`}
         >
           {/* Author Image */}
           <img
             key={`image-${currentAuthorIndex}`} // Force re-render
-            src={currentAuthor?.image || 'https://via.placeholder.com/350'}
-            alt={currentAuthor?.name || 'Author'}
+            src={currentAuthor?.image || "https://via.placeholder.com/350"}
+            alt={currentAuthor?.name || "Author"}
             className="max-w-[350px] h-auto object-cover rounded-l-[10%]"
           />
 
@@ -205,7 +209,10 @@ const Author = () => {
               </h2>
               <ul className="pl-5 m-0 list-disc">
                 {currentAuthor?.notableWorks?.map((work, index) => (
-                  <li key={index} className="text-[1rem] my-2 text-[#555] text-justify leading-[1.6]">
+                  <li
+                    key={index}
+                    className="text-[1rem] my-2 text-[#555] text-justify leading-[1.6]"
+                  >
                     {work}
                   </li>
                 ))}

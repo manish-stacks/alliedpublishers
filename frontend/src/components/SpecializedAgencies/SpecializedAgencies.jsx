@@ -8,10 +8,11 @@ const SpecializedAgencies = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/special-agency")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/special-agency`)
       .then((response) => setData(response.data[0]))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  
 
   if (!data) return <div>Loading...</div>;
 
@@ -63,7 +64,9 @@ const SpecializedAgencies = () => {
             Contact Details
           </h3>
           <p className="text-gray-700 text-lg">
-            <strong className="text-gray-800">{data.contactDetails.manager}</strong>
+            <strong className="text-gray-800">
+              {data.contactDetails.manager}
+            </strong>
             <br />
             {data.contactDetails.designation}
             <br />
@@ -71,14 +74,19 @@ const SpecializedAgencies = () => {
             <br />
             {data.contactDetails.address}
             <br />
-            <strong className="text-gray-800">Phone:</strong> {data.contactDetails.phone}
+            <strong className="text-gray-800">Phone:</strong>{" "}
+            {data.contactDetails.phone}
             <br />
-            <strong className="text-gray-800">Mobile:</strong> {data.contactDetails.mobile}
+            <strong className="text-gray-800">Mobile:</strong>{" "}
+            {data.contactDetails.mobile}
             <br />
             <strong className="text-gray-800">Email:</strong>{" "}
             {data.contactDetails.email.map((email, index) => (
               <span key={index}>
-                <a href={`mailto:${email}`} className="text-green-600 hover:text-blue-600">
+                <a
+                  href={`mailto:${email}`}
+                  className="text-green-600 hover:text-blue-600"
+                >
                   {email}
                 </a>
                 {index < data.contactDetails.email.length - 1 && ", "}

@@ -12,7 +12,7 @@
 
 //   const fetchQRCode = async () => {
 //     try {
-//       const response = await axios.get("http://localhost:5001/api/qrcode");
+//       const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/qrcode");
 //       setQRCode(response.data);
 //     } catch (error) {
 //       console.error("Error fetching QR code:", error);
@@ -39,7 +39,7 @@
 
 //     try {
 //       const response = await axios.post(
-//         "http://localhost:5001/api/admin/qrcode",
+//         "${process.env.REACT_APP_BACKEND_URL}/api/admin/qrcode",
 //         formData,
 //         {
 //           headers: {
@@ -62,7 +62,7 @@
 //     if (!window.confirm("Are you sure you want to delete the QR code?")) return;
 
 //     try {
-//       await axios.delete("http://localhost:5001/api/admin/qrcode", {
+//       await axios.delete("${process.env.REACT_APP_BACKEND_URL}/api/admin/qrcode", {
 //         headers: { Authorization: localStorage.getItem("token") }
 //       });
 //       setQRCode(null);
@@ -162,7 +162,7 @@ const AdminQRCode = () => {
 
     try {
       await axios.post(
-        "http://localhost:5001/api/admin/qrcode",
+        `${process.env.REACT_APP_BACKEND_URL}/api/admin/qrcode`,
         formData,
         {
           headers: {
@@ -184,7 +184,7 @@ const AdminQRCode = () => {
     if (!window.confirm("Are you sure you want to delete the QR code?")) return;
 
     try {
-      await axios.delete("http://localhost:5001/api/admin/qrcode", {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/admin/qrcode`, {
         headers: { Authorization: localStorage.getItem("token") }
       });
       toast.success("QR code deleted successfully");

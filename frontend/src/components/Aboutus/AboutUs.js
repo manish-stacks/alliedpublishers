@@ -7,10 +7,11 @@ const AboutUs = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/about-us")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/about-us`)
       .then((response) => setAboutUsData(response.data))
       .catch((error) => console.error("Error fetching About Us data:", error));
   }, []);
+  
 
   if (!aboutUsData) {
     return <div>Loading...</div>;

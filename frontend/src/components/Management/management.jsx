@@ -8,7 +8,7 @@ const Management = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/management") // Update URL as per backend
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/management`)
       .then((response) => {
         setManagementData(response.data);
       })
@@ -16,7 +16,7 @@ const Management = () => {
         console.error("Error fetching management data:", error);
       });
   }, []);
-
+  
   if (!managementData) {
     return <p className="text-center text-gray-700">Loading...</p>;
   }

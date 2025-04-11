@@ -8,7 +8,7 @@ const DistributionPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/home/publisher")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/publisher`)
       .then((response) => setPublishers(response.data))
       .catch((error) => console.error("Error fetching publishers:", error));
   }, []);
@@ -19,12 +19,22 @@ const DistributionPage = () => {
       <div className="min-h-screen bg-gray-100">
         <main className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
           <h1 className="text-3xl font-bold text-gray-800 text-center border-b-2 border-green-500 pb-3 mb-6">
-            Distribution Importers, Distributors, and Stockist of International and Indian Publishers
+            Distribution Importers, Distributors, and Stockist of International
+            and Indian Publishers
           </h1>
           <p className="text-gray-700 text-lg mb-6">
-            Allied Publishers Private Limited has been stocking and selling commercial and society book publications for the last 75 years. These books have been used at all major academic, research and corporate institutions throughout the length and breadth of the country. We have marketing, stocking and selling arrangements with more than 100 publishers from North America, Europe, Asia, Australia and even Africa.
-            <br /><br />
-            For a list of International Publishers, Indian Publishers, Standard Publications and Specialised Society Publications please refer to the information below.
+            Allied Publishers Private Limited has been stocking and selling
+            commercial and society book publications for the last 75 years.
+            These books have been used at all major academic, research and
+            corporate institutions throughout the length and breadth of the
+            country. We have marketing, stocking and selling arrangements with
+            more than 100 publishers from North America, Europe, Asia, Australia
+            and even Africa.
+            <br />
+            <br />
+            For a list of International Publishers, Indian Publishers, Standard
+            Publications and Specialised Society Publications please refer to
+            the information below.
           </p>
 
           {/* Publishers List */}

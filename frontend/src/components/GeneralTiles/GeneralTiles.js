@@ -25,7 +25,7 @@
 //   useEffect(() => {
 //     const fetchCategories = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5001/api/categories");
+//         const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/categories");
 //         setCategories(response.data);
 //       } catch (err) {
 //         console.error("Failed to fetch categories:", err);
@@ -39,7 +39,7 @@
 //   useEffect(() => {
 //     const fetchBooks = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5001/api/home/general/book");
+//         const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/general/book");
 //         setBooks(response.data);
 //         setFilteredBooks(response.data);
 //       } catch (err) {
@@ -80,7 +80,7 @@
 //       }
 
 //       await axios.post(
-//         "http://localhost:5001/api/cart/add-to-cart",
+//         "${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart",
 //         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
 //         { headers: { Authorization: token } }
 //       );
@@ -284,7 +284,7 @@ const GeneralTiles = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/categories");
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/categories`);
         console.log("Categories data:", response.data);
         setCategories(response.data);
       } catch (err) {
@@ -298,7 +298,7 @@ const GeneralTiles = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/home/general/book");
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/general/book`);
         setBooks(response.data);
         setFilteredBooks(response.data);
       } catch (err) {
@@ -347,7 +347,7 @@ const GeneralTiles = () => {
       }
 
       await axios.post(
-        "http://localhost:5001/api/cart/add-to-cart",
+        `${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart`,
         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
         { headers: { Authorization: token } }
       );

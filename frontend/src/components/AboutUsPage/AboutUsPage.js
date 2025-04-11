@@ -44,10 +44,12 @@ const AboutUsPage = () => {
   const [pageData, setPageData] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/about-us-page")
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/about-us-page`)
       .then(response => setPageData(response.data))
       .catch(error => console.error("Error fetching About Us Page data:", error));
   }, []);
+  
 
   if (!pageData) {
     return (

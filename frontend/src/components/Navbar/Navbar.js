@@ -47,7 +47,7 @@
 
 //   const handleLogout = async () => {
 //     try {
-//       const response = await fetch("http://localhost:5001/api/auth/logout", {
+//       const response = await fetch("${process.env.REACT_APP_BACKEND_URL}/api/auth/logout", {
 //         method: "POST",
 //         headers: {
 //           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -367,7 +367,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/auth/logout", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/logout`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

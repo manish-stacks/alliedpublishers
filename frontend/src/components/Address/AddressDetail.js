@@ -22,7 +22,7 @@
 
 //   const fetchUserData = async () => {
 //     try {
-//       const response = await axios.get("http://localhost:5001/api/user", {
+//       const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/user", {
 //         headers: { Authorization: token },
 //       });
 //       setUser((prevUser) => ({ ...prevUser, email: response.data.email }));
@@ -38,7 +38,7 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await axios.post("http://localhost:5001/api/address", user, {
+//       await axios.post("${process.env.REACT_APP_BACKEND_URL}/api/address", user, {
 //         headers: { Authorization: token },
 //       });
 //       navigate("/payment"); // Redirect to checkout page
@@ -167,18 +167,19 @@ const Address = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/user", {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
         headers: { Authorization: token },
       });
       setUser((prevUser) => ({ ...prevUser, email: response.data.email }));
     } catch (error) {
       console.error("Error fetching user:", error);
     }
+    
   };
 
   const fetchCartTotal = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/cart/total", {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/cart/total`, {
         headers: { Authorization: token },
       });
       setCartTotal(response.data.cartTotal);
@@ -188,15 +189,17 @@ const Address = () => {
       console.error("Error fetching cart total:", error);
     }
   };
+  
 
   const fetchDefaultDeliveryCharge = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/delivery/default");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/delivery/default`);
       setDefaultDeliveryCharge(response.data.defaultCharge);
     } catch (error) {
       console.error("Error fetching default delivery charge:", error);
     }
   };
+  
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -205,7 +208,7 @@ const Address = () => {
     if (name === "zipCode" && value.length === 6) {
       try {
         // Fetch delivery charge for the entered pincode
-        const response = await axios.get(`http://localhost:5001/api/delivery/${value}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/delivery/${value}`);
         setDeliveryCharge(response.data.charge); // Use the fetched charge
         setTotalAmount(cartTotal + response.data.charge);
       } catch (error) {
@@ -223,12 +226,12 @@ const Address = () => {
       }
     }
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5001/api/address",
+        `${process.env.REACT_APP_BACKEND_URL}/api/address`,
         { ...user, deliveryCharges: deliveryCharge },
         { headers: { Authorization: token } }
       );
@@ -238,6 +241,7 @@ const Address = () => {
       console.error("Error saving address:", error);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
