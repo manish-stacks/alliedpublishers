@@ -31,10 +31,12 @@ const AdminJournal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:5001/api/journal/${journal._id}`, formData)
+    axios
+      .put(`${process.env.REACT_APP_BACKEND_URL}/api/journal/${journal._id}`, formData)
       .then(() => alert("Updated Successfully"))
       .catch((error) => console.error("Error updating journal:", error));
   };
+  
 
   if (!journal) return <p>Loading...</p>;
 
