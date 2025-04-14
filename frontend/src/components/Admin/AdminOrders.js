@@ -229,35 +229,35 @@ const AdminOrders = () => {
     }
   }, [orders, statusFilter]);
 
-  // const fetchOrders = async () => {
-  //   try {
-  //     const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`);
-  //     setOrders(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching orders:", error);
-  //   }
-  // };
   const fetchOrders = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`);
-      
-      // Sort orders by date (newest first)
-      const sortedData = response.data.map(user => ({
-        ...user,
-        orders: [...user.orders].sort((a, b) => 
-          new Date(b.payment.createdAt) - new Date(a.payment.createdAt)
-        )
-      })).sort((a, b) => {
-        const aLatest = a.orders[0]?.payment?.createdAt || 0;
-        const bLatest = b.orders[0]?.payment?.createdAt || 0;
-        return new Date(bLatest) - new Date(aLatest);
-      });
-      
-      setOrders(sortedData);
+      setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
+  // const fetchOrders = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`);
+      
+  //     // Sort orders by date (newest first)
+  //     const sortedData = response.data.map(user => ({
+  //       ...user,
+  //       orders: [...user.orders].sort((a, b) => 
+  //         new Date(b.payment.createdAt) - new Date(a.payment.createdAt)
+  //       )
+  //     })).sort((a, b) => {
+  //       const aLatest = a.orders[0]?.payment?.createdAt || 0;
+  //       const bLatest = b.orders[0]?.payment?.createdAt || 0;
+  //       return new Date(bLatest) - new Date(aLatest);
+  //     });
+      
+  //     setOrders(sortedData);
+  //   } catch (error) {
+  //     console.error("Error fetching orders:", error);
+  //   }
+  // };
 
   const updateStatus = async (userId, orderIndex, status) => {
     if (status === "Dispatched" && (!invoice[orderIndex] || !tracking[orderIndex])) {
