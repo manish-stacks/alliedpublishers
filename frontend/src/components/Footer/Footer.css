@@ -1,106 +1,96 @@
 .footer {
-  background-color: #20232a; /* Background color */
-  color: #fff; /* Default text color */
-  padding: 20px 0; /* Padding for top and bottom */
-  font-family: Arial, sans-serif; /* Font family */
+  background-color: #20232a;
+  color: #fff;
+  padding: 40px 0; /* Increased padding */
+  font-family: Arial, sans-serif;
   width: 100%;
-  /* margin-top: 10%; */
-  /* margin-bottom: 10%; */
   margin-top: auto;
-  justify-content: flex-start;
 }
 
 .footer-container {
-  display: flex; /* Flex layout for the container */
-  flex-wrap: wrap; /* Wrap items */
-  justify-content: space-between; /* Space between items */
-  max-width: full; /* Max width for the container */
-  margin: 10 auto; /* Center the container */
-  padding: 10px 10px; /* Padding for the sides */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+  gap: 40px; /* Space between columns */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.footer-left {
-  flex: 1; /* Flex grow */
-  margin-right: 40px; 
-  margin-left: 5px;
-}
-
-.footer-left h2 {
-  font-size: 1.8rem; /* Heading size */
-  /* margin-bottom: 10px; Margin below heading */
-  color: #61dafb; /* Color for heading */
-}
-
-.footer-left p {
-  line-height: 1.5; /* Line height for text */
-  font-size: 1rem; /* Font size for paragraph */
-  color: #ccc; /* Color for paragraph text */
-}
-
-.footer-links {
-  flex: 1; /* Flex grow */
-  /* margin-right: 20px; Margin for spacing */
-}
-
-.footer-links h3 {
-  font-size: 1.5rem; /* Heading size */
- 
-  color: #61dafb; /* Color for heading */
-}
-
-.footer-links ul {
-  list-style: none; /* No bullets */
-  padding: 0; /* No padding */
-}
-
-.footer-links ul li {
-  /* margin-bottom: 8px; Margin below each list item */
-}
-
-.footer-links ul li a {
-  text-decoration: none; /* No underline */
-  color: #ccc; /* Link color */
-  transition: color 0.3s ease; /* Transition effect */
-}
-
-.footer-links ul li a:hover {
-  color: #61dafb; /* Hover color for links */
-}
-
+/* Equal width for all three main sections */
+.footer-left,
+.footer-links,
 .footer-social {
-  flex: 1; 
-  text-align: left;/* Flex grow */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  text-align: center; /* Center text */
 }
 
+.footer-left h2,
+.footer-links h3,
 .footer-social h3 {
   font-size: 1.5rem;
   color: #61dafb;
-  margin-bottom: 10px;; /* Color for heading */
+  margin-bottom: 20px;
+  width: 100%; /* Full width for proper centering */
+}
+
+/* Rest of your styles with centering adjustments */
+.footer-left p {
+  line-height: 1.5;
+  font-size: 1rem;
+  color: #ccc;
+  text-align: center; /* Center paragraph text */
+  max-width: 300px; /* Limit width for better readability */
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  width: 100%; /* Full width for proper centering */
+}
+
+.footer-links ul li {
+  margin-bottom: 12px;
+}
+
+.footer-links ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: color 0.3s ease;
+  display: inline-block; /* Better for centering */
 }
 
 .social-icons {
-  display: flex; /* Flex layout for social icons */
-  gap: 15px;
-  justify-content: flex-start;
-   /* Gap between icons */
-}
-
-.social-icons a {
-  text-decoration: none; /* No underline */
-  color: white; /* Icon color */
-  font-size: 1.5rem; /* Font size for icons */
-  transition: color 0.3s ease; /* Transition effect */
-}
-
-.social-icons a:hover {
-  color: #61dafb; /* Hover color for icons */
+  display: flex;
+  gap: 20px;
+  justify-content: center; /* Center social icons */
+  width: 100%;
 }
 
 .footer-bottom {
-  text-align: center; /* Center text */
-  margin-top: 3%; /* Margin above */
-  border-top: 1px solid #444; /* Top border */
-  padding-top: 10px; /* Padding above */
-  color: #ccc; /* Color for bottom text */
-  font-size: 0.9rem; /* Font size */
+  text-align: center;
+  margin-top: 50px;
+  border-top: 1px solid #444;
+  padding-top: 20px;
+  color: #ccc;
+  font-size: 0.9rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr; /* Stack on mobile */
+    gap: 30px;
+  }
+  
+  .footer-left,
+  .footer-links,
+  .footer-social {
+    align-items: center;
+  }
 }

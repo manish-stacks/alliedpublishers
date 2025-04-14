@@ -361,16 +361,56 @@ app.get("/api/order/:orderId", async (req, res) => {
   }
 });
 
+// app.get("/api/admin/orders", async (req, res) => {
+//   try {
+//     const users = await User.find({ "orders.payment.screenshot": { $exists: true, $ne: "" } })
+//       .select("name email address orders") // Include the orders array in the response
+//       .populate({
+//         path: "orders.cart.itemId", // Correct path for population
+//         model: "General", // The model to populate
+//       });
+
+//     res.json(users);
+//   } catch (error) {
+//     console.error("Error fetching orders:", error);
+//     res.status(500).send("Server error");
+//   }
+// });
 app.get("/api/admin/orders", async (req, res) => {
   try {
     const users = await User.find({ "orders.payment.screenshot": { $exists: true, $ne: "" } })
-      .select("name email address orders") // Include the orders array in the response
+      .select("name email address orders")
       .populate({
-        path: "orders.cart.itemId", // Correct path for population
-        model: "General", // The model to populate
-      });
+        path: "orders.cart.itemId",
+        model: "General",
+      })
+      .lean(); // Convert to plain JavaScript objects
 
-    res.json(users);
+    // Process each user's orders
+    const processedUsers = users.map(user => {
+      // Sort orders by payment date (newest first)
+      const sortedOrders = [...user.orders].sort((a, b) => {
+        return new Date(b.payment.createdAt) - new Date(a.payment.createdAt);
+      });
+      
+      return {
+        ...user,
+        orders: sortedOrders.map(order => ({
+          ...order,
+          // Ensure both IDs are preserved
+          orderId: order.orderId || order.tempOrderId || null
+        }))
+      };
+    });
+
+    // Sort users by their newest order date (newest first)
+    processedUsers.sort((a, b) => {
+      const aLatest = a.orders[0]?.payment?.createdAt || 0;
+      const bLatest = b.orders[0]?.payment?.createdAt || 0;
+      return new Date(bLatest) - new Date(aLatest);
+    });
+
+    res.json(processedUsers);
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).send("Server error");
