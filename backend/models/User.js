@@ -61,6 +61,7 @@ const UserSchema = new mongoose.Schema({
   },
   orders: [
     {
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
       tempOrderId: { type: String, unique: true },
       orderId: { type: String, unique: true, sparse: true },
       cart: [
@@ -85,6 +86,6 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
-});
+}, { strict: true });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -370,107 +370,204 @@ const fs = require('fs');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
+// app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) => {
+//   try {
+//     const { userId, orderIndex, status, tracking } = req.body;
+//     const invoiceFile = req.file;
+
+//     console.log("Received request:", { userId, orderIndex, status, tracking, invoiceFile });
+
+//     // Find user and validate
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       console.error("User not found:", userId);
+//       return res.status(404).send("User not found");
+//     }
+
+//     // Validate order index
+//     if (orderIndex < 0 || orderIndex >= user.orders.length) {
+//       console.error("Order not found at index:", orderIndex);
+//       return res.status(404).send("Order not found");
+//     }
+
+//     // Create update object
+//     const updateObj = {};
+//     const orderPath = `orders.${orderIndex}`;
+
+//     // Generate order ID if needed
+//     if (status === "Approved" && !user.orders[orderIndex].orderId) {
+//       updateObj[`${orderPath}.orderId`] = `ORD${Date.now()}`;
+//     }
+
+//     // Handle Dispatch status requirements
+//     if (status === "Dispatched") {
+//       if (!invoiceFile || !tracking) {
+//         console.error("Missing invoice or tracking details for dispatch.");
+//         return res.status(400).json({ message: "Invoice and tracking details are required for dispatch" });
+//       }
+
+//       updateObj[`${orderPath}.payment.invoice`] = `/uploads/${invoiceFile.filename}`;
+//       updateObj[`${orderPath}.payment.tracking`] = tracking;
+//     }
+
+//     // Always update status and timestamp
+//     updateObj[`${orderPath}.payment.status`] = status;
+//     updateObj[`${orderPath}.payment.updatedAt`] = new Date();
+
+//     // Use findOneAndUpdate to ensure atomic update
+//     const updatedUser = await User.findOneAndUpdate(
+//       { _id: userId },
+//       { $set: updateObj },
+//       { new: true, runValidators: true }
+//     ).populate({
+//       path: "orders.cart.itemId",
+//       model: "General"
+//     });
+
+//     if (!updatedUser) {
+//       return res.status(404).send("User not found after update");
+//     }
+
+//     const updatedOrder = updatedUser.orders[orderIndex];
+
+//     // Prepare email content
+//     let subject = "";
+//     let message = "";
+//     let attachments = [];
+
+//     const cartDetails = updatedOrder.cart.map(item => 
+//       `${item.name} - ₹${item.price} x ${item.quantity}`
+//     ).join('\n');
+
+//     const totalAmount = updatedOrder.cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
+//     switch (status) {
+//       case "Approved":
+//         subject = "Your Order Has Been Approved";
+//         message = `Your order has been approved successfully. Your Order ID is ${updatedOrder.orderId}.\n\n`;
+//         message += `Cart Details:\n${cartDetails}\n\n`;
+//         message += `Total Amount: ₹${totalAmount}`;
+//         break;
+//       case "Dispatched":
+//         subject = "Your Order Has Been Dispatched";
+//         message = `Your order has been dispatched successfully. Your Order ID is ${updatedOrder.orderId}.\n\n`;
+//         message += `Cart Details:\n${cartDetails}\n\n`;
+//         message += `Total Amount: ₹${totalAmount}\n\n`;
+//         message += `Tracking Details: ${tracking}`;
+
+//         if (invoiceFile) {
+//           attachments.push({
+//             filename: invoiceFile.originalname,
+//             path: path.join(__dirname, '../uploads', invoiceFile.filename),
+//           });
+//         }
+//         break;
+//       case "Delivered":
+//         subject = "Your Order Has Been Delivered";
+//         message = `Your order has been delivered successfully. Your Order ID is ${updatedOrder.orderId}.\n\n`;
+//         message += `Cart Details:\n${cartDetails}\n\n`;
+//         message += `Total Amount: ₹${totalAmount}`;
+//         break;
+//       case "Cancelled":
+//         subject = "Your Order Has Been Cancelled";
+//         message = `Your order has been cancelled. We hope to serve you better in the future. Order ID: ${updatedOrder.orderId}.\n\n`;
+//         message += `Cart Details:\n${cartDetails}\n\n`;
+//         message += `Total Amount: ₹${totalAmount}`;
+//         break;
+//       default:
+//         return res.status(400).send("Invalid status");
+//     }
+
+//     // Send email notification
+//     await sendEmail(updatedUser.email, subject, message, attachments);
+
+//     console.log(`Order status updated to ${status} for order ID: ${updatedOrder.orderId}`);
+
+//     res.status(200).json({ 
+//       message: `Order status updated to ${status}`,
+//       updatedOrder
+//     });
+
+//   } catch (error) {
+//     console.error("Error updating status:", error);
+//     res.status(500).send("Internal server error");
+//   }
+// });
+
 app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) => {
   try {
-    const { userId, orderIndex, status, tracking } = req.body;
+    // Accept orderId (the MongoDB subdocument _id) instead of orderIndex
+    const { userId, orderId, status, tracking } = req.body;
     const invoiceFile = req.file;
 
-    console.log("Received request:", { userId, orderIndex, status, tracking, invoiceFile });
-
-    // Find user and validate
+    // Find the user
     const user = await User.findById(userId);
-    if (!user) {
-      console.error("User not found:", userId);
-      return res.status(404).send("User not found");
+    if (!user) return res.status(404).send("User not found");
+
+    // Find the order by its _id
+    const order = user.orders.id(orderId);
+    if (!order) return res.status(404).send("Order not found");
+
+    // Generate orderId if status is Approved and not already set
+    if (status === "Approved" && !order.orderId) {
+      order.orderId = `ORD${Date.now()}${Math.floor(Math.random() * 1000)}`;
     }
 
-    // Validate order index
-    if (orderIndex < 0 || orderIndex >= user.orders.length) {
-      console.error("Order not found at index:", orderIndex);
-      return res.status(404).send("Order not found");
-    }
-
-    // Create update object
-    const updateObj = {};
-    const orderPath = `orders.${orderIndex}`;
-
-    // Generate order ID if needed
-    if (status === "Approved" && !user.orders[orderIndex].orderId) {
-      updateObj[`${orderPath}.orderId`] = `ORD${Date.now()}`;
-    }
-
-    // Handle Dispatch status requirements
+    // Handle Dispatched status: require invoice and tracking
     if (status === "Dispatched") {
       if (!invoiceFile || !tracking) {
-        console.error("Missing invoice or tracking details for dispatch.");
         return res.status(400).json({ message: "Invoice and tracking details are required for dispatch" });
       }
-
-      updateObj[`${orderPath}.payment.invoice`] = `/uploads/${invoiceFile.filename}`;
-      updateObj[`${orderPath}.payment.tracking`] = tracking;
+      order.payment.invoice = `/uploads/${invoiceFile.filename}`;
+      order.payment.tracking = tracking;
     }
 
-    // Always update status and timestamp
-    updateObj[`${orderPath}.payment.status`] = status;
-    updateObj[`${orderPath}.payment.updatedAt`] = new Date();
+    // Always update status and updatedAt
+    order.payment.status = status;
+    order.payment.updatedAt = new Date();
 
-    // Use findOneAndUpdate to ensure atomic update
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: userId },
-      { $set: updateObj },
-      { new: true, runValidators: true }
-    ).populate({
-      path: "orders.cart.itemId",
-      model: "General"
-    });
-
-    if (!updatedUser) {
-      return res.status(404).send("User not found after update");
-    }
-
-    const updatedOrder = updatedUser.orders[orderIndex];
+    await user.save();
 
     // Prepare email content
     let subject = "";
     let message = "";
     let attachments = [];
 
-    const cartDetails = updatedOrder.cart.map(item => 
+    const cartDetails = order.cart.map(item =>
       `${item.name} - ₹${item.price} x ${item.quantity}`
     ).join('\n');
 
-    const totalAmount = updatedOrder.cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalAmount = order.cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
     switch (status) {
       case "Approved":
         subject = "Your Order Has Been Approved";
-        message = `Your order has been approved successfully. Your Order ID is ${updatedOrder.orderId}.\n\n`;
+        message = `Your order has been approved successfully. Your Order ID is ${order.orderId}.\n\n`;
         message += `Cart Details:\n${cartDetails}\n\n`;
         message += `Total Amount: ₹${totalAmount}`;
         break;
       case "Dispatched":
         subject = "Your Order Has Been Dispatched";
-        message = `Your order has been dispatched successfully. Your Order ID is ${updatedOrder.orderId}.\n\n`;
+        message = `Your order has been dispatched successfully. Your Order ID is ${order.orderId}.\n\n`;
         message += `Cart Details:\n${cartDetails}\n\n`;
         message += `Total Amount: ₹${totalAmount}\n\n`;
         message += `Tracking Details: ${tracking}`;
-
         if (invoiceFile) {
           attachments.push({
             filename: invoiceFile.originalname,
-            path: path.join(__dirname, '../uploads', invoiceFile.filename),
+            path: path.join(__dirname, 'uploads', invoiceFile.filename),
           });
         }
         break;
       case "Delivered":
         subject = "Your Order Has Been Delivered";
-        message = `Your order has been delivered successfully. Your Order ID is ${updatedOrder.orderId}.\n\n`;
+        message = `Your order has been delivered successfully. Your Order ID is ${order.orderId}.\n\n`;
         message += `Cart Details:\n${cartDetails}\n\n`;
         message += `Total Amount: ₹${totalAmount}`;
         break;
       case "Cancelled":
         subject = "Your Order Has Been Cancelled";
-        message = `Your order has been cancelled. We hope to serve you better in the future. Order ID: ${updatedOrder.orderId}.\n\n`;
+        message = `Your order has been cancelled. We hope to serve you better in the future. Order ID: ${order.orderId}.\n\n`;
         message += `Cart Details:\n${cartDetails}\n\n`;
         message += `Total Amount: ₹${totalAmount}`;
         break;
@@ -479,13 +576,11 @@ app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) 
     }
 
     // Send email notification
-    await sendEmail(updatedUser.email, subject, message, attachments);
+    await sendEmail(user.email, subject, message, attachments);
 
-    console.log(`Order status updated to ${status} for order ID: ${updatedOrder.orderId}`);
-
-    res.status(200).json({ 
+    res.status(200).json({
       message: `Order status updated to ${status}`,
-      updatedOrder
+      updatedOrder: order
     });
 
   } catch (error) {
@@ -531,6 +626,44 @@ app.get("/api/admin/orders", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+// app.get("/api/admin/orders", async (req, res) => {
+//   try {
+//     const users = await User.find({ "orders.payment.screenshot": { $exists: true, $ne: "" } })
+//       .select("name email address orders")
+//       .populate({
+//         path: "orders.cart.itemId",
+//         model: "General",
+//       })
+//       .lean();
+
+//     const processedUsers = users.map(user => {
+//       const sortedOrders = [...user.orders].sort((a, b) => {
+//         return new Date(b.payment?.createdAt || 0) - new Date(a.payment?.createdAt || 0);
+//       });
+      
+//       return {
+//         ...user,
+//         orders: sortedOrders.map(order => ({
+//           ...order,
+//           orderId: order.orderId || order.tempOrderId || null,
+//           createdAt: order.payment?.createdAt || new Date(0) // Add createdAt to each order
+//         }))
+//       };
+//     });
+
+//     processedUsers.sort((a, b) => {
+//       const aLatest = a.orders[0]?.createdAt || 0;
+//       const bLatest = b.orders[0]?.createdAt || 0;
+//       return new Date(bLatest) - new Date(aLatest);
+//     });
+
+//     res.json(processedUsers);
+//   } catch (error) {
+//     console.error("Error fetching orders:", error);
+//     res.status(500).send("Server error");
+//   }
+// });
 
 
 
