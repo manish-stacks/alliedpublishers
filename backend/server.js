@@ -1080,6 +1080,7 @@ app.delete("/admin/conference/books/:id", async (req, res) => {
   }
 });
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 /// API Routes
 app.use("/api/home", homeRoutes);
@@ -1088,6 +1089,14 @@ app.use("/api", categoryRoutes);
 app.use("/api", conferenceCategoryRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api", aboutUsPageRoutes);
+
+app.get('*', (req, res) => {
+  // If the request starts with /api or /uploads, skip to next middleware/route
+  if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+    return res.status(404).send("Not found");
+  }
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
