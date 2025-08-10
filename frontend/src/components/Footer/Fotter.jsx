@@ -1,34 +1,34 @@
 import React from 'react';
-import '@fortawesome/fontawesome-free/css/all.min.css'; // Ensure Font Awesome is imported
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-[#20232a] to-[#333842] text-white py-12">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* About Section */}
-          <div className="space-y-6 text-center md:text-left">
-            <h2 className="text-2xl font-bold text-[#75609c]">Allied Publishers</h2>
-            <p className="text-gray-300 text-sm leading-relaxed justify-right">
+        {/* Layout with custom spacing */}
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* About Section - Added margin right */}
+          <div className="flex-1 min-w-[250px] space-y-4 mr-0 md:mr-16 lg:mr-24">
+            <h2 className="text-2xl font-bold text-[#75609c] text-center md:text-left">Allied Publishers</h2>
+            <p className="text-gray-300 text-sm text-center md:text-left">
               Allied Publishers is dedicated to bringing you the best books,
               authors, and literary experiences. We strive to connect readers
               with the knowledge and stories that inspire and enlighten.
             </p>
           </div>
 
-          {/* Quick Links Section */}
-          <div className="space-y-6 text-center md:text-left">
+          {/* Quick Links Section - Pushed more to the right */}
+          <div className="flex-1 min-w-[180px] space-y-4 flex flex-col items-center md:items-start ml-0 md:ml-8">
             <h3 className="text-xl font-bold text-[#75609c]">Quick Links</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 text-center md:text-left">
               <li>
                 <a href="/about-us" className="text-gray-300 hover:text-[#75609c] transition duration-300">
                   About Us
                 </a>
               </li>
-             
               <li>
                 <a href="/all-authors" className="text-gray-300 hover:text-[#75609c] transition duration-300">
-                  Featured Author
+                  Featured Authors
                 </a>
               </li>
               <li>
@@ -39,12 +39,10 @@ const Footer = () => {
             </ul>
           </div>
 
-        
-
           {/* Social Media Section */}
-          <div className="space-y-6 text-center md:text-left">
+          <div className="flex-1 min-w-[180px] space-y-4 flex flex-col items-center md:items-start">
             <h3 className="text-xl font-bold text-[#75609c]">Follow Us</h3>
-            <div className="flex justify-center md:justify-start space-x-6 pl-2">
+            <div className="flex space-x-6">
               <a
                 href="https://www.facebook.com"
                 target="_blank"
@@ -87,21 +85,20 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Allied Publishers. All Rights Reserved.
           </p>
           <p>
-  A Digital Creation by&nbsp;
-  <a href="https://www.linkedin.com/in/disha-purwar-392b7a319/" 
-     target="_blank" 
-     rel="noopener noreferrer"
-     className="text-blue-400 hover:underline">
-    Disha Purwar
-  </a>&nbsp;and&nbsp;
-  <a href="https://www.linkedin.com/in/mansi-bakshi-386b762a7/" 
-     target="_blank" 
-     rel="noopener noreferrer"
-     className="text-blue-400 hover:underline">
-    Mansi Bakshi
-  </a>
-</p>
-
+            A Digital Creation by&nbsp;
+            <a href="https://www.linkedin.com/in/disha-purwar-392b7a319/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline">
+              Disha Purwar
+            </a>&nbsp;and&nbsp;
+            <a href="https://www.linkedin.com/in/mansi-bakshi-386b762a7/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline">
+              Mansi Bakshi
+            </a>
+          </p>
         </div>
       </div>
     </footer>

@@ -216,7 +216,7 @@ const Cart = () => {
       <Navbar />
 
       <div className="max-w-6xl mx-auto p-4">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">My Cart ({cart.length})</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">My Cart ({cart.reduce((total, item) => total + item.quantity, 0)})</h1>
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Cart Items Section */}

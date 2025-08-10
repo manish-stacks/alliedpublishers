@@ -529,7 +529,7 @@ const GeneralTiles = () => {
           alt="Book back cover"
           className="rounded-lg shadow-xl"
           style={{
-            maxWidth: '600px',
+            maxWidth: '400px',
             width: '100%',
             height: 'auto'
           }}
