@@ -936,6 +936,7 @@ app.delete("/admin/conference/books/:id", async (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 /// API Routes
 app.use("/api/home", homeRoutes);
 app.use("/api/auth", authRoutes);
