@@ -411,7 +411,7 @@ const Navbar = () => {
           />
           <button
             onClick={handleSearch}
-            className="bg-[#75609c] hover:bg-[#5a497a] text-white px-3 py-2 transition duration-300"
+            className="bg-[#75609c] hover:bg-[#5a497a] text-white px-3 py-2 transition duration-300 rounded-lg h-10"
           >
             <FaSearch />
           </button>
