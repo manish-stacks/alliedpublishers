@@ -61,6 +61,7 @@ const UserSchema = new mongoose.Schema({
   },
   orders: [
     {
+      default: [],
       _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
       tempOrderId: { type: String, unique: true },
       orderId: { type: String, unique: true, sparse: true },

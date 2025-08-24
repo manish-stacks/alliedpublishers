@@ -70,7 +70,6 @@ const transporter = nodemailer.createTransport({
 });
 
 
-
 const sendEmail = (to, subject, text, attachments = []) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -92,6 +91,61 @@ const sendEmail = (to, subject, text, attachments = []) => {
 module.exports = sendEmail;
 
 
+// app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
+//   const { itemId, name, price, quantity } = req.body;
+
+//   try {
+//     const user = await User.findById(req.userId);
+
+//     if (!user) {
+//       return res.status(404).send("User not found");
+//     }
+
+//     // Initialize the `orders` array if it doesn't exist
+//     if (!user.orders) {
+//       user.orders = [];
+//     }
+
+//     // Find or create an active order (e.g., with "Pending" status)
+//     let activeOrder = user.orders.find(
+//       (order) => order.payment.status === "Pending"
+//     );
+
+//     if (!activeOrder) {
+//       // Create a new order if no active order exists
+//       activeOrder = {
+//         orderId: null, // Will be generated when the order is approved
+//         cart: [],
+//         payment: {
+//           screenshot: "",
+//           status: "Pending",
+//           createdAt: new Date(),
+//         },
+//       };
+//       user.orders.push(activeOrder);
+//     }
+
+//     // Find the item in the cart of the active order
+//     const itemIndex = activeOrder.cart.findIndex((item) =>
+//       item.itemId.equals(itemId)
+//     );
+
+//     if (itemIndex > -1) {
+//       // If the item already exists in the cart, update the quantity
+//       activeOrder.cart[itemIndex].quantity += quantity;
+//     } else {
+//       // If the item does not exist in the cart, add it
+//       activeOrder.cart.push({ itemId, name, price, quantity });
+//     }
+
+//     await user.save();
+//     res.send("Item added to cart");
+//   } catch (error) {
+//     console.error("Error adding item to cart:", error);
+//     res.status(500).send("Server error");
+//   }
+// });
+
 app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
   const { itemId, name, price, quantity } = req.body;
 
@@ -102,42 +156,53 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    // Initialize the `orders` array if it doesn't exist
+    // Initialize orders array if missing
     if (!user.orders) {
       user.orders = [];
     }
 
-    // Find or create an active order (e.g., with "Pending" status)
+    // Find or create an active order (Pending)
     let activeOrder = user.orders.find(
-      (order) => order.payment.status === "Pending"
+      (order) => order.payment && order.payment.status === "Pending"
     );
 
     if (!activeOrder) {
-      // Create a new order if no active order exists
-      activeOrder = {
-        orderId: null, // Will be generated when the order is approved
+      // Use Mongoose subdocument creation, not plain object
+      activeOrder = user.orders.create({
+        tempOrderId: new mongoose.Types.ObjectId().toString(),
         cart: [],
         payment: {
           screenshot: "",
           status: "Pending",
           createdAt: new Date(),
+          invoice: "",
+          tracking: "",
+          deliveryCharges: 0,
         },
-      };
+      });
       user.orders.push(activeOrder);
     }
 
-    // Find the item in the cart of the active order
-    const itemIndex = activeOrder.cart.findIndex((item) =>
-      item.itemId.equals(itemId)
+    // Find item in cart via string comparison of ObjectIds
+    const itemIndex = activeOrder.cart.findIndex(
+      (item) => item.itemId?.toString() === itemId
     );
 
     if (itemIndex > -1) {
-      // If the item already exists in the cart, update the quantity
+      // Item exists: update quantity
       activeOrder.cart[itemIndex].quantity += quantity;
     } else {
-      // If the item does not exist in the cart, add it
-      activeOrder.cart.push({ itemId, name, price, quantity });
+      // Add new item with proper ObjectId
+      activeOrder.cart.push({
+        itemId: new mongoose.Types.ObjectId(itemId),
+        name,
+        price,
+        quantity,
+      });
     }
+
+    // Mark orders as modified to ensure Mongoose saves nested changes
+    user.markModified("orders");
 
     await user.save();
     res.send("Item added to cart");
@@ -146,6 +211,7 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
 
 
 app.get("/api/cart", authenticateUser, async (req, res) => {
@@ -177,7 +243,6 @@ app.get("/api/cart", authenticateUser, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
 
 
 app.delete("/api/cart/:itemId", authenticateUser, async (req, res) => {

@@ -54,7 +54,7 @@ const AdminCategory = () => {
         });
         toast.success('Category updated successfully!');
       } else {
-        await axios.post('${process.env.REACT_APP_BACKEND_URL}/api/admin/categories', {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/categories`, {
           name: formData.name,
           subcategories: subcategoriesArray
         });
