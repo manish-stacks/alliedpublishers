@@ -11,7 +11,8 @@ const conferenceSchema = new mongoose.Schema({
   coverImage: String, // ✅ Front cover image
   backImage: String, // ✅ Back cover image
   discount: Number, // ✅ Discount in percentage
-  coverType: String, // ✅ Cover Type (Hardback or Paperback)
+  coverType: String,
+  pages: Number, // ✅ Cover Type (Hardback or Paperback)
 });
 
 const Conference = mongoose.model("Conference", conferenceSchema);

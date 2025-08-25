@@ -929,6 +929,7 @@ app.post("/admin/general/upload", upload.single("file"), async (req, res) => {
         backImage: row.backImage || row["Back Image"] || "",
         discount: Number(row.discount || row.Discount || 0),
         coverType: row.coverType || row["Cover Type"] || "",
+        pages: Number(row.page || row.Page || 0)
       };
     });
 
@@ -1052,6 +1053,7 @@ app.post("/admin/conference/upload", upload.single("file"), async (req, res) => 
         backImage: row.backImage || row["Back Image"] || "",
         discount: Number(row.discount || row.Discount || 0),
         coverType: row.coverType || row["Cover Type"] || "",
+         pages: Number(row.page || row.Page || 0)
       };
     });
 
