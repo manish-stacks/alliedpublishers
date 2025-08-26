@@ -560,48 +560,38 @@ const ConfPrecBooks = () => {
                   </h4>
                   <p className="text-gray-600 mb-1">Author: {book.author}</p>
                   <p className="text-gray-500 mb-3">ISBN: {book.isbn}</p>
-
                   {book.stock === 0 ? (
-                    <div className="mt-auto flex justify-center items-center text-red-600 font-bold h-16">
-                      Out of Stock
-                    </div>
-                  ) : (
-                    <div className="mt-auto flex justify-between items-center text-gray-700 font-semibold h-16">
-                      <p className="w-1/3 text-center">
-                        Pages: {book.pages || "N/A"}
-                      </p>
-                      <div className="w-1/3 text-center">
-                        {book.discount > 0 ? (
-                          <>
-                            <p className="text-red-500 line-through">
-                              ₹{book.price}
-                            </p>
-                            <p className="text-green-600 font-bold">
-                              ₹
-                              {calculateDiscountedPrice(
-                                book.price,
-                                book.discount
-                              )}
-                            </p>
-                          </>
-                        ) : (
-                          <p className="text-green-600 font-bold">
-                            ₹{book.price}
-                          </p>
-                        )}
-                      </div>
-                      <p className="w-1/3 text-center">
-                        Cover: {book.coverType}
-                      </p>
-                    </div>
-                  )}
+  <div className="mt-auto flex justify-center items-center text-red-600 font-bold h-16">
+    Out of Stock
+  </div>
+) : (
+  <>
+    <div className="mt-auto flex justify-between items-center text-gray-700 font-semibold h-16">
+      <p className="w-1/3 text-center">Pages: {book.pages || "N/A"}</p>
+      <div className="w-1/3 text-center">
+        {book.discount > 0 ? (
+          <>
+            <p className="text-red-500 line-through">₹{book.price}</p>
+            <p className="text-green-600 font-bold">
+              ₹{calculateDiscountedPrice(book.price, book.discount)}
+            </p>
+          </>
+        ) : (
+          <p className="text-green-600 font-bold">₹{book.price}</p>
+        )}
+      </div>
+      <p className="w-1/3 text-center">Cover: {book.coverType}</p>
+    </div>
 
-                  <button
-                    onClick={() => addToCart(book._id, book.title, book.price)}
-                    className="w-full bg-teal-700 text-white px-4 py-2 mt-4 rounded-lg hover:bg-teal-600 transition"
-                  >
-                    🛒 Add to Cart
-                  </button>
+    <button
+      onClick={() => addToCart(book._id, book.title, book.price)}
+      className="w-full bg-teal-700 text-white px-4 py-2 mt-4 rounded-lg hover:bg-teal-600 transition"
+    >
+      🛒 Add to Cart
+    </button>
+  </>
+)}
+
                 </div>
               ))}
             </div>
