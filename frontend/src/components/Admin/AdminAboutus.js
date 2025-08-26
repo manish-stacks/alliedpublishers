@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminAboutUs = () => {
@@ -10,8 +10,8 @@ const AdminAboutUs = () => {
   const [description, setDescription] = useState([""]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/about-us`)
+    api
+      .get(`/api/home/about-us`)
       .then((response) => {
         if (response.data) {
           setTitle(response.data.title);
@@ -25,7 +25,7 @@ const AdminAboutUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/about-us`, {
+      await api.post(`/api/home/admin/about-us`, {
         title,
         content: { image, description },
       });

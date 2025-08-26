@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminPublisher = () => {
@@ -7,7 +7,7 @@ const AdminPublisher = () => {
   const [newPublisher, setNewPublisher] = useState({ category: "", publisherName: "" });
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/publisher`)
+    api.get(`/api/home/publisher`)
       .then(response => setPublishers(response.data))
       .catch(error => console.error("Error fetching publishers:", error));
   }, []);
@@ -18,7 +18,7 @@ const AdminPublisher = () => {
 
   const handleAddPublisher = (e) => {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/publisher`, newPublisher)
+    api.post(`/api/home/admin/publisher`, newPublisher)
       .then(response => {
         setPublishers(prevState => {
           const updatedPublishers = [...prevState];
@@ -36,7 +36,7 @@ const AdminPublisher = () => {
   };
 
   const handleDelete = (category, publisherName) => {
-    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/publisher/${category}/${publisherName}`)
+    api.delete(`/api/home/admin/publisher/${category}/${publisherName}`)
       .then(() => {
         setPublishers(prevState =>
           prevState.map(pub =>

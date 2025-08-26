@@ -1,5 +1,5 @@
 // import React, { useState, useEffect } from "react";
-// import axios from "axios";
+// import api from "../../axiosConfig";
 // import Navbar from "../Navbar/Navbar";
 // import { useNavigate } from "react-router-dom";
 
@@ -338,9 +338,8 @@
 
 // export default ConfPrecBooks;
 
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -359,8 +358,8 @@ const ConfPrecBooks = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/conference-categories`
+        const response = await api.get(
+          `/api/conference-categories`
         );
         setCategories(response.data);
       } catch (err) {
@@ -373,8 +372,8 @@ const ConfPrecBooks = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/home/conference/book`
+        const response = await api.get(
+          `/api/home/conference/book`
         );
         setBooks(response.data);
         setFilteredBooks(response.data);
@@ -417,8 +416,8 @@ const ConfPrecBooks = () => {
         alert("Please log in to add items to the cart.");
         return;
       }
-      await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart`,
+      await api.post(
+        `/api/cart/add-to-cart`,
         { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
         { headers: { Authorization: token } }
       );
@@ -457,7 +456,9 @@ const ConfPrecBooks = () => {
 
   if (loading)
     return (
-      <p className="text-center text-gray-500 text-lg mt-10">Loading books...</p>
+      <p className="text-center text-gray-500 text-lg mt-10">
+        Loading books...
+      </p>
     );
   if (error)
     return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
@@ -576,7 +577,8 @@ const ConfPrecBooks = () => {
                               ₹{book.price}
                             </p>
                             <p className="text-green-600 font-bold">
-                              ₹{calculateDiscountedPrice(
+                              ₹
+                              {calculateDiscountedPrice(
                                 book.price,
                                 book.discount
                               )}
@@ -630,7 +632,7 @@ const ConfPrecBooks = () => {
                 src={selectedBook.backImage}
                 alt="Book back cover"
                 className="rounded-lg shadow-xl"
-                style={{ maxWidth: "600px", width: "100%", height: "auto" }}
+                style={{ maxWidth: "40%", width: "100%", height: "84%" }}
               />
             </div>
           </div>

@@ -73,7 +73,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../axiosConfig";
 
 const Author = () => {
   const [authors, setAuthors] = useState([]);
@@ -87,8 +87,8 @@ const Author = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/home/authors`
+        const response = await api.get(
+          `/api/home/authors`
         );
         setAuthors(response.data);
       } catch (err) {

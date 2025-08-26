@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminExportInfo = () => {
@@ -24,7 +24,7 @@ const AdminExportInfo = () => {
 
   const fetchExportInfo = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/export-info`);
+      const res = await api.get(`/api/home/export-info`);
       if (res.data) {
         setExportInfo(res.data);
       }
@@ -57,7 +57,7 @@ const AdminExportInfo = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/export-info`, exportInfo);
+      await api.put(`/api/home/admin/export-info`, exportInfo);
       alert("Export Info updated successfully!");
       fetchExportInfo();
     } catch (err) {

@@ -1,13 +1,12 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-[#20232a] to-[#333842] text-white py-12">
       <div className="container mx-auto px-6">
-        {/* Layout with custom spacing */}
         <div className="flex flex-col md:flex-row gap-8">
-          {/* About Section - Added margin right */}
           <div className="flex-1 min-w-[250px] space-y-4 mr-0 md:mr-16 lg:mr-24">
             <h2 className="text-2xl font-bold text-[#75609c] text-center md:text-left">Allied Publishers</h2>
             <p className="text-gray-300 text-sm text-center md:text-left">
@@ -22,19 +21,19 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-[#75609c]">Quick Links</h3>
             <ul className="space-y-2 text-center md:text-left">
               <li>
-                <a href="/about-us" className="text-gray-300 hover:text-[#75609c] transition duration-300">
+                <Link to="/about-us" className="text-gray-300 hover:text-[#75609c] transition duration-300">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/all-authors" className="text-gray-300 hover:text-[#75609c] transition duration-300">
+                <Link to="/all-authors" className="text-gray-300 hover:text-[#75609c] transition duration-300">
                   Featured Authors
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="text-gray-300 hover:text-[#75609c] transition duration-300">
+                <Link to="/contact" className="text-gray-300 hover:text-[#75609c] transition duration-300">
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

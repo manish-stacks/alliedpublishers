@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminSpecialAgency = () => {
@@ -25,8 +25,8 @@ const AdminSpecialAgency = () => {
   }, []);
 
   const fetchAgencies = () => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/special-agency`)
+    api
+      .get(`/api/home/special-agency`)
       .then((response) => setAgencies(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   };
@@ -58,8 +58,8 @@ const AdminSpecialAgency = () => {
     };
 
     if (editingAgency) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/special-agency/${editingAgency._id}`, formattedData)
+      api
+        .put(`/api/home/admin/special-agency/${editingAgency._id}`, formattedData)
         .then(() => {
           fetchAgencies();
           setEditingAgency(null);
@@ -67,8 +67,8 @@ const AdminSpecialAgency = () => {
         })
         .catch((error) => console.error("Error updating agency:", error));
     } else {
-      axios
-        .post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/special-agency`, formattedData)
+      api
+        .post(`/api/home/admin/special-agency`, formattedData)
         .then((response) => {
           setAgencies([...agencies, response.data.agency]);
           resetForm();
@@ -78,8 +78,8 @@ const AdminSpecialAgency = () => {
   };
 
   const handleDeleteAgency = (id) => {
-    axios
-      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/special-agency/${id}`)
+    api
+      .delete(`/api/home/admin/special-agency/${id}`)
       .then(() => fetchAgencies())
       .catch((error) => console.error("Error deleting agency:", error));
   };

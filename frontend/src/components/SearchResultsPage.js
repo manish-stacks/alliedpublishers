@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";
-// import axios from "axios";
+// import api from "../../axiosConfig";
 // import Navbar from "./Navbar/Navbar";
 
 // const SearchResultsPage = () => {
@@ -279,7 +279,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../axiosConfig";
 import Navbar from "./Navbar/Navbar";
 
 const SearchResultsPage = () => {
@@ -300,7 +300,7 @@ const SearchResultsPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/categories`);
+        const response = await api.get(`/api/categories`);
         setCategories(response.data);
       } catch (err) {
         console.error("Failed to fetch categories:", err);
@@ -314,18 +314,18 @@ const SearchResultsPage = () => {
     const fetchBooks = async () => {
       try {
         // Fetch general books matching query or all if no query
-        let url = `${process.env.REACT_APP_BACKEND_URL}/api/home/general/book`;
+        let url = `/api/home/general/book`;
 if (searchQuery) {
   url += `?title=${encodeURIComponent(searchQuery)}`;
 }
-const generalBooksPromise = axios.get(url);
+const generalBooksPromise = api.get(url);
         
         // Fetch conference books matching query or all if no query
-        let confUrl = `${process.env.REACT_APP_BACKEND_URL}/api/home/conference/book`;
+        let confUrl = `/api/home/conference/book`;
 if (searchQuery) {
   confUrl += `?title=${encodeURIComponent(searchQuery)}`;
 }
-const confBooksPromise = axios.get(confUrl);
+const confBooksPromise = api.get(confUrl);
 
         const [generalRes, confRes] = await Promise.all([generalBooksPromise, confBooksPromise]);
         const combinedBooks = [...generalRes.data, ...confRes.data];
@@ -367,8 +367,8 @@ const confBooksPromise = axios.get(confUrl);
         alert("Please log in to add items to the cart.");
         return;
       }
-      await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/cart/add-to-cart`,
+      await api.post(
+        `/api/cart/add-to-cart`,
         { itemId: id, name, price, quantity: 1 },
         { headers: { Authorization: token } }
       );

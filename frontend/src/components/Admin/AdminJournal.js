@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminJournal = () => {
@@ -7,8 +7,8 @@ const AdminJournal = () => {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/journal`)
+    api
+      .get(`/api/journal`)
       .then((response) => {
         setJournal(response.data);
         setFormData(response.data);
@@ -31,8 +31,8 @@ const AdminJournal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .put(`${process.env.REACT_APP_BACKEND_URL}/api/journal/${journal._id}`, formData)
+    api
+      .put(`/api/journal/${journal._id}`, formData)
       .then(() => alert("Updated Successfully"))
       .catch((error) => console.error("Error updating journal:", error));
   };

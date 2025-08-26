@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminLocation = () => {
@@ -7,8 +7,8 @@ const AdminLocation = () => {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/locations`)
+    api
+      .get(`/api/home/locations`)
       .then((response) => setLocations(response.data))
       .catch((error) => console.error("Error fetching locations:", error));
   }, []);
@@ -16,7 +16,7 @@ const AdminLocation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/locations`, { name: location });
+      const response = await api.post(`/api/home/admin/locations`, { name: location });
       setLocations([...locations, response.data]);
       setLocation("");
       alert("Location added successfully!");
@@ -27,7 +27,7 @@ const AdminLocation = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/locations/${id}`);
+      await api.delete(`/api/home/admin/locations/${id}`);
       setLocations(locations.filter((loc) => loc._id !== id));
       alert("Location deleted successfully!");
     } catch (error) {

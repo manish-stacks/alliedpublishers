@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 
@@ -14,7 +14,7 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/search?query=${query}`);
+        const response = await api.get(`/api/home/search?query=${query}`);
         setBooks(response.data);
       } catch (err) {
         setError("Failed to fetch search results.");

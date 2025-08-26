@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const ItemsList = () => {
@@ -7,15 +7,15 @@ const ItemsList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/items`).then((response) => {
+    api.get(`/items`).then((response) => {
       setItems(response.data);
     });
   }, []);
 
   const addToCart = (itemId) => {
     const token = localStorage.getItem("token");
-    axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/add-to-cart`,
+    api.post(
+      `/add-to-cart`,
       { itemId, quantity: 1 },
       { headers: { Authorization: token } }
     );

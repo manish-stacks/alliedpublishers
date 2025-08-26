@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminDeliveryCharges = () => {
@@ -16,7 +15,7 @@ const AdminDeliveryCharges = () => {
 
   const fetchDeliveryCharges = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/delivery`);
+      const response = await api.get(`/api/delivery`);
       setDeliveryCharges(response.data);
     } catch (error) {
       console.error("Error fetching delivery charges:", error);
@@ -25,7 +24,7 @@ const AdminDeliveryCharges = () => {
 
   const fetchDefaultCharge = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/delivery/default`);
+      const response = await api.get(`/api/delivery/default`);
       setDefaultCharge(response.data.defaultCharge);
     } catch (error) {
       console.error("Error fetching default delivery charge:", error);
@@ -34,7 +33,7 @@ const AdminDeliveryCharges = () => {
 
   const handleAddCharge = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/delivery`, newCharge);
+      await api.post(`/api/admin/delivery`, newCharge);
       setNewCharge({ pincode: "", charge: 0 });
       fetchDeliveryCharges();
     } catch (error) {
@@ -44,7 +43,7 @@ const AdminDeliveryCharges = () => {
 
   const handleDeleteCharge = async (pincode) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/admin/delivery/${pincode}`);
+      await api.delete(`/api/admin/delivery/${pincode}`);
       fetchDeliveryCharges();
     } catch (error) {
       console.error("Error deleting delivery charge:", error);
@@ -57,8 +56,8 @@ const AdminDeliveryCharges = () => {
 
   const handleUpdateCharge = async () => {
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/api/admin/delivery/${editCharge.pincode}`,
+      await api.put(
+        `/api/admin/delivery/${editCharge.pincode}`,
         { charge: editCharge.charge }
       );
       setEditCharge({ pincode: "", charge: 0 });
@@ -70,7 +69,7 @@ const AdminDeliveryCharges = () => {
 
   const handleSetDefaultCharge = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/delivery/default`, {
+      await api.post(`/api/admin/delivery/default`, {
         defaultCharge,
       });
       alert("Default delivery charge set successfully!");

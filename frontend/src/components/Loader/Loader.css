@@ -1,0 +1,22 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen center */
+}
+
+.loader-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #d1d5db; /* gray-300 */
+  border-top: 4px solid #75609c; /* your theme color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

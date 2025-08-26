@@ -1,6 +1,6 @@
 
 // import React, { useEffect, useState } from "react";
-// import axios from "axios";
+// import api from "../../axiosConfig";
 // import { FaMapPin } from "react-icons/fa";
 // import Navbar from "../Navbar/Navbar";
 // import Carousel from "../Carousel";
@@ -90,7 +90,7 @@
 
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import { FaMapPin } from "react-icons/fa";
 import Navbar from "../Navbar/Navbar";
 import Carousel from "../Carousel";
@@ -108,22 +108,22 @@ const Home = () => {
   const [authors, setAuthors] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/locations`)
+    api
+      .get(`/api/home/locations`)
       .then((res) => setLocations(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/api/home/bestsellers`)
+    api
+      .get(`/api/home/bestsellers`)
       .then((res) => setBooks(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/api/home/authors`)
+    api
+      .get(`/api/home/authors`)
       .then((res) => setAuthors(res.data))
       .catch((err) => console.log(err));
   }, []);

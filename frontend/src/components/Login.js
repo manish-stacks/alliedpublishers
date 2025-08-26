@@ -2,7 +2,7 @@
 
 
 // import React, { useState } from "react";
-// import axios from "axios";
+// import api from "../../axiosConfig";
 // import { useNavigate } from "react-router-dom";
 // import "./Login.css"; // Import the CSS file
 // import Navbar from "./Navbar/Navbar";
@@ -63,11 +63,12 @@
 
 
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Fotter";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -76,7 +77,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, { 
+      const response = await api.post(`/api/auth/login`, { 
         email, 
         password 
       });
@@ -121,10 +122,10 @@ const Login = () => {
         />
         <button onClick={handleLogin}>Login</button>
         <p>
-          Don't have an account? <a href="/register">Register</a>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
         <p>
-          Forgot your password? <a href="/forgot-password">Reset Password</a>
+          Forgot your password? <Link to="/forgot-password">Reset Password</Link>
         </p>
       </div>
       <Footer/>

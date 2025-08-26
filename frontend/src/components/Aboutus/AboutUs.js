@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig"
 import "./Aboutus.css";
 
 const AboutUs = () => {
   const [aboutUsData, setAboutUsData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/about-us`)
+    api
+      .get("/api/home/about-us")
       .then((response) => setAboutUsData(response.data))
       .catch((error) => console.error("Error fetching About Us data:", error));
   }, []);

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
+import api from "../../axiosConfig";
 
 const DistributionPage = () => {
   const [publishers, setPublishers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/publisher`)
+    api
+      .get(`/api/home/publisher`)
       .then((response) => setPublishers(response.data))
       .catch((error) => console.error("Error fetching publishers:", error));
   }, []);

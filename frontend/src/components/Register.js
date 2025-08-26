@@ -1,10 +1,10 @@
-
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 import "./Register.css"; // Import the CSS file
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Fotter";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -14,7 +14,7 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, { name, email, password });
+      await api.post(`/api/auth/register`, { name, email, password });
       alert("Registration successful");
       navigate("/login");
     } catch (error) {
@@ -48,7 +48,7 @@ const Register = () => {
       />
       <button onClick={handleRegister}>Register</button>
       <p>
-        Already have an account? <a href="/login">Login</a>
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>
     <Footer/>

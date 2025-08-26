@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
-import axios from "axios";
+import api from "../../axiosConfig";
+import { Link } from "react-router-dom";
 
 const SpecializedAgencies = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/special-agency`)
+    api
+      .get(`/api/home/special-agency`)
       .then((response) => setData(response.data[0]))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
-  
 
   if (!data) return <div>Loading...</div>;
 
@@ -83,12 +83,12 @@ const SpecializedAgencies = () => {
             <strong className="text-gray-800">Email:</strong>{" "}
             {data.contactDetails.email.map((email, index) => (
               <span key={index}>
-                <a
-                  href={`mailto:${email}`}
+                <Link
+                  to={`mailto:${email}`}
                   className="text-green-600 hover:text-blue-600"
                 >
                   {email}
-                </a>
+                </Link>
                 {index < data.contactDetails.email.length - 1 && ", "}
               </span>
             ))}

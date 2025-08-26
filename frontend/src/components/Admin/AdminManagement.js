@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminManagement = () => {
@@ -7,7 +7,7 @@ const AdminManagement = () => {
   const [newMember, setNewMember] = useState({ section: "", name: "", position: "", phone: "", city: "" });
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/management/`)
+    api.get(`/api/home/management/`)
       .then(response => setManagement(response.data))
       .catch(error => console.error("Error fetching management data:", error));
   }, []);
@@ -18,7 +18,7 @@ const AdminManagement = () => {
 
   const handleAddMember = (e) => {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/management`, newMember)
+    api.post(`/api/home/admin/management`, newMember)
       .then(response => {
         setManagement(response.data.managementData);
         setNewMember({ section: "", name: "", position: "", phone: "", city: "" });
@@ -27,7 +27,7 @@ const AdminManagement = () => {
   };
 
   const handleDelete = (section, id) => {
-    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/management/${section}/${id}`)
+    api.delete(`/api/home/admin/management/${section}/${id}`)
       .then(() => {
         setManagement(prevState => ({
           ...prevState,

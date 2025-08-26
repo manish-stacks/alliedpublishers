@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Fotter from "../Footer/Fotter";
 import Navbar from "../Navbar/Navbar";
-import axios from "axios";
+import api from "../../axiosConfig";
 import "./ConfPrec.css";
+import { Link } from "react-router-dom";
 
 const ConfPrec = () => {
   const [conferenceData, setConferenceData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/conference`)
+    api
+      .get(`/api/home/conference`)
       .then((response) => {
         setConferenceData(response.data);
       })
@@ -17,7 +18,6 @@ const ConfPrec = () => {
         console.error("Error fetching conference data:", error);
       });
   }, []);
-  
 
   if (!conferenceData) {
     return <p>Loading...</p>;
@@ -56,9 +56,9 @@ const ConfPrec = () => {
             <strong>Mobile:</strong> {conferenceData.contact.mobile.join("; ")}{" "}
             <br />
             <strong>Email:</strong>{" "}
-            <a href={`mailto:${conferenceData.contact.email[0]}`}>
+            <Link to={`mailto:${conferenceData.contact.email[0]}`}>
               {conferenceData.contact.email[0]}
-            </a>
+            </Link>
           </p>
         </main>
       </div>

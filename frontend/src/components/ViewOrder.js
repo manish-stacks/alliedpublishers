@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import { useParams } from "react-router-dom";
 
 const ViewOrder = () => {
@@ -10,7 +10,7 @@ const ViewOrder = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/order/${tempOrderId}`);
+        const response = await api.get(`/api/order/${tempOrderId}`);
         setOrder(response.data);
         setLoading(false);
       } catch (error) {

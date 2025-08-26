@@ -1,153 +1,6 @@
-
-
-
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import Navbar from "../Navbar/Navbar";
-
-// const Cart = () => {
-//   const [cart, setCart] = useState([]);
-//   const token = localStorage.getItem("token");
-//   const navigate = useNavigate();
-
-//   // Fetch cart data when the component mounts or the token changes
-//   useEffect(() => {
-//     fetchCart();
-//   }, [token]);
-
-//   // Fetch cart data from the backend
-//   const fetchCart = async () => {
-//     try {
-//       const response = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/cart", {
-//         headers: { Authorization: token },
-//       });
-//       setCart(response.data);
-//     } catch (error) {
-//       console.error("Error fetching cart:", error);
-//     }
-//   };
-
-//   // Remove an item from the cart
-//   const removeItem = async (itemId) => {
-//     try {
-//       await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`, {
-//         headers: { Authorization: token },
-//       });
-//       fetchCart(); // Refresh the cart after removing the item
-//     } catch (error) {
-//       console.error("Error removing item:", error);
-//     }
-//   };
-
-//   // Update the quantity of an item in the cart
-//   const updateQuantity = async (itemId, newQuantity) => {
-//     try {
-//       await axios.put(
-//         `${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`,
-//         { quantity: newQuantity },
-//         { headers: { Authorization: token } }
-//       );
-//       fetchCart(); // Refresh the cart after updating the quantity
-//     } catch (error) {
-//       console.error("Error updating quantity:", error);
-//     }
-//   };
-
-//   // Increase the quantity of an item
-//   const increaseQuantity = (itemId, currentQuantity) => {
-//     updateQuantity(itemId, currentQuantity + 1);
-//   };
-
-//   // Decrease the quantity of an item
-//   const decreaseQuantity = (itemId, currentQuantity) => {
-//     if (currentQuantity > 1) {
-//       updateQuantity(itemId, currentQuantity - 1);
-//     }
-//   };
-
-//   // Calculate the total price of all items in the cart
-//   const calculateTotal = () => {
-//     return cart.reduce((total, item) => {
-//       return total + item.price * item.quantity;
-//     }, 0);
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100">
-//       {/* Navbar Component */}
-//       <Navbar />
-
-//       <div className="max-w-4xl mx-auto p-4">
-//         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Your Cart</h1>
-
-//         {cart.length > 0 ? (
-//           <>
-//             {/* Display cart items */}
-//             {cart.map((item) => (
-//               <div
-//                 key={item._id}
-//                 className="bg-white shadow-md rounded-lg p-4 mb-4 flex justify-between items-center"
-//               >
-//                 <div>
-//                   <h3 className="text-lg font-semibold">{item.name}</h3>
-//                   <p className="text-gray-600">Price: ₹{item.price}</p>
-//                   <div className="flex items-center mt-2">
-//                     <button
-//                       onClick={() => decreaseQuantity(item._id, item.quantity)}
-//                       disabled={item.quantity <= 1}
-//                       className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-300"
-//                     >
-//                       -
-//                     </button>
-//                     <span className="px-4 text-lg">{item.quantity}</span>
-//                     <button
-//                       onClick={() => increaseQuantity(item._id, item.quantity)}
-//                       className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-//                     >
-//                       +
-//                     </button>
-//                   </div>
-//                   <p className="text-gray-700 mt-2">
-//                     Total: ₹{(item.price * item.quantity).toFixed(2)}
-//                   </p>
-//                 </div>
-//                 <button
-//                   onClick={() => removeItem(item._id)}
-//                   className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-//                 >
-//                   Remove
-//                 </button>
-//               </div>
-//             ))}
-
-//             {/* Display total price */}
-//             <div className="text-right text-xl font-semibold mt-6">
-//               <h3>Total: ₹{calculateTotal().toFixed(2)}</h3>
-//             </div>
-
-//             {/* Proceed to Address Button */}
-//             <button
-//               onClick={() => navigate("/address")}
-//               className="w-full mt-4 px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600"
-//             >
-//               Proceed to Address
-//             </button>
-//           </>
-//         ) : (
-//           // Display message if the cart is empty
-//           <p className="text-center text-lg text-gray-600 mt-10">Your cart is empty.</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Cart;
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
 
@@ -162,7 +15,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/cart`, {
+      const response = await api.get(`/api/cart`, {
         headers: { Authorization: token },
       });
       setCart(response.data);
@@ -173,7 +26,7 @@ const Cart = () => {
 
   const removeItem = async (itemId) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`, {
+      await api.delete(`/api/cart/${itemId}`, {
         headers: { Authorization: token },
       });
       fetchCart();
@@ -184,8 +37,8 @@ const Cart = () => {
 
   const updateQuantity = async (itemId, newQuantity) => {
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/api/cart/${itemId}`,
+      await api.put(
+        `/api/cart/${itemId}`,
         { quantity: newQuantity },
         { headers: { Authorization: token } }
       );

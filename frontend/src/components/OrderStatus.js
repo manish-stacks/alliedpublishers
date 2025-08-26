@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const OrderStatus = () => {
   const { orderId } = useParams();
@@ -10,7 +11,7 @@ const OrderStatus = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/order/${orderId}`);
+        const response = await api.get(`/api/order/${orderId}`);
         setOrder(response.data);
         setLoading(false);
       } catch (error) {
@@ -41,14 +42,14 @@ const OrderStatus = () => {
               <div className="mb-4">
                 <h3 className="text-xl font-semibold">Tracking Details</h3>
                 <p className="text-gray-700">{order.payment.tracking}</p>
-                <a
-                  href={`${process.env.REACT_APP_BACKEND_URL}${order.payment.invoice}`}
+                <Link to
+                  ={`${process.env.REACT_APP_BACKEND_URL}${order.payment.invoice}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 underline"
                 >
                   View Invoice
-                </a>
+                </Link>
               </div>
             )}
             <div className="mb-4">

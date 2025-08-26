@@ -1,69 +1,5 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import Sidebar from "./Sidebar";
-
-// const AdminUpdateImage = ({ imageId }) => {
-//   const [imageUrl, setImageUrl] = useState("");
-
-//   useEffect(() => {
-//     fetchImage();
-//   }, []);
-
-//   const fetchImage = async () => {
-//     try {
-//       const res = await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/home/images");
-//       const image = res.data.find((img) => img._id === imageId);
-//       if (image) setImageUrl(image.imageUrl);
-//     } catch (error) {
-//       console.error("Error fetching image:", error);
-//     }
-//   };
-
-//   const updateImage = async () => {
-//     const newUrl = prompt("Enter new image URL:");
-//     if (newUrl) {
-//       await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/images/${imageId}`, {
-//         imageUrl: newUrl,
-//       });
-//       setImageUrl(newUrl);
-//     }
-//   };
-
-//   return (
-//     <div className="flex min-h-screen bg-[#d5d8dc]">
-//       {/* Sidebar */}
-//       <Sidebar />
-
-//       {/* Main Content (Right Shifted) */}
-//       <div className="flex flex-1 justify-center items-center px-12 ml-64">
-//         <div className="w-full max-w-2xl bg-white/40 backdrop-blur-md border border-white/30 rounded-lg p-8 shadow-lg transition-all duration-500 hover:scale-[1.03] hover:shadow-xl">
-//           <h3 className="text-3xl font-bold text-black uppercase mb-6 text-center">
-//             Admin Panel - Update Image
-//           </h3>
-
-//           <div className="text-center mb-6">
-//             <img src={imageUrl} alt="Current" width="200" className="mx-auto" />
-//           </div>
-
-//           <div className="flex justify-center space-x-4">
-//             <button
-//               onClick={updateImage}
-//               className="px-6 py-3 text-white font-bold uppercase bg-[#402f5f] rounded-lg transition hover:bg-[#5a447c] hover:shadow-md hover:scale-105 active:scale-95"
-//             >
-//               Update Image
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdminUpdateImage;
-
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminUpdateImages = () => {
@@ -79,7 +15,7 @@ const AdminUpdateImages = () => {
 
   const fetchImages = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/images`);
+      const res = await api.get(`/api/home/images`);
       if (res.data) setImages(res.data);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -88,7 +24,7 @@ const AdminUpdateImages = () => {
 
   const updateImages = async () => {
     try {
-      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/images`, images);
+      await api.put(`/api/home/admin/images`, images);
       alert("Images updated successfully!");
     } catch (error) {
       console.error("Error updating images:", error);

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter"; // Fixed typo in "Footer"
-import axios from "axios";
+import api from "../../axiosConfig";
 
 const Management = () => {
   const [managementData, setManagementData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/management`)
+    api
+      .get(`/api/home/management`)
       .then((response) => {
         setManagementData(response.data);
       })
@@ -16,7 +16,7 @@ const Management = () => {
         console.error("Error fetching management data:", error);
       });
   }, []);
-  
+
   if (!managementData) {
     return <p className="text-center text-gray-700">Loading...</p>;
   }

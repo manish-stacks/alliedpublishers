@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from "../../axiosConfig";
 import { toast } from 'react-toastify';
 import Sidebar from './Sidebar';
 
@@ -17,7 +17,7 @@ const AdminCategory = () => {
   // Fetch existing categories
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/conference-categories`);
+      const response = await api.get(`/api/conference-categories`);
       setCategories(response.data);
     } catch (error) {
       toast.error('Failed to load categories');
@@ -48,13 +48,13 @@ const AdminCategory = () => {
         .filter(item => item);
 
       if (editingId) {
-        await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/admin/conference-categories/${editingId}`, {
+        await api.put(`/api/admin/conference-categories/${editingId}`, {
           name: formData.name,
           subcategories: subcategoriesArray
         });
         toast.success('Category updated successfully!');
       } else {
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/conference-categories`, {
+        await api.post(`/api/admin/conference-categories`, {
           name: formData.name,
           subcategories: subcategoriesArray
         });
@@ -85,7 +85,7 @@ const AdminCategory = () => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/admin/conference-categories/${id}`);
+      await api.delete(`/api/admin/conference-categories/${id}`);
       toast.success('Category deleted successfully!');
       await fetchCategories();
     } catch (error) {

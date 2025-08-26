@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
-import axios from "axios";
+import api from "../../axiosConfig";
+import { Link } from "react-router-dom";
 
 const JournalPage = () => {
   const [journal, setJournal] = useState(null);
 
   useEffect(() => {
-    axios
+    api
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/journal`)
       .then((response) => setJournal(response.data))
       .catch((error) => console.error("Error fetching journal data:", error));
   }, []);
-  
 
   if (!journal) return <p>Loading...</p>;
 
@@ -108,12 +108,12 @@ const JournalPage = () => {
                   📧{" "}
                   {branch.email.map((email, idx) => (
                     <span key={idx}>
-                      <a
-                        href={`mailto:${email}`}
+                      <Link
+                        to={`mailto:${email}`}
                         className="text-green-600 hover:text-blue-600"
                       >
                         {email}
-                      </a>
+                      </Link>
                       {idx < branch.email.length - 1 && ", "}
                     </span>
                   ))}

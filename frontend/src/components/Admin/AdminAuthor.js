@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminAuthor = () => {
@@ -11,8 +11,8 @@ const AdminAuthor = () => {
 
   // Fetch all authors
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/authors`)
+    api
+      .get(`/api/home/authors`)
       .then((response) => {
         setAuthors(response.data);
       })
@@ -23,7 +23,7 @@ const AdminAuthor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/authors`, {
+      const response = await api.post(`/api/home/admin/authors`, {
         name,
         image,
         description,
@@ -48,7 +48,7 @@ const AdminAuthor = () => {
   // Delete an author
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/home/admin/authors/${id}`);
+      await api.delete(`/api/home/admin/authors/${id}`);
 
       // Remove from UI
       setAuthors(authors.filter((author) => author._id !== id));

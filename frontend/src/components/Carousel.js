@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../axiosConfig";
 import "./Carousel.css";
 
 const Carousel = () => {
@@ -16,7 +15,7 @@ const Carousel = () => {
 
   const fetchImages = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/home/images`);
+      const res = await api.get(`/api/home/images`);
       if (res.data) setImages([res.data.image1, res.data.image2, res.data.image3]);
     } catch (error) {
       console.error("Error fetching images:", error);

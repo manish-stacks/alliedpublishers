@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../axiosConfig";
 import Sidebar from "./Sidebar";
 
 const AdminAboutUsPage = () => {
@@ -9,8 +9,8 @@ const AdminAboutUsPage = () => {
   const [objectives, setObjectives] = useState([""]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/about-us-page`)
+    api
+      .get(`/api/about-us-page`)
       .then((response) => {
         if (response.data) {
           setHistoryTitle(response.data.historyTitle);
@@ -25,7 +25,7 @@ const AdminAboutUsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/about-us-page`, {
+      await api.post(`/api/admin/about-us-page`, {
         historyTitle,
         historyContent,
         objectiveTitle,

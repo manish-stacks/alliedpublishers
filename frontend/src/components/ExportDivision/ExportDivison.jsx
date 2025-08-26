@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
-import axios from "axios";
+import api from "../../axiosConfig";
 
 const ExportInfo = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/export-info`)
+    api
+      .get(`/api/home/export-info`)
       .then((response) => setData(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
-  
 
   if (!data) return <div>Loading...</div>;
 
