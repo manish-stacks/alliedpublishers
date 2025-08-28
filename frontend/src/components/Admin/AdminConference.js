@@ -5,11 +5,15 @@ import Sidebar from "./Sidebar";
 const AdminConference = () => {
   const [conferenceData, setConferenceData] = useState({
     description: "",
+    institutions: [],
+    services: [],
     contact: {
       name: "",
       position: "",
       company: "",
       address: "",
+      mobile: [],
+      email: [],
     },
   });
 
@@ -26,16 +30,33 @@ const AdminConference = () => {
     }
   };
 
+  // Handle simple string fields (description)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setConferenceData({ ...conferenceData, [name]: value });
   };
 
+  // Handle contact subfields except arrays
   const handleContactChange = (e) => {
     const { name, value } = e.target;
     setConferenceData({
       ...conferenceData,
       contact: { ...conferenceData.contact, [name]: value },
+    });
+  };
+
+  // Handle inputs for string arrays by splitting comma-separated values
+  const handleArrayChange = (field, value) => {
+    const arrayValues = value.split(",").map((item) => item.trim());
+    setConferenceData({ ...conferenceData, [field]: arrayValues });
+  };
+
+  // Handle arrays inside contact (mobile and email)
+  const handleContactArrayChange = (field, value) => {
+    const arrayValues = value.split(",").map((item) => item.trim());
+    setConferenceData({
+      ...conferenceData,
+      contact: { ...conferenceData.contact, [field]: arrayValues },
     });
   };
 
@@ -52,15 +73,15 @@ const AdminConference = () => {
   return (
     <div className="flex min-h-screen bg-[#d5d8dc]">
       <Sidebar />
-      
-      {/* Main Content Container */}
+
       <div className="flex-1 flex flex-col justify-center items-center px-12 ml-64">
         <h3 className="text-3xl font-bold text-black uppercase mb-6 text-center">
           Manage Conference Proceedings
         </h3>
 
-        {/* Form Container */}
         <div className="w-full max-w-2xl bg-white/40 backdrop-blur-md border border-white/30 rounded-lg p-8 shadow-lg transition-all duration-500 hover:scale-[1.03] hover:shadow-xl">
+
+          {/* Description */}
           <h3 className="text-2xl font-semibold text-black mb-4 text-center">Description</h3>
           <div className="flex justify-center">
             <textarea
@@ -71,9 +92,32 @@ const AdminConference = () => {
             />
           </div>
 
+          {/* Institutions */}
+          <h3 className="text-2xl font-semibold text-black mt-6 mb-4 text-center">Institutions (comma separated)</h3>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              value={conferenceData.institutions.join(", ")}
+              onChange={(e) => handleArrayChange("institutions", e.target.value)}
+              className="w-4/5 p-3 text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg text-center"
+            />
+          </div>
+
+          {/* Services */}
+          <h3 className="text-2xl font-semibold text-black mt-6 mb-4 text-center">Services (comma separated)</h3>
+          <div className="flex justify-center">
+            <input
+              type="text"
+              value={conferenceData.services.join(", ")}
+              onChange={(e) => handleArrayChange("services", e.target.value)}
+              className="w-4/5 p-3 text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg text-center"
+            />
+          </div>
+
           {/* Contact Information */}
           <h3 className="text-2xl font-semibold text-black mt-6 mb-4 text-center">Contact Information</h3>
           <div className="flex flex-col items-center space-y-4">
+
             <label className="font-bold text-lg text-black uppercase text-center">Contact Name</label>
             <input
               name="name"
@@ -105,6 +149,24 @@ const AdminConference = () => {
               onChange={handleContactChange}
               className="w-4/5 p-3 text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg text-center"
             />
+
+            {/* Add Mobile */}
+            <label className="font-bold text-lg text-black uppercase text-center">Mobile Numbers (comma separated)</label>
+            <input
+              type="text"
+              value={conferenceData.contact.mobile.join(", ")}
+              onChange={(e) => handleContactArrayChange("mobile", e.target.value)}
+              className="w-4/5 p-3 text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg text-center"
+            />
+
+            {/* Add Emails */}
+            <label className="font-bold text-lg text-black uppercase text-center">Email Addresses (comma separated)</label>
+            <input
+              type="text"
+              value={conferenceData.contact.email.join(", ")}
+              onChange={(e) => handleContactArrayChange("email", e.target.value)}
+              className="w-4/5 p-3 text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg text-center"
+            />
           </div>
 
           {/* Save Button */}
@@ -116,6 +178,7 @@ const AdminConference = () => {
               Save Changes
             </button>
           </div>
+
         </div>
       </div>
     </div>

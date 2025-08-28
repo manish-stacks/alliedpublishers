@@ -48,12 +48,20 @@ const AdminSpecialAgency = () => {
     e.preventDefault();
     const formattedData = {
       ...agencyData,
-      keyFeatures: agencyData.keyFeatures.split(","),
-      partnerOrganizations: agencyData.partnerOrganizations.split(","),
-      currentAssociates: agencyData.currentAssociates.split(","),
+      keyFeatures: agencyData.keyFeatures
+        ? agencyData.keyFeatures.split(",").map((item) => item.trim())
+        : [],
+      partnerOrganizations: agencyData.partnerOrganizations
+        ? agencyData.partnerOrganizations.split(",").map((item) => item.trim())
+        : [],
+      currentAssociates: agencyData.currentAssociates
+        ? agencyData.currentAssociates.split(",").map((item) => item.trim())
+        : [],
       contactDetails: {
         ...agencyData.contactDetails,
-        email: agencyData.contactDetails.email.split(","),
+        email: agencyData.contactDetails.email
+          ? agencyData.contactDetails.email.split(",").map((item) => item.trim())
+          : [],
       },
     };
 
@@ -88,16 +96,22 @@ const AdminSpecialAgency = () => {
     setEditingAgency(agency);
     setAgencyData({
       name: agency.name,
-      description: agency.description,
-      keyFeatures: agency.keyFeatures.join(","),
-      partnerOrganizations: agency.partnerOrganizations.join(","),
-      currentAssociates: agency.currentAssociates.join(","),
+      description: agency.description || "",
+      keyFeatures: agency.keyFeatures ? agency.keyFeatures.join(", ") : "",
+      partnerOrganizations: agency.partnerOrganizations
+        ? agency.partnerOrganizations.join(", ")
+        : "",
+      currentAssociates: agency.currentAssociates
+        ? agency.currentAssociates.join(", ")
+        : "",
       contactDetails: {
         manager: agency.contactDetails.manager || "",
         address: agency.contactDetails.address || "",
         phone: agency.contactDetails.phone || "",
         mobile: agency.contactDetails.mobile || "",
-        email: agency.contactDetails.email.join(",") || "",
+        email: agency.contactDetails.email
+          ? agency.contactDetails.email.join(", ")
+          : "",
       },
     });
   };
@@ -128,40 +142,158 @@ const AdminSpecialAgency = () => {
             Specialized Agencies Management
           </h3>
 
-          {/* ✅ List of Agencies */}
+          {/* List of Agencies */}
           <section className="w-full space-y-6">
             {agencies.map((agency) => (
-              <div key={agency._id} className="bg-white/50 p-5 rounded-lg shadow-md hover:scale-105 hover:bg-white/70 transition duration-300">
+              <div
+                key={agency._id}
+                className="bg-white/50 p-5 rounded-lg shadow-md hover:scale-105 hover:bg-white/70 transition duration-300"
+              >
                 <h3 className="text-xl font-semibold">{agency.name}</h3>
                 <p>{agency.description}</p>
                 <ul className="mt-2">
                   {agency.keyFeatures.map((feature, index) => (
-                    <li key={index} className="text-sm">✅ {feature}</li>
+                    <li key={index} className="text-sm">
+                      ✅ {feature}
+                    </li>
                   ))}
                 </ul>
-                <p><strong>Manager:</strong> {agency.contactDetails.manager}</p>
-                <p><strong>Address:</strong> {agency.contactDetails.address}</p>
-                <p><strong>Phone:</strong> {agency.contactDetails.phone}</p>
+                <p>
+                  <strong>Partner Organizations:</strong>{" "}
+                  {agency.partnerOrganizations.join(", ")}
+                </p>
+                <p>
+                  <strong>Current Associates:</strong>{" "}
+                  {agency.currentAssociates.join(", ")}
+                </p>
+                <p>
+                  <strong>Manager:</strong> {agency.contactDetails.manager}
+                </p>
+                <p>
+                  <strong>Address:</strong> {agency.contactDetails.address}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {agency.contactDetails.phone}
+                </p>
+                <p>
+                  <strong>Mobile:</strong> {agency.contactDetails.mobile}
+                </p>
+                <p>
+                  <strong>Email:</strong> {agency.contactDetails.email.join(", ")}
+                </p>
                 <div className="flex space-x-4 mt-4">
-                  <button className="px-4 py-2 bg-[#581988] text-white rounded-md transition hover:bg-[#876c8e] hover:scale-105" onClick={() => handleEditAgency(agency)}>Edit</button>
-                  <button className="px-4 py-2 bg-[#004f4f] text-white rounded-md transition hover:bg-[#007a7a] hover:scale-105">
-  Delete
-</button>
-
+                  <button
+                    className="px-4 py-2 bg-[#581988] text-white rounded-md transition hover:bg-[#876c8e] hover:scale-105"
+                    onClick={() => handleEditAgency(agency)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-[#004f4f] text-white rounded-md transition hover:bg-[#007a7a] hover:scale-105"
+                    onClick={() => handleDeleteAgency(agency._id)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             ))}
           </section>
 
-          {/* ✅ Add or Edit Agency Form */}
+          {/* Add or Edit Agency Form */}
           <section className="mt-8">
-            <h3 className="text-2xl font-semibold text-black text-center mb-4">{editingAgency ? "Edit Agency" : "Add New Specialized Agency"}</h3>
-            <form onSubmit={handleSaveAgency} className="flex flex-col items-center space-y-4">
-              <input type="text" name="name" placeholder="Agency Name" value={agencyData.name} onChange={handleChange} required className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg" />
-              <textarea name="description" placeholder="Description" value={agencyData.description} onChange={handleChange} className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"></textarea>
-              <input type="text" name="keyFeatures" placeholder="Key Features (comma-separated)" value={agencyData.keyFeatures} onChange={handleChange} className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg" />
-              <input type="text" name="contactDetails.manager" placeholder="Manager Name" value={agencyData.contactDetails.manager} onChange={handleChange} className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg" />
-              <button type="submit" className="px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95">
+            <h3 className="text-2xl font-semibold text-black text-center mb-4">
+              {editingAgency ? "Edit Agency" : "Add New Specialized Agency"}
+            </h3>
+            <form
+              onSubmit={handleSaveAgency}
+              className="flex flex-col items-center space-y-4"
+            >
+              <input
+                type="text"
+                name="name"
+                placeholder="Agency Name"
+                value={agencyData.name}
+                onChange={handleChange}
+                required
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <textarea
+                name="description"
+                placeholder="Description"
+                value={agencyData.description}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="keyFeatures"
+                placeholder="Key Features (comma-separated)"
+                value={agencyData.keyFeatures}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="partnerOrganizations"
+                placeholder="Partner Organizations (comma-separated)"
+                value={agencyData.partnerOrganizations}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="currentAssociates"
+                placeholder="Current Associates (comma-separated)"
+                value={agencyData.currentAssociates}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+
+              <input
+                type="text"
+                name="contactDetails.manager"
+                placeholder="Manager Name"
+                value={agencyData.contactDetails.manager}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="contactDetails.address"
+                placeholder="Address"
+                value={agencyData.contactDetails.address}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="contactDetails.phone"
+                placeholder="Phone"
+                value={agencyData.contactDetails.phone}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="contactDetails.mobile"
+                placeholder="Mobile"
+                value={agencyData.contactDetails.mobile}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="contactDetails.email"
+                placeholder="Email Addresses (comma-separated)"
+                value={agencyData.contactDetails.email}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-[#75609c] rounded-lg bg-white text-black text-center outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+
+              <button
+                type="submit"
+                className="px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95"
+              >
                 {editingAgency ? "Update" : "Add Agency"}
               </button>
             </form>
