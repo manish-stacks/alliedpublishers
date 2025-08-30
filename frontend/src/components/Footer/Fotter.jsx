@@ -50,22 +50,8 @@ const Footer = () => {
               >
                 <i className="fab fa-facebook fa-2x"></i>
               </a>
-              <a
-                href="https://www.twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-[#75609c] transition duration-300"
-              >
-                <i className="fab fa-twitter fa-2x"></i>
-              </a>
-              <a
-                href="https://www.instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-[#75609c] transition duration-300"
-              >
-                <i className="fab fa-instagram fa-2x"></i>
-              </a>
+              
+
               <a
                 href="https://www.linkedin.com"
                 target="_blank"

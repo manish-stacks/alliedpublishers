@@ -44,6 +44,9 @@ import AdminQRCode from "./components/Admin/AdminQRcode";
 import AdminRoute from "./components/AdminRoute";
 import AdminAboutUsPage from "./components/Admin/AdminAboutUsPage";
 import LoaderProvider from "./components/Loader/LoaderProvider";
+import AdminLink from "./components/Admin/AdminLink";
+// import AdminCatalogue from "./components/Admin/AdminCatalogue";
+
 
 function App() {
 
@@ -96,6 +99,8 @@ function App() {
         <Route path="/admin/category" element={<AdminRoute><AdminCategory/></AdminRoute>} />
         <Route path="/admin/conference-categories" element={<AdminRoute><AdminConferenceCategory/></AdminRoute>} />
         <Route path="/admin/qrcode" element={<AdminRoute><AdminQRCode/></AdminRoute>} />
+        <Route path="/admin/link" element={<AdminLink />} />
+        {/* <Route path="/admin/general/catalogue" element={<AdminCatalogue/>}></Route> */}
       </Routes>
       </LoaderProvider>
     </Router>

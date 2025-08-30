@@ -14,6 +14,7 @@ const { getConferenceData, addConferenceData, deleteConferenceData } = require("
 const imageController = require("../controllers/ImageController");
 const { getJournal, updateJournal } = require("../controllers/JournalController");
 const branchController = require("../controllers/BranchController");
+const { getLink, updateLink } = require("../controllers/LinkController");
 
 
 
@@ -77,5 +78,10 @@ router.put("/admin/images", imageController.updateImages);
 router.get("/journal", getJournal);
 router.put("/admin/journal/:id", updateJournal);
 
-
+// router.get("/eupheus-link", (req, res) => {
+//   res.json({
+//     link: "https://www.eupheus.in"
+//   });
+router.get("/eupheus-link", getLink);          
+router.put("/admin/link", updateLink);
 module.exports = router;

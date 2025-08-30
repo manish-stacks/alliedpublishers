@@ -7,9 +7,17 @@ const Carousel = () => {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [thirdLink, setThirdLink] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
+    api.get("/api/home/eupheus-link")
+    .then((res) => {
+      setThirdLink(res.data.link);
+    })
+    .catch((err) => {
+      console.error("Error fetching link:", err);
+    });
     fetchImages();
   }, []);
 
@@ -24,7 +32,7 @@ const Carousel = () => {
 
   const handleKnowMoreClick = () => {
     if (currentIndex === 3) {
-      window.location.href = "https://www.eupheus.in";
+      window.location.href = thirdLink;
     } else if (currentIndex === 1) {
       navigate("/general-tyles");
     } else {
@@ -86,7 +94,7 @@ const Carousel = () => {
                   <img src={slide} alt={`Slide ${index}`} />
                   <div className="carousel-overlay">
                     <button className="know-more-btn" onClick={handleKnowMoreClick}>
-                      {currentIndex === 3 ? "Visit us: https://www.eupheus.in" : "Know More"}
+                      {currentIndex === 3 ? `Visit us: ${thirdLink}` : "Know More"}
                     </button>
                   </div>
                 </div>

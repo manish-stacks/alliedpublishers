@@ -243,13 +243,22 @@ const Sidebar = () => {
           )}
         </li>
         <li>
+          <Link to="/admin/link" className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition">
+          <i className="fas fa-link mr-3"></i>School Books Link</Link>
+        </li>
+        <li>
+          <Link to="/admin/general/catalogue" className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition">
+          <i className="fas fa-link mr-3"></i>General Catalogue</Link>
+        </li>
+        <li>
                 <Link
                   to="/"
                   className="block p-2 text-sm hover:bg-gray-700 rounded"
                 >
                   Back to Home
                 </Link>
-              </li>
+        </li>
+        
       </ul>
     </div>
   );

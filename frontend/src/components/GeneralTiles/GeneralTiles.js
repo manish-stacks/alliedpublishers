@@ -167,6 +167,30 @@ const GeneralTiles = () => {
             >
               🛒 Go to Cart
             </button>
+            <button
+      onClick={async () => {
+        try {
+          const response = await api.get(`/api/home/general/catalogue`, {
+            responseType: "blob", // important for file download
+          });
+
+          // Create download link
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "catalogue.pdf"); // change extension if needed
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        } catch (error) {
+          console.error("Error downloading catalogue:", error);
+          alert("Failed to download catalogue.");
+        }
+      }}
+      className="bg-teal-700 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+    >
+      ⬇️ Download Catalogue
+    </button>
             <select
               className="p-2 border rounded-lg"
               value={sortOption}
