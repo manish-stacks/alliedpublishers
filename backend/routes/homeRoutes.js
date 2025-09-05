@@ -15,8 +15,22 @@ const imageController = require("../controllers/ImageController");
 const { getJournal, updateJournal } = require("../controllers/JournalController");
 const branchController = require("../controllers/BranchController");
 const { getLink, updateLink } = require("../controllers/LinkController");
+const { uploadCatalogueGeneral, downloadCatalogueGeneral } = require("../controllers/CatalogueGeneralController");
+const { uploadCatalogueConf, downloadCatalogueConf } = require("../controllers/CatalogueConfController");
 
+const multer = require("multer");
+const path = require("path");
+// const { uploadCatalogueConf } = require("../controllers/CatalogueConfController");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/catalogues"); // ensure this folder exists
+  },
+  filename: (req, file, cb) => {
+    cb(null, `catalogue-${Date.now()}${path.extname(file.originalname)}`);
+  },
+});
 
+const upload = multer({ storage });
 
 
 const router = express.Router();
@@ -84,4 +98,13 @@ router.put("/admin/journal/:id", updateJournal);
 //   });
 router.get("/eupheus-link", getLink);          
 router.put("/admin/link", updateLink);
+router.post("/admin/catalogue/general/upload", uploadCatalogueGeneral);
+
+// User download (redirect to public URL)
+router.get("/catalogue/general/download", downloadCatalogueGeneral);
+router.post("/admin/catalogue/conf/upload", uploadCatalogueConf);
+
+// User download (redirect to public URL)
+router.get("/catalogue/conf/download", downloadCatalogueConf);
+
 module.exports = router;

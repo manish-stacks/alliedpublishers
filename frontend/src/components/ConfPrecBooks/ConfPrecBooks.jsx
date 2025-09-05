@@ -463,6 +463,11 @@ const ConfPrecBooks = () => {
   if (error)
     return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
+
+    const downloadCatalogue = () => {
+      window.location.href = "http://localhost:5001/api/home/catalogue/conf/download";
+    };
+
   return (
     <>
       <Navbar />
@@ -536,6 +541,12 @@ const ConfPrecBooks = () => {
               <option value="price-asc">Price (Low to High)</option>
               <option value="price-desc">Price (High to Low)</option>
             </select>
+            <button
+  onClick={downloadCatalogue}
+  className="ml-4 px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-600 transition"
+>
+  ⬇️ Download Catalogue
+</button>
           </div>
 
           {filteredBooks.length === 0 ? (

@@ -46,7 +46,8 @@ import AdminAboutUsPage from "./components/Admin/AdminAboutUsPage";
 import LoaderProvider from "./components/Loader/LoaderProvider";
 import AdminLink from "./components/Admin/AdminLink";
 // import AdminCatalogue from "./components/Admin/AdminCatalogue";
-
+import GeneralCatalogueUpload from "./components/Admin/GeneralCatalogueUpload";
+import ConferenceCatalogueUpload from "./components/Admin/ConferenceCatalogueUpload";
 
 function App() {
 
@@ -101,6 +102,8 @@ function App() {
         <Route path="/admin/qrcode" element={<AdminRoute><AdminQRCode/></AdminRoute>} />
         <Route path="/admin/link" element={<AdminLink />} />
         {/* <Route path="/admin/general/catalogue" element={<AdminCatalogue/>}></Route> */}
+        <Route path="/admin/general/catalogue" element={<GeneralCatalogueUpload />} />
+<Route path="/admin/conf/catalogue" element={<ConferenceCatalogueUpload />} />
       </Routes>
       </LoaderProvider>
     </Router>

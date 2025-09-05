@@ -3,6 +3,7 @@ import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 
+
 const GeneralTiles = () => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
@@ -111,6 +112,11 @@ const GeneralTiles = () => {
   if (loading) return <p className="text-center text-gray-500 text-lg mt-10">Loading books...</p>;
   if (error) return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
+  const downloadCatalogue = () => {
+    window.location.href = "http://localhost:5001/api/home/catalogue/general/download";
+  };
+  
+
   return (
     <>
       <Navbar />
@@ -160,49 +166,36 @@ const GeneralTiles = () => {
 
         {/* Main Book Section */}
         <div className="flex-1">
-          <div className="mb-4 flex justify-between">
-            <button
+          <div className="mb-4 flex justify-between items-center">
+    {/* Sort By */}
+    <button
               onClick={goToCart}
               className="bg-teal-700 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
             >
               🛒 Go to Cart
             </button>
-            <button
-      onClick={async () => {
-        try {
-          const response = await api.get(`/api/home/general/catalogue`, {
-            responseType: "blob", // important for file download
-          });
-
-          // Create download link
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", "catalogue.pdf"); // change extension if needed
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        } catch (error) {
-          console.error("Error downloading catalogue:", error);
-          alert("Failed to download catalogue.");
-        }
-      }}
-      className="bg-teal-700 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+    <select
+      className="p-2 border rounded-lg"
+      value={sortOption}
+      onChange={(e) => setSortOption(e.target.value)}
     >
-      ⬇️ Download Catalogue
-    </button>
-            <select
-              className="p-2 border rounded-lg"
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-            >
-              <option value="">Sort By</option>
-              <option value="title-asc">Title (A-Z)</option>
-              <option value="title-desc">Title (Z-A)</option>
-              <option value="price-asc">Price (Low to High)</option>
-              <option value="price-desc">Price (High to Low)</option>
-            </select>
-          </div>
+      <option value="">Sort By</option>
+      <option value="title-asc">Title (A-Z)</option>
+      <option value="title-desc">Title (Z-A)</option>
+      <option value="price-asc">Price (Low to High)</option>
+      <option value="price-desc">Price (High to Low)</option>
+    </select>
+
+    {/* Download Catalogue */}
+    <button
+  onClick={downloadCatalogue}
+  className="ml-4 px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-600 transition"
+>
+  ⬇️ Download Catalogue
+</button>
+
+  {/* </div> */}
+</div>    
 
           {filteredBooks.length === 0 ? (
             <p className="text-center text-gray-600 text-lg mt-10">📖 No books found for this category.</p>

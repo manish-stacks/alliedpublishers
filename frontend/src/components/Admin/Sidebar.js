@@ -189,6 +189,7 @@ const Sidebar = () => {
                   Specialized Agency
                 </Link>
               </li>
+              
             </ul>
           )}
         </li>
@@ -247,9 +248,22 @@ const Sidebar = () => {
           <i className="fas fa-link mr-3"></i>School Books Link</Link>
         </li>
         <li>
-          <Link to="/admin/general/catalogue" className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition">
-          <i className="fas fa-link mr-3"></i>General Catalogue</Link>
-        </li>
+        <Link
+          to="/admin/general/catalogue"
+          className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition"
+        >
+          <i className="fas fa-book mr-3"></i>General Catalogue
+        </Link>
+      </li>
+      <li>
+        <Link
+          to="/admin/conf/catalogue"
+          className="flex items-center w-full text-left p-2 hover:bg-gray-700 rounded transition"
+        >
+          <i className="fas fa-book mr-3"></i>Conference Catalogue
+        </Link>
+      </li>
+
         <li>
                 <Link
                   to="/"
