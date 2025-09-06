@@ -95,6 +95,14 @@ const Sidebar = () => {
                   Conference Proceeding Books
                 </Link>
               </li>
+               <li>
+                <Link
+                  to="/admin/foreign/upload"
+                  className="block p-2 text-sm hover:bg-gray-700 rounded"
+                >
+                  Foreign Books Upload
+                </Link>
+              </li>
             </ul>
           )}
         </li>

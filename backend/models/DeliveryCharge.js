@@ -1,22 +1,12 @@
-// const mongoose = require("mongoose");
-
-// const DeliveryChargeSchema = new mongoose.Schema({
-//   pincode: { type: String, unique: true },
-//   charge: Number,
-// });
-
-// module.exports = mongoose.model("DeliveryCharge", DeliveryChargeSchema);
-
-
 const mongoose = require("mongoose");
 
 const DeliveryChargeSchema = new mongoose.Schema({
-  pincode: { type: String, unique: true },
+  states: { type: String, unique: true }, // comma-separated states string
   charge: { type: Number, required: true },
 });
 
 const DefaultDeliveryChargeSchema = new mongoose.Schema({
-  defaultCharge: { type: Number, default: 0 }, // Default delivery charge
+  defaultCharge: { type: Number, default: 0 },
 });
 
 const DeliveryCharge = mongoose.model("DeliveryCharge", DeliveryChargeSchema);

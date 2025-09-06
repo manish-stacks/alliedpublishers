@@ -17,6 +17,8 @@ const authenticateUser = require("./middleware/authMiddleware");
 const conferenceCategoryRoutes = require("./routes/ConferenceCategoryRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const aboutUsPageRoutes=require("./routes/aboutUsPageRoutes");
+const ForeignBook = require("./models/ForeignBooks"); // adjust path as needed
+
 // const catalogueRoutes = require("./routes/catalogueRoutes")
 
  
@@ -517,46 +519,6 @@ app.get("/api/admin/orders", async (req, res) => {
   }
 });
 
-// app.get("/api/admin/orders", async (req, res) => {
-//   try {
-//     const users = await User.find({ "orders.payment.screenshot": { $exists: true, $ne: "" } })
-//       .select("name email address orders")
-//       .populate({
-//         path: "orders.cart.itemId",
-//         model: "General",
-//       })
-//       .lean();
-
-//     const processedUsers = users.map(user => {
-//       const sortedOrders = [...user.orders].sort((a, b) => {
-//         return new Date(b.payment?.createdAt || 0) - new Date(a.payment?.createdAt || 0);
-//       });
-      
-//       return {
-//         ...user,
-//         orders: sortedOrders.map(order => ({
-//           ...order,
-//           orderId: order.orderId || order.tempOrderId || null,
-//           createdAt: order.payment?.createdAt || new Date(0) // Add createdAt to each order
-//         }))
-//       };
-//     });
-
-//     processedUsers.sort((a, b) => {
-//       const aLatest = a.orders[0]?.createdAt || 0;
-//       const bLatest = b.orders[0]?.createdAt || 0;
-//       return new Date(bLatest) - new Date(aLatest);
-//     });
-
-//     res.json(processedUsers);
-//   } catch (error) {
-//     console.error("Error fetching orders:", error);
-//     res.status(500).send("Server error");
-//   }
-// });
-
-
-
 // GET /api/cart/total
 app.get("/api/cart/total", authenticateUser, async (req, res) => {
   try {
@@ -609,12 +571,11 @@ app.get("/api/delivery", async (req, res) => {
   }
 });
 
-// POST /api/admin/delivery
 app.post("/api/admin/delivery", async (req, res) => {
-  const { pincode, charge } = req.body;
+  const { states, charge } = req.body;
 
   try {
-    const newCharge = new DeliveryCharge({ pincode, charge });
+    const newCharge = new DeliveryCharge({ states, charge });
     await newCharge.save();
     res.status(201).json(newCharge);
   } catch (error) {
@@ -623,19 +584,21 @@ app.post("/api/admin/delivery", async (req, res) => {
   }
 });
 
-app.get("/api/delivery/:pincode", async (req, res) => {
-  const { pincode } = req.params;
+
+app.get("/api/delivery/:state", async (req, res) => {
+  const { state } = req.params;
 
   try {
-    // Find the delivery charge for the specific pincode
-    const deliveryCharge = await DeliveryCharge.findOne({ pincode });
+    // Find delivery charge matching state in comma-separated states string
+    const deliveryCharge = await DeliveryCharge.findOne({
+      states: { $regex: new RegExp(`\\b${state}\\b`, "i") },
+    });
 
     if (deliveryCharge) {
-      // Return the specific delivery charge
       return res.json({ charge: deliveryCharge.charge });
     }
 
-    // If pincode not found, return the default delivery charge
+    // Return default charge if not found
     const defaultCharge = await DefaultDeliveryCharge.findOne();
     res.json({ charge: defaultCharge?.defaultCharge || 0 });
   } catch (error) {
@@ -644,14 +607,13 @@ app.get("/api/delivery/:pincode", async (req, res) => {
   }
 });
 
-// PUT /api/admin/delivery/:pincode
-app.put("/api/admin/delivery/:pincode", async (req, res) => {
-  const { pincode } = req.params;
+app.put("/api/admin/delivery/:states", async (req, res) => {
+  const statesParam = req.params.states;
   const { charge } = req.body;
 
   try {
     const updatedCharge = await DeliveryCharge.findOneAndUpdate(
-      { pincode },
+      { states: statesParam },
       { charge },
       { new: true }
     );
@@ -662,18 +624,20 @@ app.put("/api/admin/delivery/:pincode", async (req, res) => {
   }
 });
 
+
 // DELETE /api/admin/delivery/:pincode
-app.delete("/api/admin/delivery/:pincode", async (req, res) => {
-  const { pincode } = req.params;
+app.delete("/api/admin/delivery/:states", async (req, res) => {
+  const statesParam = req.params.states;
 
   try {
-    await DeliveryCharge.findOneAndDelete({ pincode });
+    await DeliveryCharge.findOneAndDelete({ states: statesParam });
     res.status(204).send();
   } catch (error) {
     console.error("Error deleting delivery charge:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 
 // POST /api/admin/delivery/default
@@ -971,6 +935,95 @@ app.delete("/admin/conference/books/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete conference book" });
   }
 });
+
+
+app.post("/admin/foreign/upload", upload.single("file"), async (req, res) => {
+  try {
+    const workbook = xlsx.readFile(req.file.path);
+    const sheetName = workbook.SheetNames[0]; // first sheet only
+    let sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+    const normalizedData = sheetData.map(row => ({
+      bookcode: row.Bookcode || "",
+      titleName: row["Title Name"] || "",
+      authorName: row["Author Name"] || "",
+      publishYear: Number(row.PublishYear || 0),
+      curr: row.curr || "",
+      price: Number(row.price || 0),
+      qty: Number(row.Qty || 0)
+    }));
+
+    const validData = normalizedData.filter(item => item.bookcode);
+
+    const bulkOps = validData.map(item => ({
+      updateOne: {
+        filter: { bookcode: item.bookcode },
+        update: { $set: item },
+        upsert: true
+      }
+    }));
+
+    const result = await ForeignBook.bulkWrite(bulkOps); // fixed model name here
+
+    res.status(200).json({
+      message: "Upload successful",
+      inserted: result.upsertedCount,
+      updated: result.modifiedCount
+    });
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({ error: "Failed to process file" });
+  } finally {
+    if (req.file && req.file.path) {
+      // Optionally clean up uploaded file here
+      const fs = require("fs");
+      fs.unlink(req.file.path, (err) => {
+        if (err) console.error("Failed to delete uploaded file:", err);
+      });
+    }
+  }
+});
+
+app.put("/admin/foreign/books/:id", async (req, res) => {
+  try {
+    const updatedBook = await ForeignBook.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedBook) return res.status(404).json({ error: "Book not found" });
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update book" });
+  }
+});
+
+
+app.delete("/admin/foreign/books/:id", async (req, res) => {
+  try {
+    const deletedBook = await ForeignBook.findByIdAndDelete(req.params.id);
+    if (!deletedBook) return res.status(404).json({ error: "Book not found" });
+    res.status(200).json({ message: "Book deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete book" });
+  }
+});
+
+
+app.get("/admin/foreign/books", async (req, res) => {
+  const titleFilter = req.query.title;
+  try {
+    const filter = {};
+    if (titleFilter) {
+      filter.titleName = { $regex: titleFilter, $options: "i" }; // case-insensitive regex search
+    }
+    const books = await ForeignBook.find(filter);
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch foreign books" });
+  }
+});
+
 
 
 app.use(express.static(path.join(__dirname, 'public')));

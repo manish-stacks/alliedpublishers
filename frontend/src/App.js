@@ -48,6 +48,8 @@ import AdminLink from "./components/Admin/AdminLink";
 // import AdminCatalogue from "./components/Admin/AdminCatalogue";
 import GeneralCatalogueUpload from "./components/Admin/GeneralCatalogueUpload";
 import ConferenceCatalogueUpload from "./components/Admin/ConferenceCatalogueUpload";
+import AdminForeignBooks from "./components/Admin/AdminForeignBooks";
+import ForeignBooksDisplay from "./components/ForeignBooks/ForeignBooks";
 
 function App() {
 
@@ -89,6 +91,7 @@ function App() {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/general-tyles" element={  <GeneralTiles/>} />
         <Route path="/conf-prec-books" element={<ConfPrecBooks />} />
+         <Route path="/foreign-books" element={<ForeignBooksDisplay />} />
         <Route path="/search-results" element={<SearchResultsPage />} /> 
         <Route path="/cart" element={<Cart />} />
         <Route path="/address" element={<AddressDetail/>} />
@@ -97,13 +100,14 @@ function App() {
         <Route path="/admin/orders" element={<AdminRoute><AdminPayment/></AdminRoute>} />
         <Route path="/admin/general/upload" element={<AdminRoute><AdminGeneral/></AdminRoute>} />
         <Route path="/admin/conference/upload" element={<AdminRoute><AdminConferenceBooks/></AdminRoute>} />
+         <Route path="/admin/foreign/upload" element={<AdminRoute><AdminForeignBooks/></AdminRoute>} />
         <Route path="/admin/category" element={<AdminRoute><AdminCategory/></AdminRoute>} />
         <Route path="/admin/conference-categories" element={<AdminRoute><AdminConferenceCategory/></AdminRoute>} />
         <Route path="/admin/qrcode" element={<AdminRoute><AdminQRCode/></AdminRoute>} />
         <Route path="/admin/link" element={<AdminLink />} />
         {/* <Route path="/admin/general/catalogue" element={<AdminCatalogue/>}></Route> */}
-        <Route path="/admin/general/catalogue" element={<GeneralCatalogueUpload />} />
-<Route path="/admin/conf/catalogue" element={<ConferenceCatalogueUpload />} />
+        <Route path="/admin/general/catalogue" element={<AdminRoute><GeneralCatalogueUpload /></AdminRoute>} />
+<Route path="/admin/conf/catalogue" element={<AdminRoute><ConferenceCatalogueUpload /></AdminRoute>} />
       </Routes>
       </LoaderProvider>
     </Router>

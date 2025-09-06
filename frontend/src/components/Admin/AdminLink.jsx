@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../axiosConfig";
+import Sidebar from "./Sidebar";
 
 const AdminLink = () => {
   const [url, setUrl] = useState("");
@@ -30,6 +31,7 @@ const AdminLink = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md">
+       <Sidebar />
       <h2 className="text-xl font-bold mb-4 text-center">Update Eupheus Link</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
