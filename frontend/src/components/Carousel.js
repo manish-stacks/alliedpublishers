@@ -24,7 +24,9 @@ const Carousel = () => {
   const fetchImages = async () => {
     try {
       const res = await api.get(`/api/home/images`);
-      if (res.data) setImages([res.data.image1, res.data.image2, res.data.image3]);
+      if (res.data) setImages([res.data.image1, res.data.image2, res.data.image3,res.data.image4]);
+      console.log("Fetched images:", res.data);
+
     } catch (error) {
       console.error("Error fetching images:", error);
     }
@@ -35,8 +37,11 @@ const Carousel = () => {
       window.location.href = thirdLink;
     } else if (currentIndex === 1) {
       navigate("/general-tyles");
-    } else {
+    } else if(currentIndex == 2) {
       navigate("/conf-prec-books");
+    }
+    else if(currentIndex == 4){
+      navigate("/foreign-books");
     }
   };
 
@@ -79,7 +84,11 @@ const Carousel = () => {
         <>
           <div
             className="carousel-background"
-            style={{ backgroundImage: `url(${images[currentIndex - 1]})` }}
+            // style={{ backgroundImage: `url(${images[currentIndex - 1]})` }}
+            style={{
+              backgroundImage: `url(${extendedSlides[currentIndex] || ""})`
+            }}
+            
           ></div>
           <div className="carousel-container">
             <div

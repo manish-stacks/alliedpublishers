@@ -7,6 +7,7 @@ const AdminUpdateImages = () => {
     image1: "",
     image2: "",
     image3: "",
+    image4:"",
   });
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const AdminUpdateImages = () => {
           </h3>
 
           {/* Input fields for three images */}
-          {[1, 2, 3].map((num) => (
+          {[1, 2, 3,4].map((num) => (
             <div key={num} className="mb-6">
               <label className="block text-lg font-semibold text-black mb-2">
                 Image {num} URL:

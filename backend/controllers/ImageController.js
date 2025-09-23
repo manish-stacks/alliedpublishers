@@ -41,11 +41,11 @@ exports.getImages = async (req, res) => {
 // Update Images
 exports.updateImages = async (req, res) => {
   try {
-    const { image1, image2, image3 } = req.body;
+    const { image1, image2, image3 ,image4} = req.body;
     
     const updatedImages = await Image.findOneAndUpdate(
       {},
-      { image1, image2, image3 },
+      { image1, image2, image3 ,image4},
       { new: true, upsert: true } // Creates a new entry if none exists
     );
 

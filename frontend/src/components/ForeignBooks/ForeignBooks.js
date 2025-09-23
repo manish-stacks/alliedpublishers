@@ -30,6 +30,10 @@ const ForeignBooksDisplay = () => {
     };
     fetchBooks();
   }, []);
+ 
+  
+  
+  
 
   useEffect(() => {
     let updatedBooks = [...books];
