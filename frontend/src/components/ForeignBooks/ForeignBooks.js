@@ -12,6 +12,7 @@ const ForeignBooksDisplay = () => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [sortOption, setSortOption] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -19,7 +20,11 @@ const ForeignBooksDisplay = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await api.get("/admin/foreign/books");
+        let url = "/admin/foreign/books";
+        if (searchQuery) {
+          url += `?title=${encodeURIComponent(searchQuery)}`;
+        }
+        const response = await api.get(url);
         setBooks(response.data);
         setFilteredBooks(response.data);
       } catch {
@@ -29,7 +34,7 @@ const ForeignBooksDisplay = () => {
       }
     };
     fetchBooks();
-  }, []);
+  }, [searchQuery]);
  
   
   
@@ -77,6 +82,13 @@ const ForeignBooksDisplay = () => {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-3xl font-bold">Foreign Books Collection</h2>
           <div className="flex items-center space-x-4">
+            <input
+              type="text"
+              placeholder="Search books..."
+              className="p-2 border rounded-lg w-64"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <select
               className="p-2 border rounded-lg"
               value={sortOption}

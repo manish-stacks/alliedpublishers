@@ -11,6 +11,7 @@ const { getPublishers, addPublisher, deletePublisher } = require("../controllers
 const specialAgencyController = require("../controllers/SagencyController");
 const { getData, addData, deleteData } = require("../controllers/GeneralController");
 const { getConferenceData, addConferenceData, deleteConferenceData } = require("../controllers/ConferenceController");
+const { getForeignBooksData } = require("../controllers/ForeignBooksController");
 const imageController = require("../controllers/ImageController");
 const { getJournal, updateJournal } = require("../controllers/JournalController");
 const branchController = require("../controllers/BranchController");
@@ -84,6 +85,8 @@ router.delete("/admin/general/:id", deleteData);
 router.get("/conference/:type", getConferenceData);
 router.post("/admin/conference", addConferenceData); // Correct
 router.delete("/admin/conference/:id", deleteConferenceData);
+
+router.get("/foreign/book", getForeignBooksData);
 
 
 router.get("/images", imageController.getImages);

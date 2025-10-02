@@ -33,7 +33,7 @@ const SearchResultsPage = () => {
     fetchCategories();
   }, []);
 
-  // Fetch both general and conference books based on search query
+  // Fetch general, conference, and foreign books based on search query
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -51,8 +51,32 @@ if (searchQuery) {
 }
 const confBooksPromise = api.get(confUrl);
 
-        const [generalRes, confRes] = await Promise.all([generalBooksPromise, confBooksPromise]);
-        const combinedBooks = [...generalRes.data, ...confRes.data];
+        // Fetch foreign books matching query or all if no query
+        let foreignUrl = `/api/home/foreign/book`;
+if (searchQuery) {
+  foreignUrl += `?title=${encodeURIComponent(searchQuery)}`;
+}
+const foreignBooksPromise = api.get(foreignUrl);
+
+        const [generalRes, confRes, foreignRes] = await Promise.all([generalBooksPromise, confBooksPromise, foreignBooksPromise]);
+        
+        // Transform foreign books to match the expected structure
+        const transformedForeignBooks = foreignRes.data.map(book => ({
+          id: book._id,
+          title: book.titleName,
+          author: book.authorName,
+          isbn: book.bookcode,
+          category: "Foreign Books",
+          price: book.price,
+          stock: book.qty,
+          coverImage: null,
+          backImage: null,
+          discount: 0,
+          coverType: "N/A",
+          pages: "N/A"
+        }));
+        
+        const combinedBooks = [...generalRes.data, ...confRes.data, ...transformedForeignBooks];
 
         setSearchResults(combinedBooks);
         setFilteredBooks(combinedBooks);
@@ -205,12 +229,14 @@ const confBooksPromise = api.get(confUrl);
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {filteredBooks.map(book => (
                 <div key={book.id || book._id} className="bg-white shadow-lg rounded-lg overflow-hidden p-4 flex flex-col transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                  <img 
-                    src={book.coverImage} 
-                    alt={book.title} 
-                    className="w-full h-64 object-contain cursor-pointer mb-2" 
-                    onClick={() => openPopup(book)} 
-                  />
+                  {book.coverImage && (
+                    <img 
+                      src={book.coverImage} 
+                      alt={book.title} 
+                      className="w-full h-64 object-contain cursor-pointer mb-2" 
+                      onClick={() => openPopup(book)} 
+                    />
+                  )}
                   <h4 className="text-xl font-bold mb-1">{book.title}</h4>
                   <p className="text-gray-600 mb-1">Author: {book.author}</p>
                   <p className="text-gray-500 mb-1">ISBN: {book.isbn}</p>
