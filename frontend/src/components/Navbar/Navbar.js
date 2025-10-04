@@ -87,25 +87,26 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`/api/auth/logout`, {
+      await fetch("http://localhost:5001/api/auth/logout", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
-      if (response.ok) {
-        handleAutoLogout();
-        navigate("/");
-      } else {
-        const data = await response.json();
-        alert(`Logout failed: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Error logging out:", error);
+    } catch (err) {
+      console.warn("Logout request failed, continuing client-side logout");
     }
+  
+    // Always clear local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    if (tokenCheckInterval.current) clearInterval(tokenCheckInterval.current);
+    navigate("/");
   };
+  
+  
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

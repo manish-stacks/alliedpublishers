@@ -157,7 +157,7 @@ router.post("/login", async (req, res) => {
 
 // Logout Route
 router.post("/logout", (req, res) => {
-  res.status(200).send("Logout successful");
+  res.status(200).json({ message: "Logout successful" });
 });
 
 router.post("/forgot-password", async (req, res) => {
