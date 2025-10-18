@@ -88,7 +88,7 @@ router.post("/register", async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       console.log("User already exists:", email);
-      return res.status(400).send("User already exists");
+      return res.status(409).send("User already exists");
     }
 
     // Set role based on email

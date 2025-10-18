@@ -14,14 +14,21 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await api.post(`/api/auth/register`, { name, email, password });
+      await api.post("/api/auth/register", { name, email, password });
       alert("Registration successful");
       navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
+  
+     
+      if (error.response && error.response.status === 409) {
+        alert("User already exists");
+        return;
+      }
+  
       alert("Registration failed");
-    }
-  };
+    }
+  };
 
   return (
     <>
