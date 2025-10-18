@@ -465,7 +465,7 @@ const ConfPrecBooks = () => {
 
 
     const downloadCatalogue = () => {
-      window.location.href = "http://localhost:5001/api/home/catalogue/conf/download";
+      window.location.href = `${process.env.REACT_APP_BACKEND_URL}/api/home/catalogue/conf/download`;
     };
 
   return (

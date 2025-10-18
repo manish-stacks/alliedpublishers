@@ -113,7 +113,7 @@ const GeneralTiles = () => {
   if (error) return <p className="text-center text-red-500 text-lg mt-10">{error}</p>;
 
   const downloadCatalogue = () => {
-    window.location.href = "http://localhost:5001/api/home/catalogue/general/download";
+    window.location.href = `${process.env.REACT_APP_BACKEND_URL}/api/home/catalogue/general/download`;
   };
   
 
