@@ -3,9 +3,16 @@ import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 
-const formatPriceInRupees = (price) => {
-  if (!price) return "₹0.00";
-  return `₹${price.toFixed(2)}`;
+const formatPrice = (price, currency) => {
+  if (!price) return "0.00";
+  const currencySymbols = {
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'INR': '₹'
+  };
+  const symbol = currencySymbols[currency] || currency;
+  return `${symbol}${price.toFixed(2)}`;
 };
 
 const ForeignBooksDisplay = () => {
@@ -49,7 +56,7 @@ const ForeignBooksDisplay = () => {
     setFilteredBooks(updatedBooks);
   }, [sortOption, books]);
 
-  const addToCart = async (bookId, bookName, bookPrice) => {
+  const addToCart = async (bookId, bookName, bookPrice, currency) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -58,7 +65,7 @@ const ForeignBooksDisplay = () => {
       }
       await api.post(
         `/api/cart/add-to-cart`,
-        { itemId: bookId, name: bookName, price: bookPrice, quantity: 1 },
+        { itemId: bookId, name: bookName, price: bookPrice, currency: currency, quantity: 1, isForeign: true },
         { headers: { Authorization: token } }
       );
       alert("Book added to cart!");
@@ -123,11 +130,11 @@ const ForeignBooksDisplay = () => {
                   <p className="text-gray-700 mb-1"><strong>Author:</strong> {book.authorName || "Unknown"}</p>
                   <p className="text-gray-700 mb-1"><strong>Bookcode:</strong> {book.bookcode}</p>
                   <p className="text-gray-700 mb-1"><strong>Published:</strong> {book.publishYear || "N/A"}</p>
-                  <p className="text-gray-700 mb-1"><strong>Price:</strong> {formatPriceInRupees(book.price)}</p>
+                  <p className="text-gray-700 mb-1"><strong>Price:</strong> {formatPrice(book.price, book.curr)}</p>
                   <p className="text-gray-700"><strong>Quantity:</strong> {book.qty || 0}</p>
                 </div>
                 <button
-                  onClick={() => addToCart(book._id, book.titleName, book.price)}
+                  onClick={() => addToCart(book._id, book.titleName, book.price, book.curr)}
                   className="bg-teal-700 text-white py-2 rounded hover:bg-teal-600 transition"
                 >
                   🛒 Add to Cart

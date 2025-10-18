@@ -297,14 +297,23 @@ const AdminOrders = () => {
                         )}
                       </td>
                       <td className="p-2 lg:p-4 text-gray-700">
-                        {order.cart?.map((item) => (
-                          <div key={item._id} className="text-xs lg:text-sm">
-                            {item.name} - ₹{item.price} x {item.quantity}
-                          </div>
-                        ))}
+                        {order.cart?.map((item) => {
+                          const priceToShow = item.convertedPrice || item.price;
+                          const displayText = item.isForeign && item.convertedPrice ? 
+                            `${item.name} - ${item.currency} ${item.price} (₹${item.convertedPrice.toFixed(2)}) x ${item.quantity}` :
+                            `${item.name} - ₹${priceToShow} x ${item.quantity}`;
+                          return (
+                            <div key={item._id} className="text-xs lg:text-sm">
+                              {displayText}
+                            </div>
+                          );
+                        })}
                         {order.cart && (
                           <div className="font-semibold mt-1 lg:mt-2 text-xs lg:text-sm">
-                            Grand Total: ₹{order.cart.reduce((total, item) => total + item.price * item.quantity, 0)}
+                            Grand Total: ₹{order.cart.reduce((total, item) => {
+                              const priceToUse = item.convertedPrice || item.price;
+                              return total + priceToUse * item.quantity;
+                            }, 0).toFixed(2)}
                           </div>
                         )}
                       </td>

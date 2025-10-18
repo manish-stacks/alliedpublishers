@@ -71,6 +71,9 @@ const UserSchema = new mongoose.Schema({
           name: String,
           price: Number,
           quantity: Number,
+          currency: { type: String, default: 'INR' },
+          isForeign: { type: Boolean, default: false },
+          convertedPrice: { type: Number, default: 0 },
         },
       ],
       payment: {

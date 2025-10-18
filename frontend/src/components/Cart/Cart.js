@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
+import { formatCurrency } from "../../utils/currencyConverter";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -60,7 +61,8 @@ const Cart = () => {
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
-      return total + item.price * item.quantity;
+      const priceToUse = item.convertedPrice || item.price;
+      return total + priceToUse * item.quantity;
     }, 0);
   };
 
@@ -83,7 +85,16 @@ const Cart = () => {
                   {/* Item Details */}
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                    <p className="text-gray-600">Price: ₹{item.price}</p>
+                    {item.isForeign ? (
+                      <div className="text-gray-600">
+                        <p>Price: {formatCurrency(item.price, item.currency)}</p>
+                        {item.convertedPrice && !['INR', 'RS'].includes(item.currency?.toUpperCase()) && (
+                          <p className="text-sm text-blue-600">≈ ₹{item.convertedPrice.toFixed(2)}</p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-gray-600">Price: ₹{item.price}</p>
+                    )}
                     <div className="flex items-center mt-2">
                       <button
                         onClick={() => decreaseQuantity(item._id, item.quantity)}
@@ -104,9 +115,22 @@ const Cart = () => {
 
                   {/* Item Price and Actions */}
                   <div className="text-right">
-                    <p className="text-lg font-semibold text-gray-800">
-                      ₹{(item.price * item.quantity).toFixed(2)}
-                    </p>
+                    {item.isForeign ? (
+                      <div>
+                        <p className="text-lg font-semibold text-gray-800">
+                          {formatCurrency(item.price * item.quantity, item.currency)}
+                        </p>
+                        {item.convertedPrice && !['INR', 'RS'].includes(item.currency?.toUpperCase()) && (
+                          <p className="text-sm text-blue-600">
+                            ≈ ₹{(item.convertedPrice * item.quantity).toFixed(2)}
+                          </p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-lg font-semibold text-gray-800">
+                        ₹{(item.price * item.quantity).toFixed(2)}
+                      </p>
+                    )}
                     <button
                       onClick={() => removeItem(item._id)}
                       className="mt-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"

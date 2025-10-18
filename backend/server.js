@@ -97,7 +97,7 @@ module.exports = sendEmail;
 
 
 app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
-  const { itemId, name, price, quantity } = req.body;
+  const { itemId, name, price, quantity, currency, isForeign } = req.body;
 
   try {
     const user = await User.findById(req.userId);
@@ -142,12 +142,25 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
       // Item exists: update quantity
       activeOrder.cart[itemIndex].quantity += quantity;
     } else {
+      // Calculate converted price for foreign currencies
+      let convertedPrice = price;
+      if (isForeign && currency && !['INR', 'RS'].includes(currency.toUpperCase())) {
+        try {
+          convertedPrice = await convertToINR(price, currency);
+        } catch (error) {
+          console.error('Currency conversion failed during add to cart:', error);
+        }
+      }
+      
       // Add new item with proper ObjectId
       activeOrder.cart.push({
         itemId: new mongoose.Types.ObjectId(itemId),
         name,
         price,
         quantity,
+        currency: currency || 'INR',
+        isForeign: isForeign || false,
+        convertedPrice: convertedPrice,
       });
     }
 
@@ -425,11 +438,17 @@ app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) 
     let message = "";
     let attachments = [];
 
-    const cartDetails = order.cart.map(item =>
-      `${item.name} - ₹${item.price} x ${item.quantity}`
-    ).join('\n');
+    const cartDetails = order.cart.map(item => {
+      if (item.isForeign && item.convertedPrice) {
+        return `${item.name} - ${item.currency} ${item.price} (₹${item.convertedPrice.toFixed(2)}) x ${item.quantity}`;
+      }
+      return `${item.name} - ₹${item.price} x ${item.quantity}`;
+    }).join('\n');
 
-    const totalAmount = order.cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalAmount = order.cart.reduce((total, item) => {
+      const priceToUse = item.convertedPrice || item.price;
+      return total + priceToUse * item.quantity;
+    }, 0);
 
     switch (status) {
       case "Approved":
@@ -519,6 +538,8 @@ app.get("/api/admin/orders", async (req, res) => {
   }
 });
 
+const { convertToINR } = require('./services/currencyService');
+
 // GET /api/cart/total
 app.get("/api/cart/total", authenticateUser, async (req, res) => {
   try {
@@ -539,10 +560,26 @@ app.get("/api/cart/total", authenticateUser, async (req, res) => {
     );
 
     if (activeOrder) {
-      // Calculate cart total
-      activeOrder.cart.forEach((item) => {
-        cartTotal += item.price * item.quantity;
-      });
+      // Calculate cart total with currency conversion - same logic as frontend
+      const conversions = {};
+      
+      // First, get all conversions for foreign currencies
+      for (const item of activeOrder.cart) {
+        if (item.isForeign && item.currency && !['INR', 'RS'].includes(item.currency.toUpperCase())) {
+          try {
+            const convertedPrice = await convertToINR(item.price, item.currency);
+            conversions[item._id.toString()] = convertedPrice;
+          } catch (error) {
+            console.error('Currency conversion failed:', error);
+          }
+        }
+      }
+      
+      // Calculate total using stored converted prices only
+      cartTotal = activeOrder.cart.reduce((total, item) => {
+        const priceToUse = item.convertedPrice || item.price;
+        return total + priceToUse * item.quantity;
+      }, 0);
 
       // Get delivery charges from the active order's payment object
       deliveryCharges = activeOrder.payment.deliveryCharges || 0;
