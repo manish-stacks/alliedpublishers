@@ -65,6 +65,12 @@ const UserSchema = new mongoose.Schema({
       _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
       tempOrderId: { type: String, unique: true },
       orderId: { type: String, unique: true, sparse: true },
+      address: {
+        street: String,
+        city: String,
+        state: String,
+        zipCode: String,
+      },
       cart: [
         {
           itemId: { type: mongoose.Schema.Types.ObjectId, ref: "General" },

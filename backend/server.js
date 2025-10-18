@@ -101,24 +101,17 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
 
   try {
     const user = await User.findById(req.userId);
+    if (!user) return res.status(404).send("User not found");
 
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
+    if (!user.orders) user.orders = [];
 
-    // Initialize orders array if missing
-    if (!user.orders) {
-      user.orders = [];
-    }
-
-    // Find or create an active order (Pending)
-    let activeOrder = user.orders.find(
-      (order) => order.payment && order.payment.status === "Pending"
+    // Find cart order (pending without screenshot)
+    let cartOrder = user.orders.find(
+      (order) => order.payment.status === "Pending" && !order.payment.screenshot
     );
 
-    if (!activeOrder) {
-      // Use Mongoose subdocument creation, not plain object
-      activeOrder = user.orders.create({
+    if (!cartOrder) {
+      cartOrder = user.orders.create({
         tempOrderId: new mongoose.Types.ObjectId().toString(),
         cart: [],
         payment: {
@@ -130,19 +123,16 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
           deliveryCharges: 0,
         },
       });
-      user.orders.push(activeOrder);
+      user.orders.push(cartOrder);
     }
 
-    // Find item in cart via string comparison of ObjectIds
-    const itemIndex = activeOrder.cart.findIndex(
+    const itemIndex = cartOrder.cart.findIndex(
       (item) => item.itemId?.toString() === itemId
     );
 
     if (itemIndex > -1) {
-      // Item exists: update quantity
-      activeOrder.cart[itemIndex].quantity += quantity;
+      cartOrder.cart[itemIndex].quantity += quantity;
     } else {
-      // Calculate converted price for foreign currencies
       let convertedPrice = price;
       if (isForeign && currency && !['INR', 'RS'].includes(currency.toUpperCase())) {
         try {
@@ -152,8 +142,7 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
         }
       }
       
-      // Add new item with proper ObjectId
-      activeOrder.cart.push({
+      cartOrder.cart.push({
         itemId: new mongoose.Types.ObjectId(itemId),
         name,
         price,
@@ -164,9 +153,7 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
       });
     }
 
-    // Mark orders as modified to ensure Mongoose saves nested changes
     user.markModified("orders");
-
     await user.save();
     res.send("Item added to cart");
   } catch (error) {
@@ -179,28 +166,16 @@ app.post("/api/cart/add-to-cart", authenticateUser, async (req, res) => {
 
 app.get("/api/cart", authenticateUser, async (req, res) => {
   try {
-    // Find the user and populate the cart items in the active order
-    const user = await User.findById(req.userId)
-      .populate({
-        path: "orders.cart.itemId", // Populate the itemId in the cart of each order
-        model: "General", // Reference to the General model
-      });
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).send("User not found");
 
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-
-    // Find the active order (e.g., with "Pending" status)
-    const activeOrder = user.orders.find(
-      (order) => order.payment.status === "Pending"
+    const cartOrder = user.orders.find(
+      (order) => order.payment.status === "Pending" && !order.payment.screenshot
     );
 
-    if (!activeOrder) {
-      return res.status(404).send("No active order found");
-    }
+    if (!cartOrder) return res.json([]);
 
-    // Return the cart of the active order
-    res.json(activeOrder.cart);
+    res.json(cartOrder.cart);
   } catch (error) {
     console.error("Error fetching cart:", error);
     res.status(500).send("Server error");
@@ -288,7 +263,7 @@ app.put("/api/cart/:itemId", authenticateUser, async (req, res) => {
 
 app.get("/api/user", authenticateUser, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("email address");
+    const user = await User.findById(req.userId).select("email");
     if (!user) return res.status(404).send("User not found");
     res.json(user);
   } catch (error) {
@@ -296,14 +271,26 @@ app.get("/api/user", authenticateUser, async (req, res) => {
   }
 });
 
-// Save or update address
+// Create new order with address when user proceeds to checkout
 app.post("/api/address", authenticateUser, async (req, res) => {
   try {
-    const { street, city, state, zipCode } = req.body;
+    const { street, city, state, zipCode, deliveryCharges } = req.body;
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).send("User not found");
 
-    user.address = { street, city, state, zipCode };
+    // Find current cart (pending order)
+    let currentOrder = user.orders.find(
+      (order) => order.payment.status === "Pending" && !order.payment.screenshot
+    );
+
+    if (!currentOrder) {
+      return res.status(404).send("No cart found");
+    }
+
+    // Save address and delivery charges to this order
+    currentOrder.address = { street, city, state, zipCode };
+    currentOrder.payment.deliveryCharges = deliveryCharges || 0;
+    
     await user.save();
     res.send("Address saved successfully");
   } catch (error) {
@@ -335,19 +322,18 @@ app.post("/api/payment", authenticateUser, upload.single("screenshot"), async (r
       return res.status(404).send("User not found");
     }
 
-    // Find the active order (e.g., with "Pending" status)
-    const activeOrder = user.orders.find(
-      (order) => order.payment.status === "Pending"
+    // Find the current order with address but no payment screenshot
+    const currentOrder = user.orders.find(
+      (order) => order.payment.status === "Pending" && !order.payment.screenshot && order.address
     );
 
-    if (!activeOrder) {
-      return res.status(404).send("No active order found");
+    if (!currentOrder) {
+      return res.status(404).send("No order ready for payment found");
     }
 
-    // Update the payment details for the active order
-    activeOrder.payment.screenshot = `/uploads/${req.file.filename}`;
-    activeOrder.payment.createdAt = new Date();
-    activeOrder.payment.status = "Pending";
+    // Update payment screenshot - this completes the order
+    currentOrder.payment.screenshot = `/uploads/${req.file.filename}`;
+    currentOrder.payment.createdAt = new Date();
 
     await user.save();
 
@@ -504,7 +490,7 @@ app.post("/api/admin/update-status", upload.single('invoice'), async (req, res) 
 app.get("/api/admin/orders", async (req, res) => {
   try {
     const users = await User.find({ "orders.payment.screenshot": { $exists: true, $ne: "" } })
-      .select("name email address orders")
+      .select("name email orders")
       .populate({
         path: "orders.cart.itemId",
         model: "General",
@@ -543,52 +529,25 @@ const { convertToINR } = require('./services/currencyService');
 // GET /api/cart/total
 app.get("/api/cart/total", authenticateUser, async (req, res) => {
   try {
-    // Fetch the user based on the authenticated userId
     const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Initialize cart total and delivery charges
     let cartTotal = 0;
     let deliveryCharges = 0;
 
-    // Find the active order (e.g., with "Pending" status)
-    const activeOrder = user.orders.find(
-      (order) => order.payment.status === "Pending"
+    const cartOrder = user.orders.find(
+      (order) => order.payment.status === "Pending" && !order.payment.screenshot
     );
 
-    if (activeOrder) {
-      // Calculate cart total with currency conversion - same logic as frontend
-      const conversions = {};
-      
-      // First, get all conversions for foreign currencies
-      for (const item of activeOrder.cart) {
-        if (item.isForeign && item.currency && !['INR', 'RS'].includes(item.currency.toUpperCase())) {
-          try {
-            const convertedPrice = await convertToINR(item.price, item.currency);
-            conversions[item._id.toString()] = convertedPrice;
-          } catch (error) {
-            console.error('Currency conversion failed:', error);
-          }
-        }
-      }
-      
-      // Calculate total using stored converted prices only
-      cartTotal = activeOrder.cart.reduce((total, item) => {
+    if (cartOrder) {
+      cartTotal = cartOrder.cart.reduce((total, item) => {
         const priceToUse = item.convertedPrice || item.price;
         return total + priceToUse * item.quantity;
       }, 0);
-
-      // Get delivery charges from the active order's payment object
-      deliveryCharges = activeOrder.payment.deliveryCharges || 0;
+      deliveryCharges = cartOrder.payment.deliveryCharges || 0;
     }
 
-    // Calculate total amount (cart total + delivery charges)
     const totalAmount = cartTotal + deliveryCharges;
-
-    // Return the cart total, delivery charges, and total amount
     res.json({ cartTotal, deliveryCharges, totalAmount });
   } catch (error) {
     console.error("Error fetching cart total:", error);

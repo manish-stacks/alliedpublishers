@@ -284,7 +284,7 @@ const AdminOrders = () => {
                       <td className="p-2 lg:p-4 text-gray-700">{user.name}</td>
                       <td className="p-2 lg:p-4 text-gray-700">{user.email}</td>
                       <td className="p-2 lg:p-4 text-gray-700">
-                        {user.address?.street}, {user.address?.city}, {user.address?.state}, {user.address?.zipCode}
+                        {order.address?.street}, {order.address?.city}, {order.address?.state}, {order.address?.zipCode}
                       </td>
                       <td className="p-2 lg:p-4">
                         {order.payment?.screenshot && (
