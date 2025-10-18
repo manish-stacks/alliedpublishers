@@ -30,29 +30,42 @@ const AdminLink = () => {
   if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md">
-       <Sidebar />
-      <h2 className="text-xl font-bold mb-4 text-center">Update Eupheus Link</h2>
+    <div className="flex min-h-screen bg-[#d5d8dc]">
+      <Sidebar />
+      <div className="flex flex-1 justify-center items-center px-12 ml-64">
+        <div className="w-full max-w-2xl bg-white/40 backdrop-blur-md border border-white/30 rounded-lg p-8 shadow-lg transition-all duration-500 hover:scale-[1.03] hover:shadow-xl">
+          <h3 className="text-3xl font-bold text-black uppercase mb-6 text-center">
+            Admin Panel - Update School Books Link
+          </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="url"
-          className="w-full p-2 border rounded-lg"
-          placeholder="Enter Eupheus link"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-        />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-lg font-bold text-black uppercase mb-1">
+                School Books Link:
+              </label>
+              <input
+                type="url"
+                className="w-full p-3 text-center text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+                placeholder="Enter School Books link"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                required
+              />
+            </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-        >
-          Save Link
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="w-full px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95"
+            >
+              Save Link
+            </button>
+          </form>
 
-      {message && <p className="mt-4 text-center text-green-600">{message}</p>}
+          {message && (
+            <p className="mt-4 text-center text-green-600 font-medium">{message}</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

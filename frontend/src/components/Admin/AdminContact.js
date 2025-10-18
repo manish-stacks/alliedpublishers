@@ -55,78 +55,88 @@ const AdminContact = () => {
   };
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="flex min-h-screen bg-[#d5d8dc]">
       <Sidebar />
-      <div className="flex-1 p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center">Manage Branches</h2>
+      <div className="flex flex-1 justify-center items-center px-12 ml-64">
+        <div className="w-full max-w-4xl bg-white/40 backdrop-blur-md border border-white/30 rounded-lg p-8 shadow-lg transition-all duration-500 hover:scale-[1.03] hover:shadow-xl">
+          <h3 className="text-3xl font-bold text-black uppercase mb-6 text-center">
+            Admin Panel - Manage Branches
+          </h3>
 
-        {/* FORM CARD */}
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6 max-w-lg mx-auto">
-          <h3 className="text-xl font-semibold mb-4">{editingId ? "Edit Branch" : "Add Branch"}</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              placeholder="City"
-              required
-              className="w-full p-3 border rounded-md"
-            />
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              placeholder="Address"
-              required
-              className="w-full p-3 border rounded-md"
-            />
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone (comma-separated)"
-              required
-              className="w-full p-3 border rounded-md"
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-              className="w-full p-3 border rounded-md"
-            />
-            <button
-              type="submit"
-              className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-            >
-              {editingId ? "Update Branch" : "Add Branch"}
-            </button>
-          </form>
-        </div>
+          {/* FORM CARD */}
+          <div className="mb-8">
+            <h4 className="text-xl font-bold text-black uppercase mb-4">{editingId ? "Edit Branch" : "Add Branch"}</h4>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder="City"
+                required
+                className="w-full p-3 text-center text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Address"
+                required
+                className="w-full p-3 text-center text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone (comma-separated)"
+                required
+                className="w-full p-3 text-center text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                required
+                className="w-full p-3 text-center text-black font-medium border-2 border-[#75609c] rounded-lg outline-none transition focus:border-[#0047AB] focus:shadow-lg"
+              />
+              <button
+                type="submit"
+                className="w-full px-6 py-3 text-white font-bold uppercase bg-[#10263e] rounded-lg transition hover:bg-[#357ABD] hover:shadow-md hover:scale-105 active:scale-95"
+              >
+                {editingId ? "Update Branch" : "Add Branch"}
+              </button>
+            </form>
+          </div>
 
-        {/* LIST OF BRANCHES */}
-        <div className="bg-white shadow-md rounded-lg p-6 max-w-3xl mx-auto">
-          <h3 className="text-xl font-semibold mb-4 text-center">Branch List</h3>
-          <ul className="space-y-3">
-            {branches.map((branch) => (
-              <li key={branch._id} className="flex justify-between items-center border-b pb-2">
-                <span>{branch.city} - {branch.address} - {branch.phone.join(", ")} - {branch.email}</span>
-                <div className="space-x-2">
-                  <button onClick={() => handleEdit(branch)} className="p-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(branch._id)} className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600">
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          {/* LIST OF BRANCHES */}
+          <div>
+            <h4 className="text-xl font-bold text-black uppercase mb-4 text-center">Branch List</h4>
+            <ul className="space-y-3">
+              {branches.map((branch) => (
+                <li key={branch._id} className="flex justify-between items-center border-b border-[#75609c] pb-2">
+                  <span className="text-black font-medium">{branch.city} - {branch.address} - {branch.phone.join(", ")} - {branch.email}</span>
+                  <div className="space-x-2">
+                    <button 
+                      onClick={() => handleEdit(branch)} 
+                      className="px-4 py-2 text-white font-bold uppercase bg-[#402f5f] rounded-lg transition hover:bg-[#5a447c] hover:shadow-md hover:scale-105 active:scale-95"
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(branch._id)} 
+                      className="px-4 py-2 text-white font-bold uppercase bg-red-600 rounded-lg transition hover:bg-red-700 hover:shadow-md hover:scale-105 active:scale-95"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
