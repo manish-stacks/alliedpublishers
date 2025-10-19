@@ -133,12 +133,18 @@ const ForeignBooksDisplay = () => {
                   <p className="text-gray-700 mb-1"><strong>Price:</strong> {formatPrice(book.price, book.curr)}</p>
                   <p className="text-gray-700"><strong>Quantity:</strong> {book.qty || 0}</p>
                 </div>
-                <button
-                  onClick={() => addToCart(book._id, book.titleName, book.price, book.curr)}
-                  className="bg-teal-700 text-white py-2 rounded hover:bg-teal-600 transition"
-                >
-                  🛒 Add to Cart
-                </button>
+                {book.qty === 0 ? (
+                  <div className="flex justify-center items-center text-red-600 font-bold py-2">
+                    Out of Stock
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => addToCart(book._id, book.titleName, book.price, book.curr)}
+                    className="bg-teal-700 text-white py-2 rounded hover:bg-teal-600 transition"
+                  >
+                    🛒 Add to Cart
+                  </button>
+                )}
               </div>
             ))}
           </div>
