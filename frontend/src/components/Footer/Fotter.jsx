@@ -37,31 +37,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
-          {/* Social Media Section */}
-          <div className="flex-1 min-w-[180px] space-y-4 flex flex-col items-center md:items-start">
-            <h3 className="text-xl font-bold text-[#75609c]">Follow Us</h3>
-            <div className="flex space-x-6">
-              <a
-                href="https://www.facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-[#75609c] transition duration-300"
-              >
-                <i className="fab fa-facebook fa-2x"></i>
-              </a>
-              
-
-              <a
-                href="https://www.linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-[#75609c] transition duration-300"
-              >
-                <i className="fab fa-linkedin fa-2x"></i>
-              </a>
-            </div>
-          </div>
+         
         </div>
 
         {/* Footer Bottom Section */}
