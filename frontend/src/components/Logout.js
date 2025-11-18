@@ -7,10 +7,6 @@ const useLogout = () => {
     // Remove token from local storage
     localStorage.removeItem("token");
 
-    // Reload page to reset authentication state
-    // window.location.reload();
-
-    // Redirect to home page
     navigate("/");
   };
 

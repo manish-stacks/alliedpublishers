@@ -21,7 +21,6 @@ const { uploadCatalogueConf, downloadCatalogueConf } = require("../controllers/C
 
 const multer = require("multer");
 const path = require("path");
-// const { uploadCatalogueConf } = require("../controllers/CatalogueConfController");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/catalogues"); // ensure this folder exists
@@ -95,10 +94,7 @@ router.put("/admin/images", imageController.updateImages);
 router.get("/journal", getJournal);
 router.put("/admin/journal/:id", updateJournal);
 
-// router.get("/eupheus-link", (req, res) => {
-//   res.json({
-//     link: "https://www.eupheus.in"
-//   });
+
 router.get("/eupheus-link", getLink);          
 router.put("/admin/link", updateLink);
 router.post("/admin/catalogue/general/upload", uploadCatalogueGeneral);

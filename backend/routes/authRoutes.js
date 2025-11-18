@@ -9,73 +9,23 @@ require("dotenv").config();
 const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.SMTP_HOST,
+  port: 587,
+  secure: false,
+  tls: {
+    rejectUnauthorized: false
+  },
   auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
 });
 
-// // Register Route
-// router.post("/register", async (req, res) => {
-//   const { name, email, password } = req.body;
-
-//   try {
-//     console.log("Registration request received:", { name, email });
-
-//     // Check if the user already exists
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       console.log("User already exists:", email);
-//       return res.status(400).send("User already exists");
-//     }
-
-//     // Hash the password
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     console.log("Password hashed successfully");
-
-//     // Create a new user
-//     const user = new User({ name, email, password: hashedPassword, cart: [] });
-//     await user.save();
-//     console.log("User registered successfully:", user);
-
-//     res.status(201).send("User registered successfully");
-//   } catch (err) {
-//     console.error("Error registering user:", err);
-//     res.status(500).send("Failed to register user");
-//   }
-// });
-
-// // Login Route
-// router.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     console.log("Login request received:", { email });
-
-//     // Check if the user exists
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       console.log("User not found:", email);
-//       return res.status(400).send("Invalid credentials");
-//     }
-
-//     // Compare the password
-//     const isPasswordValid = await bcrypt.compare(password, user.password);
-//     if (!isPasswordValid) {
-//       console.log("Invalid password for user:", email);
-//       return res.status(400).send("Invalid credentials");
-//     }
-
-//     // Generate a JWT token
-//     const token = jwt.sign({ userId: user._id }, "secret_key", { expiresIn: "1h" });
-//     console.log("Login successful:", email);
-
-//     res.json({ token, userId: user._id, name: user.name });
-//   } catch (err) {
-//     console.error("Error logging in:", err);
-//     res.status(500).send("Failed to log in");
-//   }
-// });
-
-// ... (previous imports remain the same)
+// Test email connection
+transporter.verify((error, success) => {
+  if (error) {
+    console.log('Email config error:', error);
+  } else {
+    console.log('Email server ready');
+  }
+});
 
 // Register Route - Updated to handle admin role
 router.post("/register", async (req, res) => {
@@ -153,8 +103,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ... rest of the routes remain the same
-
 // Logout Route
 router.post("/logout", (req, res) => {
   res.status(200).json({ message: "Logout successful" });
@@ -175,13 +123,20 @@ router.post("/forgot-password", async (req, res) => {
   console.log("Reset Token Expiry:", new Date(user.resetTokenExpiry).toLocaleString());
 
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-  await transporter.sendMail({
-    to: user.email,
-    subject: "Password Reset",
-    html: `<p>Click <a href="${resetUrl}">here</a> to reset your password.</p>`,
-  });
-
-  res.json({ message: "Reset link sent to your email." });
+  
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Password Reset",
+      html: `<p>Click <a href="${resetUrl}">here</a> to reset your password.</p>`,
+    });
+    console.log('Reset email sent successfully to:', user.email);
+    res.json({ message: "Reset link sent to your email." });
+  } catch (error) {
+    console.error('Error sending reset email:', error);
+    res.status(500).json({ message: "Failed to send reset email" });
+  }
 });
 
 router.post("/reset-password/:token", async (req, res) => {

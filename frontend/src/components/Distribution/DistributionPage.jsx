@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
 import api from "../../axiosConfig";

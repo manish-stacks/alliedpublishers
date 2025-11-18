@@ -1,6 +1,3 @@
-
-
-
 const mongoose = require("mongoose");
 
 const ManagementSchema = new mongoose.Schema(

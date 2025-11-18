@@ -1,31 +1,3 @@
-// const Image = require("../models/Image");
-
-// // Get all images
-// exports.getImages = async (req, res) => {
-//   try {
-//     const images = await Image.find();
-//     res.json(images);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
-// // Update an image by ID
-// exports.updateImage = async (req, res) => {
-//   try {
-//     const { imageUrl } = req.body;
-//     const updatedImage = await Image.findByIdAndUpdate(
-//       req.params.id,
-//       { imageUrl },
-//       { new: true }
-//     );
-//     res.json(updatedImage);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
-
 const Image = require("../models/Image");
 
 // Get Images

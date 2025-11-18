@@ -9,7 +9,6 @@ import ContactPage from "./components/Contact/ContactPage";
 import ConfPrec from "./components/ConfPrec/ConfPrec";
 import AboutUsPage from "./components/AboutUsPage/AboutUsPage";
 import Management from "./components/Management/management";
-import BooksPage from "./components/Books/Book";
 import AllAuthors from "./components/AllAuthors/AllAuthors";
 import AdminAboutUs from "./components/Admin/AdminAboutus";
 import AdminLocation from "./components/Admin/AdminLocation";
@@ -45,7 +44,6 @@ import AdminRoute from "./components/AdminRoute";
 import AdminAboutUsPage from "./components/Admin/AdminAboutUsPage";
 import LoaderProvider from "./components/Loader/LoaderProvider";
 import AdminLink from "./components/Admin/AdminLink";
-// import AdminCatalogue from "./components/Admin/AdminCatalogue";
 import GeneralCatalogueUpload from "./components/Admin/GeneralCatalogueUpload";
 import ConferenceCatalogueUpload from "./components/Admin/ConferenceCatalogueUpload";
 import AdminForeignBooks from "./components/Admin/AdminForeignBooks";
@@ -71,7 +69,6 @@ function App() {
         <Route path="/management" element={<Management />} />
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/all-authors" element={<AllAuthors />} />
-        <Route path="/books" element={<BooksPage />} />
         <Route path="/admin/about-us" element={ <AdminRoute><AdminAboutUs /></AdminRoute>} />
         <Route path="/admin/about-us-page" element={ <AdminRoute requiredRole="admin"><AdminAboutUsPage /></AdminRoute>} />
         <Route path="/admin/locations" element={ <AdminRoute><AdminLocation /></AdminRoute> } />

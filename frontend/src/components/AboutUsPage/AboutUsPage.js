@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import api from "../../axiosConfig";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Fotter";
-// import api from "../../axiosConfig";
 import './AboutUsPage.css';
 
 const AboutUsPage = () => {
