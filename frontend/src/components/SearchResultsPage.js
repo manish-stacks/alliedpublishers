@@ -3,6 +3,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import api from "../axiosConfig";
 import Navbar from "./Navbar/Navbar";
 
+const formatPrice = (price, currency) => {
+  if (!price) return "0.00";
+  const currencySymbols = {
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'INR': '₹'
+  };
+  const symbol = currencySymbols[currency] || currency;
+  return `${symbol}${price.toFixed(2)}`;
+};
+
 const SearchResultsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -70,7 +82,9 @@ const foreignBooksPromise = api.get(foreignUrl);
           backImage: null,
           discount: 0,
           coverType: "N/A",
-          pages: "N/A"
+          pages: "N/A",
+          currency: book.curr,
+          isForeign: true
         }));
         
         const combinedBooks = [...generalRes.data, ...confRes.data, ...transformedForeignBooks];
@@ -105,7 +119,7 @@ const foreignBooksPromise = api.get(foreignUrl);
     setFilteredBooks(updatedBooks);
   }, [searchResults, selectedCategory, sortOption, categories]);
 
-  const addToCart = async (id, name, price) => {
+  const addToCart = async (id, name, price, currency, isForeign) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -114,7 +128,7 @@ const foreignBooksPromise = api.get(foreignUrl);
       }
       await api.post(
         `/api/cart/add-to-cart`,
-        { itemId: id, name, price, quantity: 1 },
+        { itemId: id, name, price, quantity: 1, currency: currency || 'INR', isForeign: isForeign || false },
         { headers: { Authorization: token } }
       );
       alert("Book added to cart!");
@@ -249,13 +263,17 @@ const foreignBooksPromise = api.get(foreignUrl);
                       <div className="w-1/3 text-center">
                         {book.discount > 0 ? (
                           <>
-                            <p className="text-red-500 line-through">₹{book.price}</p>
+                            <p className="text-red-500 line-through">
+                              {book.isForeign ? formatPrice(book.price, book.currency) : `₹${book.price}`}
+                            </p>
                             <p className="text-green-600 font-bold">
-                              ₹{calculateDiscountedPrice(book.price, book.discount)}
+                              {book.isForeign ? formatPrice(calculateDiscountedPrice(book.price, book.discount), book.currency) : `₹${calculateDiscountedPrice(book.price, book.discount)}`}
                             </p>
                           </>
                         ) : (
-                          <p className="text-green-600 font-bold">₹{book.price}</p>
+                          <p className="text-green-600 font-bold">
+                            {book.isForeign ? formatPrice(book.price, book.currency) : `₹${book.price}`}
+                          </p>
                         )}
                       </div>
                       <p className="w-1/3 text-center">Cover: {book.coverType}</p>
@@ -263,7 +281,7 @@ const foreignBooksPromise = api.get(foreignUrl);
                   )}
 
                   <button 
-                    onClick={() => addToCart(book.id || book._id, book.title, book.price)}
+                    onClick={() => addToCart(book.id || book._id, book.title, book.price, book.currency, book.isForeign)}
                     className="w-full mt-4 bg-teal-700 text-white rounded-lg px-4 py-2 hover:bg-teal-600 transition"
                     disabled={book.stock === 0}
                   >
