@@ -101,7 +101,7 @@ function App() {
         <Route path="/admin/category" element={<AdminRoute requiredRole="admin"><AdminCategory/></AdminRoute>} />
         <Route path="/admin/conference-categories" element={<AdminRoute requiredRole="admin"><AdminConferenceCategory/></AdminRoute>} />
         <Route path="/admin/qrcode" element={<AdminRoute requiredRole="admin"><AdminQRCode/></AdminRoute>} />
-        <Route path="/admin/link" element={<AdminLink />} />
+        <Route path="/admin/link" element={<AdminRoute requiredRole="admin"><AdminLink /></AdminRoute>} />
         {/* <Route path="/admin/general/catalogue" element={<AdminCatalogue/>}></Route> */}
         <Route path="/admin/general/catalogue" element={<AdminRoute requiredRole="admin"><GeneralCatalogueUpload /></AdminRoute>} />
 <Route path="/admin/conf/catalogue" element={<AdminRoute requiredRole="admin"><ConferenceCatalogueUpload /></AdminRoute>} />
