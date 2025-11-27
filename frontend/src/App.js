@@ -69,19 +69,19 @@ function App() {
         <Route path="/management" element={<Management />} />
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/all-authors" element={<AllAuthors />} />
-        <Route path="/admin/about-us" element={ <AdminRoute><AdminAboutUs /></AdminRoute>} />
+        <Route path="/admin/about-us" element={ <AdminRoute requiredRole="admin"><AdminAboutUs /></AdminRoute>} />
         <Route path="/admin/about-us-page" element={ <AdminRoute requiredRole="admin"><AdminAboutUsPage /></AdminRoute>} />
-        <Route path="/admin/locations" element={ <AdminRoute><AdminLocation /></AdminRoute> } />
-        <Route path="/admin/bestsellers" element={<AdminRoute><AdminBestseller /></AdminRoute>} />
-        <Route path="/admin/authors" element={<AdminRoute><AdminAuthor /></AdminRoute>} />
-        <Route path="/admin/conference" element={<AdminRoute><AdminConference /></AdminRoute>} />
-        <Route path="/admin/contact" element={<AdminRoute><AdminContact /></AdminRoute>} />
-        <Route path="/admin/export-info" element={<AdminRoute><AdminExportInfo /></AdminRoute>} />
-        <Route path="/admin/management" element={<AdminRoute><AdminManagement /></AdminRoute>} />
-        <Route path="/admin/publisher" element={<AdminRoute><AdminPublisher /></AdminRoute>} />
-        <Route path="/admin/special-agency" element={<AdminRoute><AdminSpecialAgency /></AdminRoute>} />
-        <Route path="/admin/images" element={<AdminRoute><AdminUpdateImage /></AdminRoute>} />
-        <Route path="/admin/journal" element={<AdminRoute><AdminJournal /></AdminRoute>} />
+        <Route path="/admin/locations" element={ <AdminRoute requiredRole="admin"><AdminLocation /></AdminRoute> } />
+        <Route path="/admin/bestsellers" element={<AdminRoute requiredRole="admin"><AdminBestseller /></AdminRoute>} />
+        <Route path="/admin/authors" element={<AdminRoute requiredRole="admin"><AdminAuthor /></AdminRoute>} />
+        <Route path="/admin/conference" element={<AdminRoute requiredRole="admin"><AdminConference /></AdminRoute>} />
+        <Route path="/admin/contact" element={<AdminRoute requiredRole="admin"><AdminContact /></AdminRoute>} />
+        <Route path="/admin/export-info" element={<AdminRoute requiredRole="admin"><AdminExportInfo /></AdminRoute>} />
+        <Route path="/admin/management" element={<AdminRoute requiredRole="admin"><AdminManagement /></AdminRoute>} />
+        <Route path="/admin/publisher" element={<AdminRoute requiredRole="admin"><AdminPublisher /></AdminRoute>} />
+        <Route path="/admin/special-agency" element={<AdminRoute requiredRole="admin"><AdminSpecialAgency /></AdminRoute>} />
+        <Route path="/admin/images" element={<AdminRoute requiredRole="admin"><AdminUpdateImage /></AdminRoute>} />
+        <Route path="/admin/journal" element={<AdminRoute requiredRole="admin"><AdminJournal /></AdminRoute>} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
@@ -93,18 +93,18 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/address" element={<AddressDetail/>} />
         <Route path="/payment" element={<Payment/>} />
-        <Route path="/admin/delivery" element={<AdminRoute><AdminDeliveryCharges/></AdminRoute>} />
-        <Route path="/admin/orders" element={<AdminRoute><AdminPayment/></AdminRoute>} />
-        <Route path="/admin/general/upload" element={<AdminRoute><AdminGeneral/></AdminRoute>} />
-        <Route path="/admin/conference/upload" element={<AdminRoute><AdminConferenceBooks/></AdminRoute>} />
-         <Route path="/admin/foreign/upload" element={<AdminRoute><AdminForeignBooks/></AdminRoute>} />
-        <Route path="/admin/category" element={<AdminRoute><AdminCategory/></AdminRoute>} />
-        <Route path="/admin/conference-categories" element={<AdminRoute><AdminConferenceCategory/></AdminRoute>} />
-        <Route path="/admin/qrcode" element={<AdminRoute><AdminQRCode/></AdminRoute>} />
+        <Route path="/admin/delivery" element={<AdminRoute requiredRole="admin"><AdminDeliveryCharges/></AdminRoute>} />
+        <Route path="/admin/orders" element={<AdminRoute requiredRole="admin"><AdminPayment/></AdminRoute>} />
+        <Route path="/admin/general/upload" element={<AdminRoute requiredRole="admin"><AdminGeneral/></AdminRoute>} />
+        <Route path="/admin/conference/upload" element={<AdminRoute requiredRole="admin"><AdminConferenceBooks/></AdminRoute>} />
+         <Route path="/admin/foreign/upload" element={<AdminRoute requiredRole="admin"><AdminForeignBooks/></AdminRoute>} />
+        <Route path="/admin/category" element={<AdminRoute requiredRole="admin"><AdminCategory/></AdminRoute>} />
+        <Route path="/admin/conference-categories" element={<AdminRoute requiredRole="admin"><AdminConferenceCategory/></AdminRoute>} />
+        <Route path="/admin/qrcode" element={<AdminRoute requiredRole="admin"><AdminQRCode/></AdminRoute>} />
         <Route path="/admin/link" element={<AdminLink />} />
         {/* <Route path="/admin/general/catalogue" element={<AdminCatalogue/>}></Route> */}
-        <Route path="/admin/general/catalogue" element={<AdminRoute><GeneralCatalogueUpload /></AdminRoute>} />
-<Route path="/admin/conf/catalogue" element={<AdminRoute><ConferenceCatalogueUpload /></AdminRoute>} />
+        <Route path="/admin/general/catalogue" element={<AdminRoute requiredRole="admin"><GeneralCatalogueUpload /></AdminRoute>} />
+<Route path="/admin/conf/catalogue" element={<AdminRoute requiredRole="admin"><ConferenceCatalogueUpload /></AdminRoute>} />
       </Routes>
       </LoaderProvider>
     </Router>
